@@ -30,7 +30,7 @@ export default function AppDownload() {
           {/* Right - App Mockup */}
           <div className="flex justify-center">
             <img
-              src="/mobile-app-mockup-dinebd.jpg"
+              src="/app.png"
               alt="Dinebd App"
               className="w-full max-w-xs rounded-3xl shadow-2xl border-8 border-gray-800"
             />

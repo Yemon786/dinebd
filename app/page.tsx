@@ -18,11 +18,11 @@ export default function Home() {
       <Header />
       <Hero />
       <AppDownload />
-      <Services />
+      {/* <Services />
       <PartnerSection />
       <RiderSection />
       <WhyChoose />
-      <Footer />
+      <Footer /> */}
     </main>
   )
 }

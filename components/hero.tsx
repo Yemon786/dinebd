@@ -6,9 +6,9 @@ export default function Hero() {
   return (
     <section className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-20">
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-100"
         style={{
-          backgroundImage: `url('https://placeholder.svg?height=600&width=1200&query=food%20delivery%20background')`,
+          backgroundImage: `url('hero.png')`,
         }}
       />
 
@@ -17,7 +17,7 @@ export default function Hero() {
           {/* Left Content */}
           <div>
             <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">Delicious food delivered fast</h1>
-            <p className="text-gray-300 text-lg mb-8">Or reserve a table at your favorite restaurants</p>
+            <p className="text-grey-500 text-lg mb-8">Or reserve a table at your favorite restaurants</p>
 
             {/* Search Bar */}
             <div className="flex gap-2 mb-6">
@@ -29,7 +29,7 @@ export default function Hero() {
                 />
               </div>
               <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center gap-2">
-                Search <ArrowRight size={18} />
+                Search 
               </Button>
             </div>
 
@@ -46,14 +46,14 @@ export default function Hero() {
 
             {/* Info Text */}
             <p className="text-sm text-gray-400 mt-6">
-              ⚡ Free delivery on orders over 500tk — 🚚 avg. delivery 25 mins
+              ⚡Unlock discounts on big orders. delivery 25 mins 🚚
             </p>
           </div>
 
           {/* Right Image */}
-          <div className="hidden md:block">
+          {/* <div className="hidden md:block">
             <img src="/delivery-person-with-food.jpg" alt="Delivery person" className="w-full rounded-lg" />
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
