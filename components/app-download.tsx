@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 export default function AppDownload() {
   return (
@@ -7,7 +7,7 @@ export default function AppDownload() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+            <h2 className="text-4xl md:text-7xl font-bold text-gray-900 mb-6">
               Download the <span className="text-orange-500">Dinebd App</span>
             </h2>
             <p className="text-gray-600 text-lg mb-8">
@@ -29,14 +29,10 @@ export default function AppDownload() {
 
           {/* Right - App Mockup */}
           <div className="flex justify-center">
-            <img
-              src="/app.png"
-              alt="Dinebd App"
-              className="w-full max-w-xs rounded-3xl shadow-2xl border-8 border-gray-800"
-            />
+            <img src="/app.png" alt="Dinebd App" />
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

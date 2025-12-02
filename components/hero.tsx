@@ -1,12 +1,12 @@
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowRight } from "lucide-react"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
     <section className="relative bg-gradient-to-r from-gray-900 to-gray-800 text-white py-20">
       <div
-        className="absolute inset-0 opacity-100"
+        className="absolute inset-0 opacity-60"
         style={{
           backgroundImage: `url('hero.png')`,
         }}
@@ -16,8 +16,12 @@ export default function Hero() {
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Left Content */}
           <div>
-            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">Delicious food delivered fast</h1>
-            <p className="text-grey-500 text-lg mb-8">Or reserve a table at your favorite restaurants</p>
+            <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
+              Delicious food delivered fast
+            </h1>
+            <p className="text-grey-500 text-lg mb-8">
+              Or reserve a table at your favorite restaurants
+            </p>
 
             {/* Search Bar */}
             <div className="flex gap-2 mb-6">
@@ -25,17 +29,19 @@ export default function Hero() {
                 <Input
                   type="text"
                   placeholder="Search restaurants or dishes"
-                  className="w-full px-4 py-3 rounded-lg text-gray-900 pl-4"
+                  className="w-full px-4 py-3 rounded-lg text-white-900 pl-4 placeholder-grey-100"
                 />
               </div>
               <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center gap-2">
-                Search 
+                Search
               </Button>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex gap-4">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg">Order Now</Button>
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg">
+                Order Now
+              </Button>
               <Button
                 variant="outline"
                 className="border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg bg-transparent"
@@ -57,5 +63,5 @@ export default function Hero() {
         </div>
       </div>
     </section>
-  )
+  );
 }
