@@ -133,9 +133,9 @@ export default function Footer() {
       </div>
 
       {/* Bottom Footer */}
-      <div className="border-t border-gray-300 bg-gray-900 px-4 py-6 text-gray-300 sm:px-6 lg:px-8">
+      <div className="border-t border-gray-300 bg-gray-900 px-4 py-4 text-gray-300 sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-4 text-center text-sm md:flex-row md:justify-between">
+          <div className="flex flex-col gap-4 text-center text-xs md:flex-row md:justify-between">
             {/* <p>Copyright © 2025 Dinebd | All rights Reserved |</p> */}
             <p>
               Dinebd is registered in Bangladesh under the trade licence number:
