@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 
 export default function RiderSection() {
   return (
@@ -8,24 +8,28 @@ export default function RiderSection() {
           {/* Left Image */}
           <div className="flex justify-center order-2 md:order-1">
             <img
-              src="/delivery-rider-on-scooter.jpg"
+              src="/rider_us.jpg"
               alt="Delivery Rider"
-              className="w-full max-w-md rounded-2xl bg-blue-100 p-8"
+              className="w-full max-w-md rounded-2xl p-8"
             />
           </div>
 
           {/* Right Content */}
-          <div className="order-1 md:order-2">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+          <div className="order-1 md:order-2 ">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4 text-right">
               Become a <span className="text-orange-500">Rider</span>
             </h2>
-            <p className="text-gray-600 text-lg mb-8">
+            <p className="text-gray-600 text-lg mb-8 text-right">
               Grow your restaurant with our delivery and table booking platform.
             </p>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg">Register Now</Button>
+            <div className="flex justify-end">
+              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-right">
+                Register Now
+              </Button>
+            </div>
           </div>
         </div>
       </div>
     </section>
-  )
+  );
 }

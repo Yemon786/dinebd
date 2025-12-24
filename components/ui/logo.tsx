@@ -1,8 +1,14 @@
-export default function DinebdLogo() {
+export default function DinebdLogo({
+  width = 64,
+  height = 64,
+}: {
+  width?: number;
+  height?: number;
+}) {
   return (
     <svg
-      width="64"
-      height="64"
+      width={width}
+      height={height}
       viewBox="0 0 130 117"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -32,5 +38,3 @@ export default function DinebdLogo() {
     </svg>
   );
 }
-
-

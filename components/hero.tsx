@@ -29,7 +29,7 @@ export default function Hero() {
                 <Input
                   type="text"
                   placeholder="Search restaurants or dishes"
-                  className="w-full px-4 py-3 rounded-lg text-white-900 pl-4 placeholder-grey-100"
+                  className="w-full px-4 py-3 rounded-lg text-white-900 pl-4 placeholder-grey-100 bg-white"
                 />
               </div>
               <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center gap-2">
@@ -51,7 +51,7 @@ export default function Hero() {
             </div>
 
             {/* Info Text */}
-            <p className="text-sm text-gray-400 mt-6">
+            <p className="text-sm text-white mt-6">
               ⚡Unlock discounts on big orders. delivery 25 mins 🚚
             </p>
           </div>
