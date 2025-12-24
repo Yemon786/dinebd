@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import Logo from "./ui/logo";
+import GooglePlay from "./ui/google-play";
+import Apple from "./ui/apple";
 
 export default function Footer() {
   const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
@@ -50,13 +52,19 @@ export default function Footer() {
                 href="#"
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
               >
-                <span>🔗</span> Google Play
+                <span>
+                  <GooglePlay />
+                </span>
+                Google Play
               </Link>
               <Link
                 href="#"
                 className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
               >
-                <span>🍎</span> App Store
+                <span>
+                  <Apple />
+                </span>
+                App Store
               </Link>
             </div>
             <p className="text-xs font-semibold text-gray-700">Download Now</p>
