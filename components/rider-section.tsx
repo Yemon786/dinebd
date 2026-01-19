@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function RiderSection() {
   return (
@@ -23,9 +24,11 @@ export default function RiderSection() {
               Grow your restaurant with our delivery and table booking platform.
             </p>
             <div className="flex justify-end">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg text-right">
-                Register Now
-              </Button>
+              <Link href="/rider">
+                <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg">
+                  Learn More
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

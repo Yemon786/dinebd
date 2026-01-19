@@ -32,7 +32,7 @@ export default function contact() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="bg-orange-500 text-white py-24 text-center">
+      <section className="bg-[#ED7319] text-white py-24 text-center">
         <h1 className="text-5xl font-bold mb-6">Contact Us</h1>
         <p className="text-lg max-w-2xl mx-auto">
           We're here to help reach out with any questions, feedback, or support

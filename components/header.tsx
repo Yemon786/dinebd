@@ -54,6 +54,15 @@ export default function Header() {
             >
               Contact Us
             </Link>
+
+            <Link
+              href="/faq"
+              className={`${
+                pathname === "/faq" ? "text-gray-700" : "text-gray-400"
+              } hover:text-[#ED7319] font-medium`}
+            >
+              FAQ
+            </Link>
           </nav>
 
           {/* Download Button */}

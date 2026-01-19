@@ -3,7 +3,7 @@
 import type React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
+import { Facebook, X, Instagram, Linkedin, Youtube } from "lucide-react";
 import Logo from "./ui/logo";
 import GooglePlay from "./ui/google-play";
 import Apple from "./ui/apple";
@@ -22,6 +22,7 @@ export default function Footer() {
       { label: "User terms and conditions", href: "#" },
       { label: "Refund policy", href: "#" },
       { label: "Privacy policy", href: "#" },
+      { label: "Career", href: "#" },
     ],
     partners: [
       { label: "Partners terms and conditions", href: "#" },
@@ -29,6 +30,8 @@ export default function Footer() {
       { label: "Customer Support Centre Policy", href: "#" },
       { label: "Review policy", href: "#" },
       { label: "Food allergy Policy", href: "#" },
+      { label: "Partner With Us", href: "#" },
+      { label: "Ride With Us", href: "#" },
     ],
   };
 
@@ -87,7 +90,7 @@ export default function Footer() {
                 />
                 <Button
                   type="submit"
-                  className="rounded-lg bg-orange-500 px-6 py-2 font-semibold text-white hover:bg-orange-600"
+                  className="rounded-lg [#ED7319] px-6 py-2 font-semibold text-white hover:bg-orange-600"
                 >
                   Subscribe
                 </Button>
@@ -98,13 +101,16 @@ export default function Footer() {
                 <Facebook size={20} />
               </a>
               <a href="#" className="text-gray-400 hover:text-orange-500">
-                <Twitter size={20} />
+                <X size={20} />
               </a>
               <a href="#" className="text-gray-400 hover:text-orange-500">
                 <Instagram size={20} />
               </a>
               <a href="#" className="text-gray-400 hover:text-orange-500">
                 <Linkedin size={20} />
+              </a>
+              <a href="#" className="text-gray-400 hover:text-orange-500">
+                <Youtube size={20} />
               </a>
             </div>
           </div>
@@ -146,9 +152,9 @@ export default function Footer() {
           <div className="flex flex-col gap-4 text-center text-xs md:flex-row md:justify-between">
             {/* <p>Copyright © 2025 Dinebd | All rights Reserved |</p> */}
             <p>
-              Dinebd is registered in Bangladesh under the trade licence number:
-              TRAD/DHCC/18059/2024. Registration or use of this site constitutes
-              acceptance of Privacy Policy & Terms and Condition
+              Dinebd Limited is registered in Bangladesh under the registration
+              number: C-202938/2025. Registration or use of this site
+              constitutes acceptance of Privacy Policy & Terms and Condition.
             </p>
           </div>
         </div>

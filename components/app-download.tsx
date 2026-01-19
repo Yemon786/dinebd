@@ -15,13 +15,11 @@ export default function AppDownload() {
             </p>
 
             <div className="flex gap-4">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg">
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg transition border border-orange-500">
                 Register Now
               </Button>
-              <Button
-                variant="outline"
-                className="border-orange-500 text-orange-500 hover:bg-orange-50 px-6 py-3 rounded-lg bg-transparent"
-              >
+
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg transition border border-orange-500">
                 Explore
               </Button>
             </div>

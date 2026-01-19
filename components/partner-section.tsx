@@ -33,6 +33,7 @@
 // }
 
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function RiderSection() {
   return (
@@ -47,9 +48,11 @@ export default function RiderSection() {
             <p className="text-gray-600 text-lg mb-8">
               Grow your restaurant with our delivery and table booking platform.
             </p>
-            <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg">
-              Register Now
-            </Button>
+            <Link href="/partner-with-us">
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg">
+                Learn More
+              </Button>
+            </Link>
           </div>
 
           {/* Right Image */}

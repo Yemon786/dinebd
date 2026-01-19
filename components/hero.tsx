@@ -32,20 +32,18 @@ export default function Hero() {
                   className="w-full px-4 py-3 rounded-lg text-white-900 pl-4 placeholder-grey-100 bg-white"
                 />
               </div>
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-lg flex items-center gap-2">
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg flex items-center gap-2">
                 Search
               </Button>
             </div>
 
             {/* CTA Buttons */}
             <div className="flex gap-4">
-              <Button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-lg">
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg transition">
                 Order Now
               </Button>
-              <Button
-                variant="outline"
-                className="border-white text-white hover:bg-white/10 px-8 py-3 rounded-lg bg-transparent"
-              >
+
+              <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg transition">
                 Book a Table
               </Button>
             </div>
