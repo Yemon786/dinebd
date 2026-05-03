@@ -13,7 +13,7 @@
 
 | Category | Choice | Version |
 |----------|--------|---------|
-| Framework | Next.js (App Router) | 16.0.3 |
+| Framework | Next.js (App Router) | 16.2.4 |
 | Language | TypeScript | ^5 |
 | React | React + React DOM | 19.2.0 |
 | Styling | Tailwind CSS v4 | ^4.1.9 |
@@ -41,14 +41,8 @@ All Radix packages are installed — used by shadcn/ui:
 | @hookform/resolvers | ^3.10.0 | Zod + react-hook-form bridge |
 | sonner | ^1.7.4 | Toast notifications |
 | date-fns | 4.1.0 | Date utilities |
-| cmdk | 1.0.4 | Command palette |
 | vaul | ^1.1.2 | Drawer component |
-| recharts | 2.15.4 | Charts (unused currently) |
 | embla-carousel-react | 8.5.1 | Carousel |
-| input-otp | 1.4.1 | OTP input |
-| react-resizable-panels | ^2.1.7 | Resizable panels |
-| react-day-picker | 9.8.0 | Date picker |
-| next-themes | ^0.4.6 | Dark/light mode toggle |
 
 ## Dev Tools
 

@@ -13,26 +13,26 @@
 > **Branch:** `chore/sprint-0-critical-fixes`  
 > **Estimated effort:** ~30 minutes
 
-- [ ] **T-001:** Upgrade Next.js to latest patched version
+- [x] **T-001:** Upgrade Next.js to latest patched version
   - Run `npm install next@latest`
   - Verify `npm audit` shows 0 critical/high vulnerabilities
   - Run `npm run build` — must exit 0
   - Update `docs/TECH_STACK.md` with the new Next.js version number
   - ✅ **Done when:** `npm audit` is clean and build passes
 
-- [ ] **T-002:** Resolve all remaining npm vulnerabilities
+- [x] **T-002:** Resolve all remaining npm vulnerabilities
   - Run `npm audit fix`
   - If lodash vulnerability persists, verify it's only in a dev dependency and document it
   - Run `npm run build` — must exit 0
   - ✅ **Done when:** `npm audit` reports 0 vulnerabilities, or all remaining are low/informational
 
-- [ ] **T-003:** Remove unused packages
+- [x] **T-003:** Remove unused packages
   - Run: `npm uninstall recharts cmdk react-resizable-panels input-otp react-day-picker next-themes`
   - Run `npm run build` — must exit 0 (no broken imports)
   - Update `docs/TECH_STACK.md` — remove the 6 packages from the Utility Libraries table
   - ✅ **Done when:** Build passes, `package.json` is lighter, TECH_STACK.md updated
 
-- [ ] **T-004:** Remove test/development pages
+- [x] **T-004:** Remove test/development pages
   - Delete directory: `app/text-test/`
   - Delete directory: `app/2nd-page/`
   - Run `npm run build` — verify these routes no longer appear in the build output

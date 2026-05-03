@@ -10,7 +10,7 @@
 
 ## Current Features
 
-### Pages (11 routes)
+### Pages (9 routes)
 
 | Route | File | Description |
 |-------|------|-------------|
@@ -23,8 +23,6 @@
 | `/partner-form` | `app/partner-form/page.tsx` | Partner signup form (297 lines) |
 | `/privacy-contract` | `app/privacy-contract/page.tsx` | Vendor contract/partnership agreement form (575 lines) |
 | `/rider` | `app/rider/page.tsx` | Rider recruitment page (304 lines) |
-| `/2nd-page` | `app/2nd-page/page.tsx` | Alternate/secondary page (351 lines) |
-| `/text-test` | `app/text-test/page.tsx` | Text styling test page (546 lines) |
 
 ### Layout Components
 
@@ -96,11 +94,11 @@ Located in `public/`:
 
 ## Known Issues / Tech Debt
 
-1. **`next@16.0.3` has a security vulnerability** — npm warns to upgrade (CVE-2025-66478)
-2. **3 npm audit vulnerabilities** (1 moderate, 1 high, 1 critical) — all from Next.js 16.0.3
-3. **`baseline-browser-mapping` warning** — data is stale, needs `npm i baseline-browser-mapping@latest -D`
-4. **`/text-test` and `/2nd-page`** — appear to be dev/test pages, should be removed before production
-5. **Unused packages** — `recharts`, `cmdk`, `react-resizable-panels`, `input-otp`, `react-day-picker`, `next-themes` are installed but not visibly used
+1. ~~**`next@16.0.3` has a security vulnerability**~~ → Fixed: upgraded to 16.2.4
+2. ~~**3 npm audit vulnerabilities**~~ → Fixed: lodash fixed, 2 moderate postcss remain (bundled in Next.js, not actionable)
+3. ~~**`baseline-browser-mapping` warning**~~ → Fixed: resolved with Next.js upgrade
+4. ~~**`/text-test` and `/2nd-page`**~~ → Fixed: deleted in Sprint 0
+5. ~~**Unused packages**~~ → Fixed: 6 packages removed in Sprint 0
 6. **Logo SVGs are massive** — `logo.tsx` (60KB) and `logo-white.tsx` (66KB) are inline SVGs that should ideally be separate `.svg` files
 
 ---
