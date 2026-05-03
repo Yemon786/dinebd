@@ -4,22 +4,22 @@ const reasons = [
   {
     icon: Zap,
     title: "Lightning Delivery",
-    description: "Get food delivered to your doorstep within 30 minutes",
+    description: "Food delivered to your doorstep in under 30 minutes",
   },
   {
     icon: Clock,
-    title: "Book Instantly",
-    description: "Reserve the best tables in just few tabs",
+    title: "Instant Table Booking",
+    description: "Reserve the best tables in seconds from the app",
   },
   {
     icon: MapPin,
     title: "Local Restaurants",
-    description: "Find trusted restaurants across your area",
+    description: "Discover verified restaurants across your area",
   },
   {
     icon: Star,
     title: "Verified Reviews",
-    description: "Authentic customer reviews from real users",
+    description: "Authentic ratings from real, verified customers",
   },
 ];
 
@@ -33,41 +33,45 @@ export default function WhyChoose() {
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-4xl font-bold text-gray-900 mb-3 text-center ">
-          Why People Choose <span className="text-orange-500">Dinebd</span>
-        </h2>
-
-        <p className="text-gray-400 text-lg mb-16 text-center">
-          Grow your restaurant with our delivery and table booking platform.
-        </p>
+        <div className="text-center mb-14">
+          <h2 className="text-4xl font-bold text-gray-900 mb-3">
+            Why People Choose{" "}
+            <span className="text-orange-500">Dinebd</span>
+          </h2>
+          <p className="text-gray-500 text-lg max-w-xl mx-auto">
+            Built for food lovers, trusted by restaurants, powered by riders.
+          </p>
+        </div>
 
         {/* Reasons Grid */}
-        <div className="grid md:grid-cols-4 gap-6 mb-20">
-          {reasons.map((reason, index) => {
+        <div className="grid md:grid-cols-4 gap-6 mb-16">
+          {reasons.map((reason) => {
             const Icon = reason.icon;
             return (
               <div
-                key={index}
-                className="bg-white p-8 rounded-lg text-center border border-gray-200"
+                key={reason.title}
+                className="bg-white p-8 rounded-xl text-center border border-gray-200 hover:shadow-md hover:border-orange-200 transition-all group"
               >
-                <div className="flex justify-center mb-4">
-                  <Icon className="text-orange-500" size={32} />
+                <div className="w-14 h-14 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-5 transition-colors">
+                  <Icon className="text-orange-500" size={26} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{reason.title}</h3>
-                <p className="text-sm text-gray-600">{reason.description}</p>
+                <p className="text-sm text-gray-500 leading-relaxed">
+                  {reason.description}
+                </p>
               </div>
             );
           })}
         </div>
 
-        {/* Stats */}
-        <div className="grid md:grid-cols-3 gap-12">
-          {stats.map((stat, index) => (
-            <div key={index} className="text-center">
+        {/* Stats — contained card with dividers */}
+        <div className="bg-white border border-gray-200 rounded-2xl grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+          {stats.map((stat) => (
+            <div key={stat.label} className="py-10 text-center">
               <p className="text-5xl font-bold text-orange-500 mb-2">
                 {stat.number}
               </p>
-              <p className="text-gray-600 font-medium">{stat.label}</p>
+              <p className="text-gray-500 font-medium">{stat.label}</p>
             </div>
           ))}
         </div>

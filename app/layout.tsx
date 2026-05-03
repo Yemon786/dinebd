@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import CookieBanner from "@/components/cookie-banner";
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
@@ -41,10 +42,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased`}>
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:bg-[#ED7319] focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-semibold focus:shadow-lg"
+        >
+          Skip to main content
+        </a>
         <Header />
-        {children}
+        <div id="main-content">
+          {children}
+        </div>
         <Analytics />
         <Footer />
+        <CookieBanner />
       </body>
     </html>
   );

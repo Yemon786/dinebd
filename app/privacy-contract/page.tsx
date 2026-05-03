@@ -19,7 +19,7 @@ export default function Home() {
     email: "",
 
     // Vendor Service Type
-    serviceType: [],
+    serviceType: [] as string[],
     cuisineType: "",
 
     // Operating Hours

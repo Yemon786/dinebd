@@ -1,251 +1,203 @@
-// export default function AboutUs() {
-//   return <h1 className="text-center">Hi About Us Page</h1>;
-// }
-import { Button } from "@/components/ui/button";
-import { Heart, Zap, TrendingUp, Users, Shield, Bell } from "lucide-react";
+import {
+  Heart,
+  Zap,
+  TrendingUp,
+  Users,
+  Shield,
+  BadgeCheck,
+  UtensilsCrossed,
+  ShoppingBag,
+  Truck,
+  Home,
+} from "lucide-react";
+import Link from "next/link";
 
 export const metadata = {
-  title: "Dinebd - Connect Food Lovers With Restaurants",
+  title: "About Us — Dinebd",
   description: "Delivering convenience, quality, and reliability since 2020",
 };
 
 export default function AboutUs() {
   return (
     <main className="bg-white text-gray-800">
-      {/* Center Title Section */}
-      <div className="text-center max-w-3xl mx-auto px-4 pt-16">
-        <h1 className="text-5xl md:text-6xl font-bold text-[#ED7319] leading-tight">
-          Connect Food Lovers With Restaurants
-        </h1>
-        <p className="text-gray-600 text-lg">
-          Delivering convenience, quality, and reliability since 2020
-        </p>
-      </div>
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-4 py-20">
-        <div className="grid md:grid-cols-2 gap-20 items-center">
-          {/* LEFT: Plate Image */}
-          <div className="flex justify-center">
-            <div className="ml-30 w-[420px] h-[420px] bg-white rounded-full flex items-center justify-center shadow-xl overflow-hidden">
-              <img
-                src="plate.jpg"
-                alt="Salmon salad plate"
-                className="w-full h-full object-cover"
-              />
-            </div>
-          </div>
-
-          {/* RIGHT: Buttons */}
-          <div className="flex flex-col gap-4 w-full max-w-sm ml-auto">
-            {/* BIG FIRST BUTTON */}
-            <Button
-              variant="outline"
-              className="border-2  text-[#ED7319] hover:bg-[#ED7319] hover:py-10 hover:text-2xl hover:text-white font-semibold py-7 text-lg rounded-l-full rounded-r-none w-full transform translate-x-7 hover:translate-x-0 transition-all duration-300"
-            >
-              ORDER NOW
-            </Button>
-
-            {/* Other buttons (same shape but smaller) */}
-            <Button
-              variant="outline"
-              className="border-2 text-[#ED7319] hover:bg-[#ED7319] hover:py-10 hover:text-2xl hover:text-white font-semibold py-7 text-lg rounded-l-full rounded-r-none w-full transform translate-x-7 hover:translate-x-0 transition-all duration-300"
-            >
-              BOOK A TABLE
-            </Button>
-
-            <Button
-              variant="outline"
-              className="border-2 text-[#ED7319] hover:bg-[#ED7319] hover:py-10 hover:text-2xl hover:text-white font-semibold py-7 text-lg rounded-l-full rounded-r-none w-full transform translate-x-7 hover:translate-x-0 transition-all duration-300"
-            >
-              TAKEAWAY
-            </Button>
-
-            <Button
-              variant="outline"
-              className="border-2  text-[#ED7319] hover:bg-[#ED7319] hover:py-10 hover:text-2xl hover:text-white font-semibold py-7 text-lg rounded-l-full rounded-r-none w-full transform translate-x-7 hover:translate-x-0 transition-all duration-300"
-            >
-              CATERING
-            </Button>
-
-            <Button
-              variant="outline"
-              className="border-2 text-[#ED7319] hover:bg-[#ED7319] hover:py-10 hover:text-2xl hover:text-white font-semibold py-7 text-lg rounded-l-full rounded-r-none w-full transform translate-x-7 hover:translate-x-0 transition-all duration-300"
-            >
-              HOMEMADE
-            </Button>
-          </div>
-        </div>
-      </section>
-      <div className="h-10"></div> {/* Spacer */}
-      {/* Our Story Section */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-gray-700 mb-8">Our Story</h2>
-          <p className="text-gray-600 leading-relaxed w-full text-justify">
-            Dinebd was founded with a simple idea: everyone deserves fast,
-            reliable, and enjoyable food delivery. We connect thousands of
-            customers with trusted restaurants, home chefs, and catering
-            services across Bangladesh. Our mission is to transform food
-            delivery into a thriving community of food lovers, restaurant
-            partners, and dedicated riders working together to bring quality
-            meals to your doorstep.Dinebd was founded with a simple idea:
-            everyone deserves fast, reliable, and enjoyable food delivery. We
-            connect thousands of customers with trusted restaurants, home chefs,
-            and catering services across Bangladesh. Our mission is to transform
-            food delivery into a thriving community of food lovers, restaurant
-            partners, and dedicated riders working together to bring quality
-            meals to your doorstep.Dinebd was founded with a simple idea:
-            everyone deserves fast, reliable, and enjoyable food delivery. We
-            connect thousands of customers with trusted restaurants, home chefs,
-            and catering services across Bangladesh. Our mission is to transform
-            food delivery into a thriving community of food lovers, restaurant
-            partners, and dedicated riders working together to bring quality
-            meals to your doorstep.Dinebd was founded with a simple idea:
-            everyone deserves fast, reliable, and enjoyable food delivery. We
-            connect thousands of customers with trusted restaurants, home chefs,
-            and catering services across Bangladesh. Our mission is to transform
-            food delivery into a thriving community of food lovers, restaurant
-            partners, and dedicated riders working together to bring quality
-            meals to your doorstep.
+      {/* Page hero */}
+      <section className="bg-gray-900 text-white py-24 px-4">
+        <div className="max-w-3xl mx-auto text-center">
+          <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+            Our Story
+          </span>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
+            Connecting Food Lovers
+            <br />
+            <span className="text-[#ED7319]">With Restaurants</span>
+          </h1>
+          <p className="text-gray-400 text-lg leading-relaxed">
+            Delivering convenience, quality, and reliability across Bangladesh.
           </p>
         </div>
       </section>
-      <div className="h-10"></div> {/* Spacer */}
-      {/* Our Mission Section */}
-      <section className="max-w-7xl mx-auto px-4 py-16 text-center">
-        <h2 className="text-4xl font-bold text-gray-700 mb-3">Our Mission</h2>
 
-        <p className="text-[#ED7319] font-bold text-lg mb-0">
-          To make food delivery faster, easier, and more accessible for everyone
-        </p>
-        <p className="text-gray-700">
-          We believe in empowering restaurants through technology and building a
-          community that values quality, trust, and convenience.We believe in
-          empowering restaurants through technology and building a community
-          that values quality, trust, and convenience.
-        </p>
-      </section>
-      <div className="h-10"></div> {/* Spacer */}
-      {/* Our Values Section */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-gray-700 mb-12 text-center">
-            Our Values
-          </h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Customer First */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <Users className="w-10 h-10 text-[#ED7319]" />
+      {/* What We Do — service cards */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+              Five Services, <span className="text-orange-500">One App</span>
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              Everything you need to enjoy great food — all in one place.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-5">
+            {[
+              { icon: UtensilsCrossed, label: "Book a Table" },
+              { icon: ShoppingBag, label: "Takeaway" },
+              { icon: Truck, label: "Food Delivery" },
+              { icon: Users, label: "Catering" },
+              { icon: Home, label: "Homemade" },
+            ].map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="bg-gray-50 border border-gray-200 rounded-xl p-6 flex flex-col items-center text-center hover:shadow-md hover:border-orange-200 transition-all group"
+              >
+                <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-3 transition-colors">
+                  <Icon className="text-orange-500" size={22} />
+                </div>
+                <p className="font-semibold text-gray-900 text-sm">{label}</p>
               </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">
-                Customer First
-              </h3>
-              <p className="text-gray-600">
-                Every feature is built to make the experience smoother and more
-                delightful.
-              </p>
-            </div>
-
-            {/* Quality & Trust */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <Bell className="w-10 h-10 text-[#ED7319]" />
-              </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">
-                Quality & Trust
-              </h3>
-              <p className="text-gray-600">
-                Only verified restaurants and genuine reviews to ensure you get
-                the best.
-              </p>
-            </div>
-
-            {/* Innovation */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <Zap className="w-10 h-10 text-[#ED7319]" />
-              </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">
-                Innovation
-              </h3>
-              <p className="text-gray-600">
-                Constantly improving our technology and service to stay ahead.
-              </p>
-            </div>
-
-            {/* Community Support */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <Heart className="w-10 h-10 text-[#ED7319]" />
-              </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">
-                Community Support
-              </h3>
-              <p className="text-gray-600">
-                Empowering local restaurants and home chefs to grow their
-                business.
-              </p>
-            </div>
-
-            {/* Growth */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <TrendingUp className="w-10 h-10 text-[#ED7319]" />
-              </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">Growth</h3>
-              <p className="text-gray-600">
-                Creating opportunities for our partners and team members to
-                thrive.
-              </p>
-            </div>
-
-            {/* Reliability */}
-            <div className="text-center">
-              <div className="mb-4 flex justify-center">
-                <Shield className="w-10 h-10 text-[#ED7319]" />
-              </div>
-              <h3 className="font-bold text-lg text-gray-800 mb-2">
-                Reliability
-              </h3>
-              <p className="text-gray-600">
-                Consistent, on-time delivery you can depend on every single
-                time.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
-      <div className="h-10"></div> {/* Spacer */}
-      {/* Community Section */}
-      <section className="bg-orange-50 py-16">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">
+
+      {/* Our Story */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">Our Story</h2>
+          <div className="space-y-5 text-gray-600 leading-relaxed text-base">
+            <p>
+              Dinebd is a comprehensive dining platform revolutionising the way
+              people in Bangladesh enjoy food. We seamlessly connect users with
+              thousands of local restaurants, cafes, and home-based food
+              providers — offering food delivery, table reservations, takeaways,
+              homemade food, and catering services all in one place.
+            </p>
+            <p>
+              Whether you&apos;re ordering your favourite meal for delivery,
+              booking a table at a top restaurant, or enjoying the warmth of
+              homemade cuisine, Dinebd makes dining easy and accessible for
+              everyone.
+            </p>
+            <p>
+              Our vision is to become the leading dining companion in Bangladesh
+              — a platform where every culinary need is met, from quick delivery
+              to discovering hidden gems in local dining. Through innovation and
+              a genuine passion for food, we aspire to be the go-to destination
+              for all things dining.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Mission */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-orange-50 border border-orange-100 rounded-2xl p-10 md:p-14 text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-5">
+              Our Mission
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
+              To redefine the dining experience in Bangladesh by offering an
+              all-in-one platform for food delivery, table booking, and more. We
+              strive to make every meal convenient, accessible, and
+              unforgettable — connecting food lovers with local culinary
+              delights at the touch of a button.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Values */}
+      <section className="py-20 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-14">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+              Our Values
+            </h2>
+            <p className="text-gray-500 max-w-xl mx-auto">
+              The principles that guide everything we build and every decision
+              we make.
+            </p>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-8">
+            {[
+              {
+                icon: Users,
+                title: "Customer First",
+                desc: "Every feature is built to make the experience smoother and more delightful for our users.",
+              },
+              {
+                icon: BadgeCheck,
+                title: "Quality & Trust",
+                desc: "Only verified restaurants and genuine reviews to ensure you always get the best.",
+              },
+              {
+                icon: Zap,
+                title: "Innovation",
+                desc: "Constantly improving our technology and service to stay ahead of what you need.",
+              },
+              {
+                icon: Heart,
+                title: "Community",
+                desc: "Empowering local restaurants, home chefs, and riders to grow their businesses.",
+              },
+              {
+                icon: TrendingUp,
+                title: "Growth",
+                desc: "Creating real opportunities for our partners, riders, and team to thrive.",
+              },
+              {
+                icon: Shield,
+                title: "Reliability",
+                desc: "Consistent, on-time delivery and service you can depend on every single time.",
+              },
+            ].map(({ icon: Icon, title, desc }) => (
+              <div
+                key={title}
+                className="bg-white border border-gray-200 rounded-xl p-8 hover:shadow-md hover:border-orange-200 transition-all group"
+              >
+                <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-5 transition-colors">
+                  <Icon className="text-orange-500" size={22} />
+                </div>
+                <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Community CTA */}
+      <section className="py-20 bg-gray-900 text-white">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold mb-4">
             Be Part of Our Growing Community
           </h2>
-          <p className="text-gray-600 mb-8 max-w-2xl mx-auto">
-            Want to grow with us? Join thousands of partners, riders, and team
-            members transforming how people get their food.
+          <p className="text-gray-400 mb-10 max-w-xl mx-auto leading-relaxed">
+            Join thousands of partners, riders, and team members transforming
+            how people enjoy food in Bangladesh.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Button
-              variant="outline"
-              className="border-2 border-[#ED7319] text-[#ED7319] hover:bg-[#ED7319]  hover:text-white font-bold px-6 py-2 rounded-full bg-transparent"
-            >
-              Become a Partner
-            </Button>
-            <Button
-              variant="outline"
-              className="border-2 border-[#ED7319] text-[#ED7319] hover:bg-[#ED7319]  hover:text-white font-bold px-6 py-2 rounded-full bg-transparent"
-            >
-              Join as a Rider
-            </Button>
-            <Button
-              variant="outline"
-              className="border-2 border-[#ED7319] text-[#ED7319] hover:bg-[#ED7319] hover:text-white font-bold px-6 py-2 rounded-full bg-transparent"
-            >
-              Explore Careers
-            </Button>
+            <Link href="/partner-with-us">
+              <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+                Become a Partner
+              </button>
+            </Link>
+            <Link href="/rider">
+              <button className="border-2 border-white/30 hover:border-white text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+                Join as a Rider
+              </button>
+            </Link>
           </div>
         </div>
       </section>

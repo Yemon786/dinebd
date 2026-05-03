@@ -5,6 +5,7 @@ import Services from "@/components/services";
 import PartnerSection from "@/components/partner-section";
 import RiderSection from "@/components/rider-section";
 import WhyChoose from "@/components/why-choose";
+import Testimonials from "@/components/testimonials";
 
 export const metadata = {
   title: "Dinebd - Food at your fingerprint",
@@ -22,6 +23,7 @@ export default function Home() {
       <PartnerSection />
       <RiderSection />
       <WhyChoose />
+      <Testimonials />
     </main>
   );
 }

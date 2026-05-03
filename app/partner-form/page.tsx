@@ -9,13 +9,14 @@ import { Textarea } from "@/components/ui/textarea";
 
 export default function PartnerPageClient() {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsSubmitting(false);
-    alert("Thank you for your interest! We will contact you soon.");
+    setSubmitted(true);
   };
 
   return (
@@ -80,6 +81,21 @@ export default function PartnerPageClient() {
             </p>
           </div>
 
+          {submitted ? (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-10 text-center space-y-4">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-bold text-green-800">Application Received!</h3>
+              <p className="text-green-700">
+                Thank you for your interest in partnering with Dinebd. Our team will review your
+                application and contact you within 2–3 business days.
+              </p>
+              <p className="text-sm text-green-600">Check your email for a confirmation.</p>
+            </div>
+          ) : (
           <form
             onSubmit={handleSubmit}
             className="space-y-6 bg-card rounded-lg border border-border p-8"
@@ -273,6 +289,7 @@ export default function PartnerPageClient() {
               </p>
             </div>
           </form>
+          )}
         </div>
       </div>
     </main>

@@ -1,6 +1,7 @@
 "use client";
 
 import type React from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Facebook, X, Instagram, Linkedin, Youtube } from "lucide-react";
@@ -9,154 +10,171 @@ import GooglePlay from "./ui/google-play";
 import Apple from "./ui/apple";
 
 export default function Footer() {
-  const handleSubscribe = (e: React.FormEvent<HTMLFormElement>) => {
+  const [subscribeStatus, setSubscribeStatus] = useState<
+    "idle" | "loading" | "success"
+  >("idle");
+
+  const handleSubscribe = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle email subscription here
-    alert("Thank you for subscribing!");
+    setSubscribeStatus("loading");
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setSubscribeStatus("success");
   };
 
   const footerLinks = {
-    links: [
-      { label: "About us", href: "#" },
-      { label: "Contact us", href: "#" },
-      { label: "User terms and conditions", href: "#" },
-      { label: "Refund policy", href: "#" },
-      { label: "Privacy policy", href: "#" },
+    company: [
+      { label: "About Us", href: "/about-us" },
+      { label: "Contact Us", href: "/contact-us" },
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "FAQ", href: "/faq" },
       { label: "Career", href: "#" },
+      { label: "Refund Policy", href: "#" },
     ],
     partners: [
-      { label: "Partners terms and conditions", href: "#" },
-      { label: "Order timeout policy", href: "#" },
-      { label: "Customer Support Centre Policy", href: "#" },
-      { label: "Review policy", href: "#" },
-      { label: "Food allergy Policy", href: "#" },
-      { label: "Partner With Us", href: "#" },
-      { label: "Ride With Us", href: "#" },
+      { label: "Partner With Us", href: "/partner-with-us" },
+      { label: "Ride With Us", href: "/rider" },
+      { label: "Partner Terms", href: "#" },
+      { label: "Order Timeout Policy", href: "#" },
+      { label: "Review Policy", href: "#" },
+      { label: "Food Allergy Policy", href: "#" },
     ],
   };
 
   return (
-    <footer className="bg-gray-100 text-gray-800">
+    <footer className="bg-gray-50 border-t border-gray-200 text-gray-700">
       {/* Main Footer Content */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="grid gap-8 md:grid-cols-3">
-          {/* Left Section - Logo & Download */}
-          <div className="flex flex-col gap-4">
-            <div className="text-2xl font-bold text-orange-600">
-              <Logo width={128} height={128} />
-            </div>
-            <p className="text-sm text-gray-600">
-              Dining made easy. Food delivery service. Book a table, takeaways,
-              catering and homemade food available. "All in one place - in
-              Bangladesh"
+      <div className="max-w-7xl mx-auto px-4 py-14 sm:px-6 lg:px-8">
+        <div className="grid gap-10 md:grid-cols-3">
+          {/* Left — Logo, description, store badges */}
+          <div className="flex flex-col gap-5">
+            <Logo width={120} height={120} />
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Dining made easy. Food delivery, table booking, takeaways,
+              catering and homemade food — all in one place, across Bangladesh.
             </p>
-            <div className="flex flex-col gap-3 sm:flex-row">
+            <div className="flex flex-col gap-2.5 sm:flex-row">
               <Link
-                href="#"
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+                href="https://qr1.be/6UYZ"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-800 transition-colors shadow-sm"
               >
-                <span>
-                  <GooglePlay />
-                </span>
+                <GooglePlay />
                 Google Play
               </Link>
               <Link
-                href="#"
-                className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-semibold text-gray-800 hover:bg-gray-50"
+                href="https://qr1.be/6UYZ"
+                className="inline-flex items-center gap-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-800 transition-colors shadow-sm"
               >
-                <span>
-                  <Apple />
-                </span>
+                <Apple />
                 App Store
               </Link>
             </div>
-            <p className="text-xs font-semibold text-gray-700">Download Now</p>
           </div>
 
-          {/* Middle Section - Newsletter */}
-          <div className="flex flex-col items-center justify-center gap-6">
-            <div className="text-center">
-              <h3 className="font-bold text-gray-800">
-                Get Exclusive Deals in you email
+          {/* Middle — Newsletter + Social */}
+          <div className="flex flex-col gap-5">
+            <div>
+              <h3 className="font-bold text-gray-900 mb-1">
+                Get Exclusive Deals
               </h3>
+              <p className="text-sm text-gray-500">
+                Subscribe to receive offers in your email.
+              </p>
             </div>
-            <form onSubmit={handleSubscribe} className="w-full max-w-sm">
-              <div className="flex gap-2">
-                <input
-                  type="email"
-                  placeholder="youremail@gmail.com"
-                  required
-                  className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-500"
-                />
-                <Button
-                  type="submit"
-                  className="rounded-lg [#ED7319] px-6 py-2 font-semibold text-white hover:bg-orange-600"
+
+            {subscribeStatus === "success" ? (
+              <p className="text-sm text-green-700 font-medium bg-green-50 border border-green-200 rounded-lg px-4 py-3 text-center">
+                You&apos;re subscribed! Check your inbox for deals.
+              </p>
+            ) : (
+              <form onSubmit={handleSubscribe}>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="your@email.com"
+                    required
+                    disabled={subscribeStatus === "loading"}
+                    className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-60"
+                  />
+                  <Button
+                    type="submit"
+                    disabled={subscribeStatus === "loading"}
+                    className="rounded-lg bg-[#ED7319] hover:bg-orange-600 px-5 py-2.5 font-semibold text-white disabled:opacity-60 transition-colors"
+                  >
+                    {subscribeStatus === "loading" ? "..." : "Subscribe"}
+                  </Button>
+                </div>
+              </form>
+            )}
+
+            <div className="flex gap-4 mt-1">
+              {[
+                { Icon: Facebook, href: "#" },
+                { Icon: X, href: "#" },
+                { Icon: Instagram, href: "#" },
+                { Icon: Linkedin, href: "#" },
+                { Icon: Youtube, href: "#" },
+              ].map(({ Icon, href }, i) => (
+                <a
+                  key={i}
+                  href={href}
+                  className="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-200 transition-colors"
                 >
-                  Subscribe
-                </Button>
-              </div>
-            </form>
-            <div className="flex gap-4 self-start">
-              <a href="#" className="text-gray-400 hover:text-orange-500">
-                <Facebook size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500">
-                <X size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500">
-                <Instagram size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500">
-                <Linkedin size={20} />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-orange-500">
-                <Youtube size={20} />
-              </a>
+                  <Icon size={16} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Right Section - Links */}
+          {/* Right — Links */}
           <div>
-            <h4 className="mb-4 font-bold text-gray-800">Links</h4>
-            <div className="flex text-sm">
-              <div className="flex flex-col gap-2">
-                {footerLinks.links.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="text-gray-600 hover:text-orange-600 hover:underline"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">
+                  Company
+                </h4>
+                <ul className="flex flex-col gap-2.5">
+                  {footerLinks.company.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-500 hover:text-orange-500 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <div className="flex flex-col gap-2">
-                {footerLinks.partners.map((link) => (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="block text-gray-600 hover:text-orange-600 hover:underline"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+              <div>
+                <h4 className="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wide">
+                  Partners
+                </h4>
+                <ul className="flex flex-col gap-2.5">
+                  {footerLinks.partners.map((link) => (
+                    <li key={link.label}>
+                      <Link
+                        href={link.href}
+                        className="text-sm text-gray-500 hover:text-orange-500 transition-colors"
+                      >
+                        {link.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Footer */}
-      <div className="border-t border-gray-300 bg-gray-900 px-4 py-4 text-gray-300 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="flex flex-col gap-4 text-center text-xs md:flex-row md:justify-between">
-            {/* <p>Copyright © 2025 Dinebd | All rights Reserved |</p> */}
-            <p>
-              Dinebd Limited is registered in Bangladesh under the registration
-              number: C-202938/2025. Registration or use of this site
-              constitutes acceptance of Privacy Policy & Terms and Condition.
-            </p>
-          </div>
+      {/* Bottom bar */}
+      <div className="border-t border-gray-200 bg-gray-900 px-4 py-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <p className="text-xs text-gray-400 text-center leading-relaxed">
+            Dinebd Limited is registered in Bangladesh under registration number
+            C-202938/2025. Registration or use of this site constitutes
+            acceptance of our Privacy Policy &amp; Terms and Conditions.
+          </p>
         </div>
       </div>
     </footer>

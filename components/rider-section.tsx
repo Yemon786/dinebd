@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default function RiderSection() {
@@ -7,29 +6,45 @@ export default function RiderSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Image */}
-          <div className="flex justify-center order-2 md:order-1">
+          <div className="flex justify-center">
             <img
               src="/rider_us.jpg"
-              alt="Delivery Rider"
-              className="w-full max-w-md rounded-2xl p-8"
+              alt="Become a Dinebd Rider"
+              className="w-full max-w-md rounded-2xl shadow-xl"
             />
           </div>
 
           {/* Right Content */}
-          <div className="order-1 md:order-2 ">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4 text-right">
+          <div>
+            <span className="text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-3 block">
+              For Riders
+            </span>
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
               Become a <span className="text-orange-500">Rider</span>
             </h2>
-            <p className="text-gray-600 text-lg mb-8 text-right">
-              Grow your restaurant with our delivery and table booking platform.
+            <p className="text-gray-600 text-lg mb-6 leading-relaxed">
+              Earn money on your own schedule. Join thousands of riders
+              delivering across Bangladesh with Dinebd.
             </p>
-            <div className="flex justify-end">
-              <Link href="/rider">
-                <Button className="bg-[#ED7319] hover:bg-[#ED7319] text-white hover:font-bold px-9 py-5 rounded-lg">
-                  Learn More
-                </Button>
-              </Link>
-            </div>
+            <ul className="space-y-3 mb-8">
+              {[
+                "Flexible working hours — you choose when",
+                "Competitive per-delivery pay with bonuses",
+                "Get started in hours with fast onboarding",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-gray-600">
+                  <span className="w-5 h-5 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-orange-500 text-xs font-bold">✓</span>
+                  </span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <Link href="/rider">
+              <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+                Learn More
+              </button>
+            </Link>
           </div>
         </div>
       </div>

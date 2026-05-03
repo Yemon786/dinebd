@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function privacy() {
   return (
@@ -348,9 +349,11 @@ export default function privacy() {
             <p className="text-sm mb-6">
               Our privacy and support team is here to help you anytime
             </p>
-            <Button className="bg-white text-[#FF6B35] hover:bg-gray-100">
-              Contact Us
-            </Button>
+            <Link href="/contact-us">
+              <Button className="bg-white text-[#FF6B35] hover:bg-gray-100">
+                Contact Us
+              </Button>
+            </Link>
           </div>
         </section>
       </main>
