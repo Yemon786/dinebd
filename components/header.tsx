@@ -35,8 +35,8 @@ export default function Header() {
                 href={link.href}
                 className={`text-sm font-medium transition-colors ${
                   pathname === link.href
-                    ? "text-[#ED7319]"
-                    : "text-gray-600 hover:text-[#ED7319]"
+                    ? "text-primary"
+                    : "text-gray-600 hover:text-primary"
                 }`}
               >
                 {link.label}
@@ -46,13 +46,13 @@ export default function Header() {
 
           {/* Right side */}
           <div className="flex items-center gap-3">
-            <a href="https://qr1.be/6UYZ" className="hidden md:block">
-              <button className="bg-[#ED7319] hover:bg-orange-600 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
+            <a href="https://qr1.be/6UYZ" target="_blank" rel="noopener noreferrer" className="hidden md:block">
+              <button className="bg-primary hover:bg-primary/90 text-white text-sm font-semibold px-6 py-2.5 rounded-lg transition-colors">
                 Download App
               </button>
             </a>
             <button
-              className="md:hidden p-2 rounded-md text-gray-600 hover:text-[#ED7319] hover:bg-gray-50 transition-colors"
+              className="md:hidden p-2 rounded-md text-gray-600 hover:text-primary hover:bg-gray-50 transition-colors"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
             >
@@ -72,16 +72,16 @@ export default function Header() {
               onClick={() => setMobileMenuOpen(false)}
               className={`px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 pathname === link.href
-                  ? "text-[#ED7319] bg-orange-50"
-                  : "text-gray-600 hover:text-[#ED7319] hover:bg-gray-50"
+                  ? "text-primary bg-orange-50"
+                  : "text-gray-600 hover:text-primary hover:bg-gray-50"
               }`}
             >
               {link.label}
             </Link>
           ))}
           <div className="pt-3 mt-2 border-t border-gray-100">
-            <a href="https://qr1.be/6UYZ">
-              <button className="bg-[#ED7319] hover:bg-orange-600 text-white text-sm font-semibold w-full py-2.5 rounded-lg transition-colors">
+            <a href="https://qr1.be/6UYZ" target="_blank" rel="noopener noreferrer">
+              <button className="bg-primary hover:bg-primary/90 text-white text-sm font-semibold w-full py-2.5 rounded-lg transition-colors">
                 Download App
               </button>
             </a>

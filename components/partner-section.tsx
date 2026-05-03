@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function PartnerSection() {
@@ -7,7 +8,7 @@ export default function PartnerSection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div className="order-2 md:order-1">
-            <span className="text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-3 block">
+            <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
               For Restaurants
             </span>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -33,7 +34,7 @@ export default function PartnerSection() {
               ))}
             </ul>
             <Link href="/partner-with-us">
-              <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+              <button className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
                 Learn More
               </button>
             </Link>
@@ -41,9 +42,11 @@ export default function PartnerSection() {
 
           {/* Right Image */}
           <div className="flex justify-center order-1 md:order-2">
-            <img
+            <Image
               src="/partner_us.png"
               alt="Partner with Dinebd"
+              width={500}
+              height={500}
               className="w-full max-w-md rounded-2xl shadow-xl"
             />
           </div>

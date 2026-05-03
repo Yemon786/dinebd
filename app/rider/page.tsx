@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronDown, TrendingUp, Target, Zap, CreditCard, BarChart2, Headphones, Smartphone, Bike, Map, IdCard } from "lucide-react";
 
 export default function RiderPage() {
@@ -13,12 +14,12 @@ export default function RiderPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+              <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4">
                 Join Our Rider Network
               </span>
               <h1 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
                 Ride With{" "}
-                <span className="text-[#ED7319]">Dinebd</span>
+                <span className="text-primary">Dinebd</span>
               </h1>
               <p className="text-gray-400 text-lg mb-8 leading-relaxed">
                 Earn money on your own schedule. Join thousands of riders
@@ -26,7 +27,7 @@ export default function RiderPage() {
                 competitive pay.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button className="bg-[#ED7319] hover:bg-orange-600 text-white px-8 py-3.5 rounded-lg font-semibold transition-colors">
+                <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-lg font-semibold transition-colors">
                   Apply Now
                 </button>
                 <a href="#learn-more">
@@ -38,9 +39,11 @@ export default function RiderPage() {
             </div>
             <div className="flex justify-center">
               <div className="w-full max-w-sm aspect-square rounded-3xl overflow-hidden shadow-2xl">
-                <img
+                <Image
                   src="/rider_us.jpg"
                   alt="Dinebd Delivery Rider"
+                  width={400}
+                  height={400}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -100,7 +103,7 @@ export default function RiderPage() {
                 className="bg-gray-50 border border-gray-200 rounded-xl p-8 hover:shadow-md hover:border-orange-200 transition-all group"
               >
                 <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-5 transition-colors">
-                  <Icon className="text-orange-500" size={22} />
+                  <Icon className="text-primary" size={22} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">
                   {title}
@@ -134,7 +137,7 @@ export default function RiderPage() {
               { num: "4", title: "Start Delivering", desc: "Go live and begin earning immediately" },
             ].map((step, idx) => (
               <div key={idx} className="relative text-center">
-                <div className="w-16 h-16 bg-[#ED7319] text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md">
+                <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-md">
                   {step.num}
                 </div>
                 <h3 className="text-base font-bold text-gray-900 mb-2">{step.title}</h3>
@@ -172,7 +175,7 @@ export default function RiderPage() {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 bg-orange-50 rounded-lg flex items-center justify-center">
-                    <Icon className="text-orange-500" size={20} />
+                    <Icon className="text-primary" size={20} />
                   </div>
                   <span className="font-semibold text-gray-900">{title}</span>
                 </div>
@@ -200,7 +203,7 @@ export default function RiderPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-xl border border-gray-200 p-8 text-center hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <CreditCard className="text-orange-500" size={22} />
+                <CreditCard className="text-primary" size={22} />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-3">
                 Competitive Rates
@@ -211,7 +214,7 @@ export default function RiderPage() {
                 <li>Peak hour premium rates</li>
               </ul>
             </div>
-            <div className="bg-[#ED7319] rounded-xl p-8 text-center shadow-md">
+            <div className="bg-primary rounded-xl p-8 text-center shadow-md">
               <div className="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mx-auto mb-4">
                 <TrendingUp className="text-white" size={22} />
               </div>
@@ -223,12 +226,12 @@ export default function RiderPage() {
             </div>
             <div className="bg-white rounded-xl border border-gray-200 p-8 text-center hover:shadow-md transition-shadow">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mx-auto mb-4">
-                <Zap className="text-orange-500" size={22} />
+                <Zap className="text-primary" size={22} />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">
                 Peak Hours
               </h3>
-              <p className="text-3xl font-bold text-orange-500 mb-2">
+              <p className="text-3xl font-bold text-primary mb-2">
                 Premium
               </p>
               <p className="text-sm text-gray-500">High earnings + extra tips</p>
@@ -246,7 +249,7 @@ export default function RiderPage() {
           <p className="text-gray-400 text-lg mb-10">
             Join thousands of riders already growing with Dinebd.
           </p>
-          <button className="bg-[#ED7319] hover:bg-orange-600 text-white px-10 py-4 rounded-lg font-bold text-lg transition-colors">
+          <button className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-lg font-bold text-lg transition-colors">
             Apply as a Rider
           </button>
         </div>
@@ -284,7 +287,7 @@ export default function RiderPage() {
                   <span className="font-semibold text-gray-900">{faq.q}</span>
                   <ChevronDown
                     size={18}
-                    className={`text-orange-500 transition-transform flex-shrink-0 ml-3 ${
+                    className={`text-primary transition-transform flex-shrink-0 ml-3 ${
                       openFAQ === idx ? "rotate-180" : ""
                     }`}
                   />

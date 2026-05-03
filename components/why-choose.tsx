@@ -36,7 +36,7 @@ export default function WhyChoose() {
         <div className="text-center mb-14">
           <h2 className="text-4xl font-bold text-gray-900 mb-3">
             Why People Choose{" "}
-            <span className="text-orange-500">Dinebd</span>
+            <span className="text-primary">Dinebd</span>
           </h2>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Built for food lovers, trusted by restaurants, powered by riders.
@@ -53,7 +53,7 @@ export default function WhyChoose() {
                 className="bg-white p-8 rounded-xl text-center border border-gray-200 hover:shadow-md hover:border-orange-200 transition-all group"
               >
                 <div className="w-14 h-14 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mx-auto mb-5 transition-colors">
-                  <Icon className="text-orange-500" size={26} />
+                  <Icon className="text-primary" size={26} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{reason.title}</h3>
                 <p className="text-sm text-gray-500 leading-relaxed">
@@ -68,7 +68,7 @@ export default function WhyChoose() {
         <div className="bg-white border border-gray-200 rounded-2xl grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
           {stats.map((stat) => (
             <div key={stat.label} className="py-10 text-center">
-              <p className="text-5xl font-bold text-orange-500 mb-2">
+              <p className="text-5xl font-bold text-primary mb-2">
                 {stat.number}
               </p>
               <p className="text-gray-500 font-medium">{stat.label}</p>

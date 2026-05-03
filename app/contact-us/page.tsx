@@ -79,7 +79,7 @@ export default function ContactUs() {
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="bg-gray-900 text-white py-20 text-center px-4">
-        <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+        <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4">
           Get In Touch
         </span>
         <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
@@ -102,7 +102,7 @@ export default function ContactUs() {
             <div className="flex flex-col items-center text-center p-8 border border-gray-200 rounded-lg hover:shadow-lg transition">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-orange-500"
+                  className="w-6 h-6 text-primary"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -118,7 +118,7 @@ export default function ContactUs() {
             <div className="flex flex-col items-center text-center p-8 border border-gray-200 rounded-lg hover:shadow-lg transition">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-orange-500"
+                  className="w-6 h-6 text-primary"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -133,7 +133,7 @@ export default function ContactUs() {
             <div className="flex flex-col items-center text-center p-8 border border-gray-200 rounded-lg hover:shadow-lg transition">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-orange-500"
+                  className="w-6 h-6 text-primary"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -155,7 +155,7 @@ export default function ContactUs() {
             <div className="flex flex-col items-center text-center p-8 border border-gray-200 rounded-lg hover:shadow-lg transition">
               <div className="w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center mb-4">
                 <svg
-                  className="w-6 h-6 text-orange-500"
+                  className="w-6 h-6 text-primary"
                   fill="currentColor"
                   viewBox="0 0 20 20"
                 >
@@ -173,20 +173,20 @@ export default function ContactUs() {
 
           {/* Action Buttons */}
           <div className="flex flex-wrap gap-4 justify-center mb-16">
-            <button className="border-2 border-orange-500 text-orange-500 hover:bg-[#ED7319]  hover:text-white px-8 py-3 rounded-full font-bold transition flex items-center gap-2">
+            <button className="border-2 border-orange-500 text-primary hover:bg-primary  hover:text-white px-8 py-3 rounded-full font-bold transition flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773c.058.3.24.645.477.935a6.611 6.611 0 003.05 2.685l.77-1.55a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2.57C6.92 18 3 14.08 3 9.43V5a1 1 0 011-1h2z" />
               </svg>
               Call Now
             </button>
-            <button className="border-2 border-orange-500 text-orange-500 hover:bg-[#ED7319]  hover:text-white px-8 py-3 rounded-full font-bold transition flex items-center gap-2">
+            <button className="border-2 border-orange-500 text-primary hover:bg-primary  hover:text-white px-8 py-3 rounded-full font-bold transition flex items-center gap-2">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                 <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
               </svg>
               Email Us
             </button>
-            <button className="border-2 border-orange-500 text-orange-500 hover:bg-[#ED7319]  hover:text-white px-8 py-3 rounded-full font-bold transition">
+            <button className="border-2 border-orange-500 text-primary hover:bg-primary  hover:text-white px-8 py-3 rounded-full font-bold transition">
               Chat With Support
             </button>
           </div>
@@ -351,7 +351,7 @@ export default function ContactUs() {
               <button
                 type="submit"
                 disabled={formStatus === "loading"}
-                className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-60 text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2"
+                className="w-full bg-primary hover:bg-primary/90 disabled:opacity-60 text-white py-3 rounded-lg font-bold transition flex items-center justify-center gap-2"
               >
                 {formStatus === "loading" ? (
                   <>

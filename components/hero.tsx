@@ -23,7 +23,7 @@ export default function Hero() {
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-5">
               Delicious Food,
               <br />
-              <span className="text-[#ED7319]">Delivered Fast</span>
+              <span className="text-primary">Delivered Fast</span>
             </h1>
 
             <p className="text-gray-300 text-lg mb-10 leading-relaxed max-w-lg">
@@ -32,12 +32,12 @@ export default function Hero() {
             </p>
 
             <div className="flex flex-wrap gap-3">
-              <a href="https://qr1.be/6UYZ">
-                <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors flex items-center gap-2">
+              <a href="https://qr1.be/6UYZ" target="_blank" rel="noopener noreferrer">
+                <button className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors flex items-center gap-2">
                   Order Now <ArrowRight size={18} />
                 </button>
               </a>
-              <a href="https://qr1.be/6UYZ">
+              <a href="https://qr1.be/6UYZ" target="_blank" rel="noopener noreferrer">
                 <button className="border-2 border-white/40 hover:border-white hover:bg-white/10 text-white font-semibold px-8 py-3.5 rounded-lg transition-colors">
                   Book a Table
                 </button>
@@ -47,15 +47,15 @@ export default function Hero() {
             {/* Trust signals */}
             <div className="flex flex-wrap gap-6 mt-10 pt-8 border-t border-white/10">
               <div className="flex items-center gap-2 text-gray-300 text-sm">
-                <Clock size={16} className="text-[#ED7319]" />
+                <Clock size={16} className="text-primary" />
                 <span>Delivery in 30 min</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300 text-sm">
-                <Star size={16} className="text-[#ED7319]" />
+                <Star size={16} className="text-primary" />
                 <span>50,000+ happy customers</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300 text-sm">
-                <ShieldCheck size={16} className="text-[#ED7319]" />
+                <ShieldCheck size={16} className="text-primary" />
                 <span>Verified restaurants only</span>
               </div>
             </div>
@@ -63,7 +63,7 @@ export default function Hero() {
 
           {/* Right — stat cards */}
           <div className="hidden md:grid grid-cols-2 gap-4">
-            <div className="bg-[#ED7319] rounded-2xl p-7 flex flex-col justify-center">
+            <div className="bg-primary rounded-2xl p-7 flex flex-col justify-center">
               <p className="text-4xl font-bold text-white mb-1">50K+</p>
               <p className="text-orange-100 text-sm">Happy Customers</p>
             </div>

@@ -53,20 +53,24 @@ export default function Footer() {
               catering and homemade food — all in one place, across Bangladesh.
             </p>
             <div className="flex flex-col gap-2.5 sm:flex-row">
-              <Link
+              <a
                 href="https://qr1.be/6UYZ"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-800 transition-colors shadow-sm"
               >
                 <GooglePlay />
                 Google Play
-              </Link>
-              <Link
+              </a>
+              <a
                 href="https://qr1.be/6UYZ"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2.5 rounded-xl border border-gray-300 bg-white hover:bg-gray-50 px-4 py-2.5 text-sm font-semibold text-gray-800 transition-colors shadow-sm"
               >
                 <Apple />
                 App Store
-              </Link>
+              </a>
             </div>
           </div>
 
@@ -92,13 +96,14 @@ export default function Footer() {
                     type="email"
                     placeholder="your@email.com"
                     required
+                    aria-label="Email address for newsletter"
                     disabled={subscribeStatus === "loading"}
                     className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-orange-400 disabled:opacity-60"
                   />
                   <Button
                     type="submit"
                     disabled={subscribeStatus === "loading"}
-                    className="rounded-lg bg-[#ED7319] hover:bg-orange-600 px-5 py-2.5 font-semibold text-white disabled:opacity-60 transition-colors"
+                    className="rounded-lg bg-primary hover:bg-primary/90 px-5 py-2.5 font-semibold text-white disabled:opacity-60 transition-colors"
                   >
                     {subscribeStatus === "loading" ? "..." : "Subscribe"}
                   </Button>
@@ -108,15 +113,16 @@ export default function Footer() {
 
             <div className="flex gap-4 mt-1">
               {[
-                { Icon: Facebook, href: "#" },
-                { Icon: X, href: "#" },
-                { Icon: Instagram, href: "#" },
-                { Icon: Linkedin, href: "#" },
-                { Icon: Youtube, href: "#" },
-              ].map(({ Icon, href }, i) => (
+                { Icon: Facebook, href: "#", label: "Facebook" },
+                { Icon: X, href: "#", label: "X (Twitter)" },
+                { Icon: Instagram, href: "#", label: "Instagram" },
+                { Icon: Linkedin, href: "#", label: "LinkedIn" },
+                { Icon: Youtube, href: "#", label: "YouTube" },
+              ].map(({ Icon, href, label }, i) => (
                 <a
                   key={i}
                   href={href}
+                  aria-label={label}
                   className="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500 hover:text-orange-500 hover:border-orange-200 transition-colors"
                 >
                   <Icon size={16} />

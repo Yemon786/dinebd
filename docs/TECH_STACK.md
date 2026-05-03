@@ -54,9 +54,9 @@ All Radix packages are installed — used by shadcn/ui:
 
 ## Design System
 
-- **Primary color:** `#ff7f00` (orange) / `#ED7319` (used in components)
-- **Accent:** Same orange
-- **CSS Variables:** OKLCH color space via Tailwind v4
+- **Primary color:** `#ED7319` (canonical brand orange — used via `text-primary` / `bg-primary`)
+- **Accent:** Same as primary
+- **CSS Variables:** `--primary: #ED7319` in `:root`, mapped via Tailwind v4 `@theme`
 - **Border radius:** 0.625rem base
 - **Font:** Geist sans + Geist Mono
 - **Dark mode:** CSS variables defined but not actively used

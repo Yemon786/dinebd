@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { ChevronDown, CheckCircle2, TrendingUp, Target, Zap, CreditCard, BarChart2, Truck } from "lucide-react";
 import Link from "next/link";
 
@@ -22,12 +23,12 @@ export default function PartnerWithUs() {
       <section className="bg-gray-900 text-white py-20 md:py-28 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+            <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4">
               For Restaurants
             </span>
             <h1 className="text-4xl md:text-6xl font-bold mb-5 leading-tight">
               Partner With{" "}
-              <span className="text-[#ED7319]">Dinebd</span>
+              <span className="text-primary">Dinebd</span>
             </h1>
             <p className="text-gray-400 text-lg mb-8 leading-relaxed">
               Grow your business with online orders and delivery. Reach thousands
@@ -35,7 +36,7 @@ export default function PartnerWithUs() {
             </p>
             <div className="flex flex-wrap gap-4">
               <Link href="/partner-form">
-                <button className="bg-[#ED7319] hover:bg-orange-600 text-white px-8 py-3.5 rounded-lg font-semibold transition-colors">
+                <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3.5 rounded-lg font-semibold transition-colors">
                   Apply Now
                 </button>
               </Link>
@@ -48,9 +49,11 @@ export default function PartnerWithUs() {
           </div>
           <div className="hidden md:block">
             <div className="rounded-2xl overflow-hidden shadow-2xl">
-              <img
+              <Image
                 src="/partner_us.png"
                 alt="Partner with Dinebd"
+                width={600}
+                height={400}
                 className="w-full h-80 object-cover"
               />
             </div>
@@ -86,7 +89,7 @@ export default function PartnerWithUs() {
                 className="bg-white border border-gray-200 rounded-xl p-8 hover:shadow-md hover:border-orange-200 transition-all group"
               >
                 <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-5 transition-colors">
-                  <Icon className="text-orange-500" size={22} />
+                  <Icon className="text-primary" size={22} />
                 </div>
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{description}</p>
@@ -116,7 +119,7 @@ export default function PartnerWithUs() {
               { number: 4, title: "Start Receiving Orders" },
             ].map((step, idx) => (
               <div key={idx} className="relative text-center">
-                <div className="w-16 h-16 bg-[#ED7319] text-white rounded-2xl flex items-center justify-center font-bold text-xl mx-auto mb-4 shadow-md">
+                <div className="w-16 h-16 bg-primary text-white rounded-2xl flex items-center justify-center font-bold text-xl mx-auto mb-4 shadow-md">
                   {step.number}
                 </div>
                 <p className="text-gray-900 font-semibold text-sm">{step.title}</p>
@@ -153,7 +156,7 @@ export default function PartnerWithUs() {
                 className="flex items-center justify-between bg-white p-5 rounded-xl border border-gray-200 hover:border-orange-200 transition-colors"
               >
                 <div className="flex items-center gap-4">
-                  <CheckCircle2 className="w-6 h-6 text-orange-500" />
+                  <CheckCircle2 className="w-6 h-6 text-primary" />
                   <span className="font-semibold text-gray-900">{item}</span>
                 </div>
                 <span className="px-3 py-1 bg-orange-100 text-orange-700 text-xs font-semibold rounded-full">
@@ -176,7 +179,7 @@ export default function PartnerWithUs() {
             Dinebd. Join them today.
           </p>
           <Link href="/partner-form">
-            <button className="bg-[#ED7319] hover:bg-orange-600 text-white px-10 py-4 rounded-lg font-bold text-lg transition-colors">
+            <button className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-lg font-bold text-lg transition-colors">
               Apply Now — It&apos;s Free
             </button>
           </Link>
@@ -209,7 +212,7 @@ export default function PartnerWithUs() {
                     {item.question}
                   </span>
                   <ChevronDown
-                    className={`w-5 h-5 text-orange-500 transition-transform flex-shrink-0 ml-3 ${
+                    className={`w-5 h-5 text-primary transition-transform flex-shrink-0 ml-3 ${
                       openFaq === idx ? "rotate-180" : ""
                     }`}
                   />

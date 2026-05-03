@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function RiderSection() {
@@ -7,16 +8,18 @@ export default function RiderSection() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Image */}
           <div className="flex justify-center">
-            <img
+            <Image
               src="/rider_us.jpg"
               alt="Become a Dinebd Rider"
+              width={500}
+              height={500}
               className="w-full max-w-md rounded-2xl shadow-xl"
             />
           </div>
 
           {/* Right Content */}
           <div>
-            <span className="text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-3 block">
+            <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
               For Riders
             </span>
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
@@ -41,7 +44,7 @@ export default function RiderSection() {
               ))}
             </ul>
             <Link href="/rider">
-              <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+              <button className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
                 Learn More
               </button>
             </Link>

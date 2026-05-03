@@ -35,7 +35,7 @@ export default function Services() {
         <div className="text-center mb-14">
           <h2 className="text-4xl font-bold text-gray-900 mb-3">
             Everything You Need,{" "}
-            <span className="text-orange-500">One App</span>
+            <span className="text-primary">One App</span>
           </h2>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Five ways to enjoy great food — all seamlessly connected.
@@ -51,7 +51,7 @@ export default function Services() {
                 className="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-md hover:border-orange-200 transition-all flex flex-col items-center text-center group"
               >
                 <div className="w-14 h-14 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-4 transition-colors">
-                  <Icon className="text-orange-500" size={26} />
+                  <Icon className="text-primary" size={26} />
                 </div>
                 <h3 className="text-sm font-bold text-gray-900 mb-2">
                   {service.title}

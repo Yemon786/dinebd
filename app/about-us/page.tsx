@@ -23,13 +23,13 @@ export default function AboutUs() {
       {/* Page hero */}
       <section className="bg-gray-900 text-white py-24 px-4">
         <div className="max-w-3xl mx-auto text-center">
-          <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4">
             Our Story
           </span>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold leading-tight mb-6">
             Connecting Food Lovers
             <br />
-            <span className="text-[#ED7319]">With Restaurants</span>
+            <span className="text-primary">With Restaurants</span>
           </h1>
           <p className="text-gray-400 text-lg leading-relaxed">
             Delivering convenience, quality, and reliability across Bangladesh.
@@ -42,7 +42,7 @@ export default function AboutUs() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-3">
-              Five Services, <span className="text-orange-500">One App</span>
+              Five Services, <span className="text-primary">One App</span>
             </h2>
             <p className="text-gray-500 max-w-xl mx-auto">
               Everything you need to enjoy great food — all in one place.
@@ -61,7 +61,7 @@ export default function AboutUs() {
                 className="bg-gray-50 border border-gray-200 rounded-xl p-6 flex flex-col items-center text-center hover:shadow-md hover:border-orange-200 transition-all group"
               >
                 <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-3 transition-colors">
-                  <Icon className="text-orange-500" size={22} />
+                  <Icon className="text-primary" size={22} />
                 </div>
                 <p className="font-semibold text-gray-900 text-sm">{label}</p>
               </div>
@@ -167,7 +167,7 @@ export default function AboutUs() {
                 className="bg-white border border-gray-200 rounded-xl p-8 hover:shadow-md hover:border-orange-200 transition-all group"
               >
                 <div className="w-12 h-12 bg-orange-50 group-hover:bg-orange-100 rounded-xl flex items-center justify-center mb-5 transition-colors">
-                  <Icon className="text-orange-500" size={22} />
+                  <Icon className="text-primary" size={22} />
                 </div>
                 <h3 className="font-bold text-gray-900 mb-2">{title}</h3>
                 <p className="text-gray-500 text-sm leading-relaxed">{desc}</p>
@@ -189,7 +189,7 @@ export default function AboutUs() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link href="/partner-with-us">
-              <button className="bg-[#ED7319] hover:bg-orange-600 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
+              <button className="bg-primary hover:bg-primary/90 text-white font-semibold px-8 py-3 rounded-lg transition-colors">
                 Become a Partner
               </button>
             </Link>

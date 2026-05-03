@@ -48,14 +48,14 @@
 > **Branch:** `feat/image-optimization`  
 > **Estimated effort:** ~1 hour
 
-- [ ] **T-005:** Replace `<img>` with `next/image` in shared components
+- [x] **T-005:** Replace `<img>` with `next/image` in shared components
   - Files: `components/app-download.tsx` (line 57), `components/partner-section.tsx` (line 44), `components/rider-section.tsx` (line 10)
   - Add `import Image from "next/image"` to each file
   - Set explicit `width` and `height` props on each `<Image>`
   - Keep existing `alt` text and `className` values
   - ✅ **Done when:** No `<img>` tags remain in `components/` directory (verify with `grep -rn '<img' components/`)
 
-- [ ] **T-006:** Replace `<img>` with `next/image` in page files
+- [x] **T-006:** Replace `<img>` with `next/image` in page files
   - Files: `app/rider/page.tsx` (line 41), `app/partner-with-us/page.tsx` (line 51)
   - Same pattern: `import Image from "next/image"`, set `width`/`height`, keep `alt`/`className`
   - ✅ **Done when:** `grep -rn '<img' app/` returns zero results
@@ -83,7 +83,7 @@
 > **Branch:** `feat/seo-a11y`  
 > **Estimated effort:** ~45 minutes
 
-- [ ] **T-009:** Add metadata exports to all pages missing them
+- [x] **T-009:** Add metadata exports to all pages missing them
   - Add `export const metadata = { title: "...", description: "..." }` to:
     - `app/contact-us/page.tsx` → title: `"Contact Us | DineBD"`
     - `app/faq/page.tsx` → title: `"FAQ | DineBD"`
@@ -95,13 +95,13 @@
   - Each description must be 50-160 characters summarizing the page content
   - ✅ **Done when:** Every `app/*/page.tsx` has a metadata export. Verify with: `grep -rn 'export const metadata' app/`
 
-- [ ] **T-010:** Secure all external links
+- [x] **T-010:** Secure all external links
   - Add `target="_blank"` and `rel="noopener noreferrer"` to every `<a href="https://...">` tag
   - Files to check: `components/hero.tsx`, `components/header.tsx`, `components/footer.tsx`, `components/app-download.tsx`
   - Also check `app/rider/page.tsx` and `app/partner-with-us/page.tsx` for any external links
   - ✅ **Done when:** `grep -rn 'href="https://' components/ app/ --include='*.tsx'` — every result has `rel="noopener noreferrer"`
 
-- [ ] **T-011:** Add ARIA labels to interactive elements
+- [x] **T-011:** Add ARIA labels to interactive elements
   - Footer social icons: add `aria-label="Facebook"`, `aria-label="Instagram"`, etc. to each icon link in `components/footer.tsx`
   - Newsletter form: add `aria-label="Email address"` to the email input, `aria-label="Subscribe to newsletter"` to the button
   - Footer navigation links: verify they have descriptive text (already good — just audit)
@@ -116,20 +116,20 @@
 > **Branch:** `feat/design-unification`  
 > **Estimated effort:** ~1 hour
 
-- [ ] **T-012:** Define canonical brand color in CSS variables
+- [x] **T-012:** Define canonical brand color in CSS variables
   - In `app/globals.css`, set `:root { --primary: #ED7319; --accent: #ED7319; }`
   - Ensure the Tailwind `@theme` section maps `--color-primary` to `var(--primary)`
   - Document the chosen hex in `docs/TECH_STACK.md` under Design System
   - ✅ **Done when:** `globals.css` has one definitive orange value for `--primary` and `--accent`
 
-- [ ] **T-013:** Replace all hardcoded colors with design tokens
+- [x] **T-013:** Replace all hardcoded colors with design tokens
   - Replace every `#ED7319` with `text-primary` / `bg-primary` / `border-primary`
   - Replace every `text-orange-500` / `bg-orange-500` with `text-primary` / `bg-primary`
   - Replace every `text-orange-600` / `bg-orange-600` / `hover:bg-orange-600` with appropriate hover variant
   - Files affected: `hero.tsx`, `header.tsx`, `footer.tsx`, `not-found.tsx`, `services.tsx`, `testimonials.tsx`, `app-download.tsx`, `why-choose.tsx`, `cookie-banner.tsx`
   - ✅ **Done when:** `grep -rn '#ED7319\|orange-500\|orange-600' components/ app/ --include='*.tsx'` returns 0 results
 
-- [ ] **T-014:** Responsive & typography polish pass
+- [x] **T-014:** Responsive & typography polish pass
   - Test every page at 375px (mobile), 768px (tablet), 1280px (desktop)
   - Verify no text overflow, no horizontal scroll, no overlapping elements
   - Verify consistent font sizes match Geist hierarchy (headings bold, body regular)

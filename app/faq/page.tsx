@@ -137,7 +137,7 @@ export default function FAQPage() {
       {/* Header */}
       <div className="bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-          <span className="inline-block text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-4">
+          <span className="inline-block text-primary font-semibold text-sm uppercase tracking-widest mb-4">
             Support
           </span>
           <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -169,7 +169,7 @@ export default function FAQPage() {
           {searchTerm && (
             <p className="text-sm text-gray-500 mt-2">
               Found{" "}
-              <span className="font-semibold text-orange-500">
+              <span className="font-semibold text-primary">
                 {filteredItems.length}
               </span>{" "}
               result{filteredItems.length !== 1 ? "s" : ""}
@@ -196,7 +196,7 @@ export default function FAQPage() {
                   </span>
                   <ChevronDown
                     size={18}
-                    className={`text-orange-500 transition-transform flex-shrink-0 ml-4 ${
+                    className={`text-primary transition-transform flex-shrink-0 ml-4 ${
                       openItems.includes(item.id) ? "rotate-180" : ""
                     }`}
                   />
@@ -218,7 +218,7 @@ export default function FAQPage() {
               </p>
               <button
                 onClick={() => setSearchTerm("")}
-                className="px-6 py-2.5 rounded-lg bg-[#ED7319] hover:bg-orange-600 text-white text-sm font-semibold transition-colors"
+                className="px-6 py-2.5 rounded-lg bg-primary hover:bg-primary/90 text-white text-sm font-semibold transition-colors"
               >
                 Clear Search
               </button>
@@ -236,7 +236,7 @@ export default function FAQPage() {
           </p>
           <a
             href="mailto:support@dinebd.com"
-            className="inline-block px-8 py-3 rounded-lg bg-[#ED7319] hover:bg-orange-600 text-white font-semibold transition-colors"
+            className="inline-block px-8 py-3 rounded-lg bg-primary hover:bg-primary/90 text-white font-semibold transition-colors"
           >
             Email Support
           </a>

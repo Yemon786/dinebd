@@ -29,7 +29,7 @@ export default function Testimonials() {
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="text-4xl font-bold text-gray-900 mb-3 text-center">
-          What Our <span className="text-orange-500">Community</span> Says
+          What Our <span className="text-primary">Community</span> Says
         </h2>
         <p className="text-gray-400 text-lg mb-16 text-center">
           Trusted by customers, restaurants, and riders across Bangladesh
@@ -46,7 +46,7 @@ export default function Testimonials() {
                   <Star
                     key={i}
                     size={16}
-                    className="text-orange-500 fill-orange-500"
+                    className="text-primary fill-primary"
                   />
                 ))}
               </div>

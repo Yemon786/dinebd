@@ -24,7 +24,7 @@ export default function PartnerPageClient() {
       <section className="relative w-full overflow-hidden bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 pt-12 pb-16 sm:pt-16 sm:pb-20">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -right-40 top-0 w-80 h-80 bg-orange-400 rounded-full opacity-30 blur-3xl" />
-          <div className="absolute -left-40 bottom-0 w-80 h-80 bg-orange-500 rounded-full opacity-30 blur-3xl" />
+          <div className="absolute -left-40 bottom-0 w-80 h-80 bg-primary rounded-full opacity-30 blur-3xl" />
         </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">

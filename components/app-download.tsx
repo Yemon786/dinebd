@@ -1,3 +1,4 @@
+import Image from "next/image";
 import GooglePlay from "./ui/google-play";
 import Apple from "./ui/apple";
 
@@ -8,7 +9,7 @@ export default function AppDownload() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <div>
-            <span className="text-[#ED7319] font-semibold text-sm uppercase tracking-widest mb-3 block">
+            <span className="text-primary font-semibold text-sm uppercase tracking-widest mb-3 block">
               Mobile App
             </span>
             <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-5 leading-tight">
@@ -23,6 +24,8 @@ export default function AppDownload() {
             <div className="flex flex-wrap gap-3">
               <a
                 href="https://qr1.be/6UYZ"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-5 py-3.5 rounded-xl transition-colors"
               >
                 <GooglePlay />
@@ -37,6 +40,8 @@ export default function AppDownload() {
               </a>
               <a
                 href="https://qr1.be/6UYZ"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-white px-5 py-3.5 rounded-xl transition-colors"
               >
                 <Apple />
@@ -54,9 +59,11 @@ export default function AppDownload() {
 
           {/* Right — App Mockup */}
           <div className="flex justify-center">
-            <img
+            <Image
               src="/app.png"
               alt="Dinebd App"
+              width={400}
+              height={800}
               className="w-full max-w-xs md:max-w-sm drop-shadow-2xl"
             />
           </div>
