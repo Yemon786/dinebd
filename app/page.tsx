@@ -8,7 +8,7 @@ import WhyChoose from "@/components/why-choose";
 import Testimonials from "@/components/testimonials";
 
 export const metadata = {
-  title: "Dinebd - Food at your fingerprint",
+  title: "Dinebd - Food at your fingertips",
   description:
     "Order delicious food from your favorite restaurants and get it delivered fast with Dinebd",
 };
