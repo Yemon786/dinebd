@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local-only project docs & agent workflows
+/docs/
+/.agents/
+install-a-team.md
