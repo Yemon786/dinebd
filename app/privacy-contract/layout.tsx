@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Vendor Contract | DineBD",
+  title: "Vendor Contract Portal | DineBD",
   description:
-    "Review and sign the DineBD vendor partnership agreement. Terms, conditions, and service expectations for restaurant partners.",
+    "Complete the DineBD vendor partnership agreement. Fill in your business details, review terms, and download your signed contract PDF.",
 };
 
 export default function PrivacyContractLayout({
