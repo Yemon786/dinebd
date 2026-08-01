@@ -44,6 +44,13 @@ const styles = StyleSheet.create({
     marginTop: 8,
     color: "#444",
   },
+  subsubTitle: {
+    fontSize: 9,
+    fontFamily: "Helvetica-Bold",
+    marginBottom: 2,
+    marginTop: 6,
+    color: "#444",
+  },
   row: {
     flexDirection: "row",
     marginBottom: 2,
@@ -269,8 +276,8 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           <Text style={styles.sectionTitle}>1. PARTIES TO THIS AGREEMENT</Text>
           <View style={{ marginBottom: 8 }}>
             <Text style={styles.paragraph}>
-              This Vendor Partnership Agreement ("Agreement") made and entered
-              into on {formatDate(signatures.vendor.date)} by and between:
+              This Vendor Partnership ("Agreement") made and entered into on{" "}
+              {formatDate(signatures.vendor.date)} by and between:
             </Text>
           </View>
 
@@ -346,6 +353,11 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text style={styles.label}>Cuisine Type:</Text>
             <Text style={styles.value}>{vendorInfo.cuisineType || "N/A"}</Text>
           </View>
+          <Text style={[styles.paragraph, { marginTop: 4 }]}>
+            Collectively referred to as "The Parties", and individually as a
+            "Party"
+          </Text>
+
           <View style={styles.row}>
             <Text style={styles.label}>Service Types:</Text>
             <Text style={styles.value}>
@@ -365,10 +377,10 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             Vendor Opening Time and Closing Time
           </Text>
           <Text style={styles.paragraph}>
-            Please provide accurate and complete billing details. This
-            information will be used to process payments, commissions, and
-            reimbursements. All fields must be filled carefully to ensure timely
-            and correct payment processing.
+            Below listed the vendor's opening and closing times. This is
+            important to handle accurate information, as these times will be
+            displayed on the Dinebd platform for customer notifications and
+            deliveries.
           </Text>
           <View style={styles.operatingHoursTable}>
             <View style={styles.operatingHoursRow}>
@@ -489,7 +501,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             Vendor and Dinebd Limited based on this contract:
           </Text>
 
-          <Text style={styles.sectionTitle}>2.1.1 Dinebd Platform Fee</Text>
+          <Text style={styles.subsectionTitle}>2.1.1 Dinebd Platform Fee</Text>
 
           <Text style={styles.paragraph}>
             The following platform fees percentages have been agreed between the
@@ -582,7 +594,11 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             subject to a maximum of 25%.
           </Text>
 
-          <Text style={styles.subsectionTitle}>2.4 Taxation Policy</Text>
+          <Text style={styles.paragraph}>
+            <Text style={styles.bold}>Taxation Policy:</Text> This section
+            outlines the policy regarding the payment and responsibility for
+            government taxes as it pertains to Dinebd and its vendors.
+          </Text>
           <Text style={styles.paragraph}>
             <Text style={styles.bold}>A. Government Tax Payments:</Text> All
             government taxes will be handled separately by each involved party
@@ -590,20 +606,147 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             {"\n\n"}
           </Text>
           <Text style={styles.paragraph}>
-            <Text style={styles.bold}>B. Income Tax Responsibilities:</Text>
+            <Text style={styles.bold}>
+              B. Income Tax and VAT Responsibilities:
+            </Text>
+          </Text>
+
+          <Text style={styles.subsubTitle}>B.1 Payment Settlement</Text>
+          <Text style={styles.paragraph}>
+            Customers place orders and make payments through the Dinebd
+            platform. Dinebd collects payments on behalf of registered
+            Vendors, deducts the agreed platform commission, and settles the
+            remaining payable amount to the Vendor according to the agreed
+            settlement process.
+          </Text>
+
+          <Text style={styles.subsubTitle}>B.2 VAT Responsibility</Text>
+          <Text style={styles.paragraph}>
+            The Vendor acknowledges that the sale of food products through the
+            Dinebd platform is made by the Vendor, and not by Dinebd.
+          </Text>
+          <Text style={styles.paragraph}>
+            The Vendor shall be responsible for:
           </Text>
           <Text style={styles.listItem}>
-            - Dinebd: Dinebd will be responsible for paying income tax on the
-            commission it collects from the platform fee profit.
+            - Ensuring VAT compliance related to food sales.
           </Text>
           <Text style={styles.listItem}>
-            - Vendors: Vendors will be responsible for paying income tax on
-            their total revenue, excluding the platform fee and delivery fee.
+            - Maintaining a valid BIN where required under Bangladesh VAT law.
           </Text>
           <Text style={styles.listItem}>
-            - Compliance Both Dinebd and vendors must ensure compliance with
-            this policy and adhere to the relevant tax regulations according to
-            Bangladesh Government Law.
+            - Managing VAT records and obligations related to its food
+            business.
+          </Text>
+          <Text style={styles.paragraph}>
+            Any VAT collected from customers on food sales belongs to the
+            Vendor and will be transferred to the Vendor through the
+            settlement process.
+          </Text>
+          <Text style={styles.paragraph}>
+            Dinebd shall only be responsible for VAT obligations related to
+            its own platform commission, service fees, or other applicable
+            services, where required under Bangladesh VAT law.
+          </Text>
+
+          <Text style={styles.subsubTitle}>
+            B.3 Rider Delivery Fee Responsibility
+          </Text>
+          <Text style={styles.paragraph}>
+            The rider delivery fee paid by customers is separate from the food
+            order value.
+          </Text>
+          <Text style={styles.listItem}>
+            - The rider delivery fee belongs to the rider/service provider.
+          </Text>
+          <Text style={styles.listItem}>
+            - Dinebd does not consider rider delivery fees as its income.
+          </Text>
+          <Text style={styles.listItem}>
+            - Dinebd does not retain any portion of the rider delivery fee
+            unless separately agreed under a service arrangement.
+          </Text>
+
+          <Text style={styles.subsubTitle}>
+            B.4 Income Tax Responsibilities
+          </Text>
+          <Text style={[styles.paragraph, styles.bold]}>
+            Dinebd Responsibilities
+          </Text>
+          <Text style={styles.paragraph}>Dinebd shall be responsible for:</Text>
+          <Text style={styles.listItem}>
+            - Declaring income earned from platform commissions, service fees,
+            and other business income.
+          </Text>
+          <Text style={styles.listItem}>
+            - Paying applicable income tax on its business profits according
+            to Bangladesh Government tax laws.
+          </Text>
+          <Text style={styles.listItem}>
+            - Maintaining proper financial records as required by applicable
+            regulations.
+          </Text>
+          <Text style={[styles.paragraph, styles.bold]}>
+            Vendor Responsibilities
+          </Text>
+          <Text style={styles.paragraph}>
+            The Vendor shall be responsible for:
+          </Text>
+          <Text style={styles.listItem}>
+            - Declaring income earned from food sales through the Dinebd
+            platform.
+          </Text>
+          <Text style={styles.listItem}>
+            - Paying applicable income tax on its own business income.
+          </Text>
+          <Text style={styles.listItem}>
+            - Maintaining proper accounting records related to its food
+            business.
+          </Text>
+          <Text style={styles.paragraph}>
+            The following shall not be considered part of Vendor income:
+          </Text>
+          <Text style={styles.listItem}>
+            - Dinebd's platform commission retained by Dinebd.
+          </Text>
+          <Text style={styles.listItem}>
+            - Rider delivery fees paid to riders/service providers.
+          </Text>
+
+          <Text style={styles.subsubTitle}>B.5 Compliance Responsibility</Text>
+          <Text style={styles.paragraph}>Both Dinebd and Vendors agree to:</Text>
+          <Text style={styles.listItem}>
+            - Maintain accurate financial and transaction records.
+          </Text>
+          <Text style={styles.listItem}>
+            - Follow all applicable VAT, income tax, and business regulations
+            of the Government of Bangladesh.
+          </Text>
+          <Text style={styles.listItem}>
+            - Cooperate with any lawful tax and regulatory requirements.
+          </Text>
+
+          <Text style={styles.subsubTitle}>B.6 Vendor Confirmation</Text>
+          <Text style={styles.paragraph}>
+            By signing this Contract Agreement, the Vendor confirms and
+            acknowledges that:
+          </Text>
+          <Text style={styles.listItem}>
+            - The Vendor is the seller of food products listed on the Dinebd
+            platform.
+          </Text>
+          <Text style={styles.listItem}>
+            - The Vendor accepts responsibility for VAT, income tax,
+            licensing, and other legal obligations related to its food
+            business.
+          </Text>
+          <Text style={styles.listItem}>
+            - The Vendor understands that Dinebd acts only as a technology
+            platform and payment facilitator.
+          </Text>
+          <Text style={styles.listItem}>
+            - The Vendor agrees to pay Dinebd the agreed platform
+            commission/service fee.
             {"\n\n"}
           </Text>
           <Text style={styles.paragraph}>
@@ -854,15 +997,6 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           </Text>
           <Text style={styles.paragraph}>
             <Text style={styles.bold}>Homemade Pickup Orders:</Text> At the time
-            of pickup, you will receive the cash amount excluding the Dinebd
-            platform fee and any discounts offered by Dinebd. You are
-            responsible for accepting the amount shown in the app. Any remaining
-            balance due from Dinebd will be paid to you later as per Dinebd's
-            payment disbursement policy.
-          </Text>
-
-          <Text style={styles.paragraph}>
-            <Text style={styles.bold}>Homemade Pickup Orders:</Text> At the time
             of pickup, you will pay you the cash amount excluding the Dinebd
             platform fee and any discounts offered by Dinebd. You are
             responsible for accepting the amount shown in the app. Any remaining
@@ -1007,8 +1141,9 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             better respond to your individual needs
           </Text>
           <Text style={styles.listItem}>
-            - To improve our website offers based on the information and
-            feedback we receive from you
+            - To improve our website(s) (we continually strive to improve our
+            website offers based on the information and feedback we receive
+            from you)
           </Text>
           <Text style={styles.listItem}>
             - To improve customer service (your information helps us to more
@@ -1071,7 +1206,8 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             to trusted third parties who help operate our website or services
             and are bound by confidentiality. We may also disclose information
             to comply with the law, enforce site policies, or protect ours and
-            others' rights and safety.
+            others' rights and safety. Please note that we are not responsible
+            for the content but welcome feedback.
           </Text>
 
           <Text style={styles.subsectionTitle}>Data Retention</Text>
@@ -1203,7 +1339,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           </Text>
 
           <Text style={styles.subsectionTitle}>
-            5. Payment and Earnings Policy Summary
+            5. Payment and Earnings Policy Summary for Restaurants
           </Text>
           <Text style={styles.paragraph}>
             By agreeing to partner with Dinebd, you acknowledge and accept the
@@ -1264,6 +1400,10 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text style={styles.bold}>
               Payment Policy for Cash and Partial Payment Orders:
             </Text>
+          </Text>
+          <Text style={styles.paragraph}>
+            Please read this section carefully, as it outlines how Dinebd
+            processes payments for orders involving cash or partial payments.
           </Text>
           <View style={{ flexDirection: "row", marginBottom: 3 }}>
             <Text
@@ -1477,9 +1617,9 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           </Text>
 
           <Text style={styles.paragraph}>
-            By signing this Agreement, the Vendor confirms that they have read,
-            understood, and agreed to all the terms and conditions set forth in
-            this Dinebd Limited Vendor Partnership Agreement.
+            By signing this Agreement, Vendor hereby confirms that they have
+            read, understood, and agreed to all of the terms and conditions set
+            forth in this Dinebd Limited Vendor Partnership Agreement.
           </Text>
 
           <Text style={styles.paragraph}>
@@ -1519,9 +1659,9 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           </Text>
 
           <Text style={styles.paragraph}>
-            <Text style={styles.bold}>IN WITNESS WHEREOF, </Text>the Parties
-            have executed this Vendor Partnership Agreement as of the Effective
-            Date below.
+            <Text style={styles.bold}>IN WITNESS WHEREOF, </Text>Parties have
+            executed this Vendor Partnership Agreement as of the Effective Date
+            below.
           </Text>
 
           <View style={styles.signatureBlock}>

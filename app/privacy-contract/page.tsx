@@ -1420,38 +1420,268 @@ export default function VendorOnboarding() {
                     </p>
                   </div>
 
-                  {/* Income Tax Responsibilities */}
+                  {/* Income Tax and VAT Responsibilities */}
                   <div>
                     <h3 className="font-bold text-gray-800 mb-3">
-                      B. Income Tax Responsibilities:
+                      B. Income Tax and VAT Responsibilities:
                     </h3>
-                    <ul className="space-y-2 text-sm text-gray-700">
-                      <li className="flex gap-3">
-                        <span className="">•</span>
-                        <span>
-                          Dinebd: Dinebd will be responsible for paying income
-                          tax on the commission it collects from the platform
-                          fee profit.
-                        </span>
-                      </li>
-                      <li className="flex gap-3">
-                        <span className="">•</span>
-                        <span>
-                          Vendors: Vendors will be responsible for paying income
-                          tax on their total revenue, excluding the platform fee
-                          and delivery fee.
-                        </span>
-                      </li>
-                      <li className="flex gap-3">
-                        <span className="">•</span>
-                        <span>
-                          Compliance Both Dinebd and vendors must ensure
-                          compliance with this policy and adhere to the relevant
-                          tax regulations according to Bangladesh Government
-                          Law.
-                        </span>
-                      </li>
-                    </ul>
+
+                    <div className="space-y-5">
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.1 Payment Settlement
+                        </h4>
+                        <p className="text-sm text-gray-700">
+                          Customers place orders and make payments through the
+                          Dinebd platform. Dinebd collects payments on behalf
+                          of registered Vendors, deducts the agreed platform
+                          commission, and settles the remaining payable amount
+                          to the Vendor according to the agreed settlement
+                          process.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.2 VAT Responsibility
+                        </h4>
+                        <p className="text-sm text-gray-700 mb-2">
+                          The Vendor acknowledges that the sale of food
+                          products through the Dinebd platform is made by the
+                          Vendor, and not by Dinebd.
+                        </p>
+                        <p className="text-sm text-gray-700 mb-2">
+                          The Vendor shall be responsible for:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700 mb-2">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Ensuring VAT compliance related to food sales.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Maintaining a valid BIN where required under
+                              Bangladesh VAT law.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Managing VAT records and obligations related to
+                              its food business.
+                            </span>
+                          </li>
+                        </ul>
+                        <p className="text-sm text-gray-700 mb-2">
+                          Any VAT collected from customers on food sales
+                          belongs to the Vendor and will be transferred to the
+                          Vendor through the settlement process.
+                        </p>
+                        <p className="text-sm text-gray-700">
+                          Dinebd shall only be responsible for VAT obligations
+                          related to its own platform commission, service
+                          fees, or other applicable services, where required
+                          under Bangladesh VAT law.
+                        </p>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.3 Rider Delivery Fee Responsibility
+                        </h4>
+                        <p className="text-sm text-gray-700 mb-2">
+                          The rider delivery fee paid by customers is separate
+                          from the food order value.
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              The rider delivery fee belongs to the
+                              rider/service provider.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Dinebd does not consider rider delivery fees as
+                              its income.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Dinebd does not retain any portion of the rider
+                              delivery fee unless separately agreed under a
+                              service arrangement.
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.4 Income Tax Responsibilities
+                        </h4>
+                        <p className="text-sm font-semibold text-gray-800 mb-2">
+                          Dinebd Responsibilities
+                        </p>
+                        <p className="text-sm text-gray-700 mb-2">
+                          Dinebd shall be responsible for:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700 mb-3">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Declaring income earned from platform
+                              commissions, service fees, and other business
+                              income.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Paying applicable income tax on its business
+                              profits according to Bangladesh Government tax
+                              laws.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Maintaining proper financial records as required
+                              by applicable regulations.
+                            </span>
+                          </li>
+                        </ul>
+                        <p className="text-sm font-semibold text-gray-800 mb-2">
+                          Vendor Responsibilities
+                        </p>
+                        <p className="text-sm text-gray-700 mb-2">
+                          The Vendor shall be responsible for:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700 mb-3">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Declaring income earned from food sales through
+                              the Dinebd platform.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Paying applicable income tax on its own business
+                              income.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Maintaining proper accounting records related to
+                              its food business.
+                            </span>
+                          </li>
+                        </ul>
+                        <p className="text-sm text-gray-700 mb-2">
+                          The following shall not be considered part of
+                          Vendor income:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Dinebd's platform commission retained by
+                              Dinebd.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Rider delivery fees paid to riders/service
+                              providers.
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.5 Compliance Responsibility
+                        </h4>
+                        <p className="text-sm text-gray-700 mb-2">
+                          Both Dinebd and Vendors agree to:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Maintain accurate financial and transaction
+                              records.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Follow all applicable VAT, income tax, and
+                              business regulations of the Government of
+                              Bangladesh.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              Cooperate with any lawful tax and regulatory
+                              requirements.
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div>
+                        <h4 className="font-bold text-gray-800 mb-2">
+                          B.6 Vendor Confirmation
+                        </h4>
+                        <p className="text-sm text-gray-700 mb-2">
+                          By signing this Contract Agreement, the Vendor
+                          confirms and acknowledges that:
+                        </p>
+                        <ul className="space-y-2 text-sm text-gray-700">
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              The Vendor is the seller of food products listed
+                              on the Dinebd platform.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              The Vendor accepts responsibility for VAT,
+                              income tax, licensing, and other legal
+                              obligations related to its food business.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              The Vendor understands that Dinebd acts only as
+                              a technology platform and payment facilitator.
+                            </span>
+                          </li>
+                          <li className="flex gap-3">
+                            <span className="font-bold">•</span>
+                            <span>
+                              The Vendor agrees to pay Dinebd the agreed
+                              platform commission/service fee.
+                            </span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
                   </div>
 
                   {/* Amendments */}
