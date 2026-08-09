@@ -140,7 +140,7 @@ export default function InsuranceSection({
       </div>
 
       <div className="text-sm text-gray-700 leading-relaxed">
-        <p className="font-semibold text-gray-800 mb-2">Important Notes:</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-2">Important Notes:</p>
         <ol className="list-decimal list-inside space-y-1">
           <li>All information is mandatory except for the NID/Birth Certificate number.</li>
           <li>Please provide the Full Name and Date of Birth exactly as per the NID.</li>
@@ -153,14 +153,14 @@ export default function InsuranceSection({
       {/* Annexure 1 */}
       <div className="text-sm text-gray-700 leading-relaxed space-y-6 border-t border-gray-200 pt-6">
         <div>
-          <p className="font-bold text-gray-800">Annexure 1</p>
-          <p className="font-semibold text-gray-800 underline">
+          <p className="text-xs font-bold uppercase tracking-wider text-primary">Annexure 1</p>
+          <p className="font-semibold text-gray-800 mt-0.5">
             Applicable for Subscription of Rider Accident Care (The Service)
           </p>
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-2">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-2 pl-3 border-l-[3px] border-primary/50">
             DESCRIPTION OF THE SERVICE
           </h4>
           <p className="mb-3">
@@ -188,7 +188,7 @@ export default function InsuranceSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-2">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-2 pl-3 border-l-[3px] border-primary/50">
             INSURANCE COVERAGE PROVIDER
           </h4>
           <p>
@@ -202,14 +202,14 @@ export default function InsuranceSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-2">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-2 pl-3 border-l-[3px] border-primary/50">
             SUBSCRIPTION FEE
           </h4>
           <p>BDT. 349 (taka three hundred and forty-nine only) per Insured Member Per Year.</p>
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-2">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-2 pl-3 border-l-[3px] border-primary/50">
             PAYMENT OF SUBSCRIPTION FEE
           </h4>
           <p>
@@ -220,7 +220,7 @@ export default function InsuranceSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-2">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-2 pl-3 border-l-[3px] border-primary/50">
             CLAIM SUBMISSION PROCESS
           </h4>
           <p className="mb-3">
@@ -249,11 +249,11 @@ export default function InsuranceSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 underline mb-3">
+          <h4 className="font-bold text-gray-900 text-[13px] uppercase tracking-wide mb-3 pl-3 border-l-[3px] border-primary/50">
             INSURANCE POLICY DETAILS
           </h4>
 
-          <p className="font-semibold text-gray-800 underline mb-1">1. Definitions</p>
+          <p className="font-semibold text-gray-800 mb-1 pl-3 border-l-2 border-gray-300">1. Definitions</p>
           <p className="mb-2">
             <span className="font-semibold">"Insured Person"</span> means
             the person who has been registered or enrolled under this
@@ -292,7 +292,7 @@ export default function InsuranceSection({
             contractors and not Bimafy Ltd.
           </p>
 
-          <p className="font-semibold text-gray-800 underline mb-1">
+          <p className="font-semibold text-gray-800 mb-1 pl-3 border-l-2 border-gray-300">
             2. Eligibility and Terms
           </p>
           <p className="mb-2">
@@ -310,7 +310,7 @@ export default function InsuranceSection({
             <li>All insurance coverage is valid for 365 days from the date of registration.</li>
           </ol>
 
-          <p className="font-semibold text-gray-800 underline mb-2">
+          <p className="font-semibold text-gray-800 mb-2 pl-3 border-l-2 border-gray-300">
             3. Insurance Benefit Schedule
           </p>
           <p className="mb-3">
@@ -349,7 +349,7 @@ export default function InsuranceSection({
             </table>
           </div>
 
-          <p className="font-semibold text-gray-800 underline mb-1">
+          <p className="font-semibold text-gray-800 mb-1 pl-3 border-l-2 border-gray-300">
             4. Waiting Period
           </p>
           <p className="mb-4">
@@ -359,7 +359,7 @@ export default function InsuranceSection({
             is not covered under this policy.
           </p>
 
-          <p className="font-semibold text-gray-800 underline mb-1">
+          <p className="font-semibold text-gray-800 mb-1 pl-3 border-l-2 border-gray-300">
             5. Exclusions
           </p>
           <p className="mb-2">
@@ -399,7 +399,7 @@ export default function InsuranceSection({
             </li>
           </ol>
 
-          <p className="font-semibold text-gray-800 underline mb-2">
+          <p className="font-semibold text-gray-800 mb-2 pl-3 border-l-2 border-gray-300">
             6. Sub-Limits for Accidental Hospitalization (Including Day-Care
             Treatment)
           </p>
@@ -444,7 +444,7 @@ export default function InsuranceSection({
             </table>
           </div>
 
-          <p className="font-semibold text-gray-800 underline mb-2">
+          <p className="font-semibold text-gray-800 mb-2 pl-3 border-l-2 border-gray-300">
             7. Claim Documentation
           </p>
           <p className="mb-2">
@@ -482,7 +482,7 @@ export default function InsuranceSection({
             <li>Any other supporting documents (if required)</li>
           </ol>
 
-          <p className="font-semibold text-gray-800 underline mb-1">
+          <p className="font-semibold text-gray-800 mb-1 pl-3 border-l-2 border-gray-300">
             Claim Decision, and Settlement
           </p>
           <p className="mb-2">
@@ -510,7 +510,7 @@ export default function InsuranceSection({
 
       {/* Declaration & signature */}
       <div className="border-t border-gray-200 pt-6 space-y-4">
-        <p className="font-semibold text-gray-800">Employee Declaration:</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-primary">Employee Declaration:</p>
         <p className="text-sm text-gray-700 leading-relaxed">
           I hereby declare that the information provided above is accurate
           and complete to the best of my knowledge. I understand that

@@ -26,7 +26,7 @@ export default function RegistrationSection({
 
       {/* Section A */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section A: Personal Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -117,7 +117,7 @@ export default function RegistrationSection({
 
       {/* Section B */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section B: Contact Details
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -179,7 +179,7 @@ export default function RegistrationSection({
 
       {/* Section C */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section C: Emergency Contact
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -221,7 +221,7 @@ export default function RegistrationSection({
 
       {/* Section D */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section D: Vehicle Information
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -302,21 +302,15 @@ export default function RegistrationSection({
 
       {/* Section E */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section E: Banking / Payment Details (bKash Only)
         </h3>
         <div className="space-y-4">
-          <label className="flex items-center gap-2 cursor-pointer text-sm text-gray-700">
-            <input
-              type="checkbox"
-              checked={data.paymentMethodBkash}
-              onChange={(e) =>
-                onChange({ paymentMethodBkash: e.target.checked })
-              }
-              className="w-4 h-4 accent-primary cursor-pointer"
-            />
-            Choose your Payment Method: bKash
-          </label>
+          <CheckboxAgreement
+            checked={data.paymentMethodBkash}
+            onChange={(checked) => onChange({ paymentMethodBkash: checked })}
+            label="Choose your Payment Method: bKash"
+          />
           <div>
             <Label>Confirm your bKash Account Type</Label>
             <RadioOptionGroup
@@ -349,31 +343,21 @@ export default function RegistrationSection({
             </div>
           </div>
           <div className="pt-2">
-            <p className="text-sm font-semibold text-gray-800 mb-2">
-              Confirmation:
+            <p className="text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">
+              Confirmation
             </p>
-            <label className="flex items-start gap-3 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={data.bkashConfirmed}
-                onChange={(e) =>
-                  onChange({ bkashConfirmed: e.target.checked })
-                }
-                className="w-5 h-5 mt-0.5 accent-primary cursor-pointer"
-              />
-              <span className="text-sm text-gray-700">
-                I confirm that the bKash account details provided are
-                accurate and authorized for receiving payments, and I agree
-                to Dinebd's terms and conditions.
-              </span>
-            </label>
+            <CheckboxAgreement
+              checked={data.bkashConfirmed}
+              onChange={(checked) => onChange({ bkashConfirmed: checked })}
+              label="I confirm that the bKash account details provided are accurate and authorized for receiving payments, and I agree to Dinebd's terms and conditions."
+            />
           </div>
         </div>
       </div>
 
       {/* Section F */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section F: Supporting Documents (Submission Status)
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -400,7 +384,7 @@ export default function RegistrationSection({
 
       {/* Section G */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section G: Additional Information
         </h3>
         <div className="grid grid-cols-1 gap-4">
@@ -460,7 +444,7 @@ export default function RegistrationSection({
 
       {/* Section H */}
       <div className="space-y-4">
-        <h3 className="text-base font-bold text-primary border-b-2 border-primary pb-2">
+        <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
           Section H: Declaration
         </h3>
         <p className="text-sm text-gray-700 leading-relaxed">
@@ -507,8 +491,8 @@ export default function RegistrationSection({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
-          <p className="text-sm font-bold text-gray-800">
+        <div className="mt-6 p-4 sm:p-5 rounded-xl bg-gray-50 border border-gray-200 space-y-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-500">
             For Office Use Only
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

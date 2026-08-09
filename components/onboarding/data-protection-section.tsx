@@ -23,7 +23,7 @@ export default function DataProtectionSection({
       </p>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">1. Purpose</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">1. Purpose</h4>
         <p>
           This policy outlines how Dinebd collects, uses, stores, protects,
           and discloses personal data of riders engaged on its platform. We
@@ -33,7 +33,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">2. Scope</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">2. Scope</h4>
         <p>
           This policy applies to all personal and sensitive information
           collected from riders, both during registration and throughout
@@ -42,7 +42,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           3. What information we collect
         </h4>
         <p className="mb-2">
@@ -116,7 +116,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           4. Why we collect your information
         </h4>
         <p className="mb-2">
@@ -147,7 +147,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           5. How we protect your data
         </h4>
         <p className="mb-2">
@@ -185,7 +185,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           6. Data retention policy
         </h4>
         <ul className="list-disc list-inside space-y-1">
@@ -210,7 +210,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">7. Your rights</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">7. Your rights</h4>
         <p className="mb-2">
           Under this policy and applicable Bangladeshi law, riders have the
           right to:
@@ -225,7 +225,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">8. Disclosure of data</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">8. Disclosure of data</h4>
         <p className="mb-2">
           We do <span className="font-semibold">not sell or rent rider data</span>.
           However, information may be shared:
@@ -245,7 +245,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">9. Policy updates</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">9. Policy updates</h4>
         <p className="mb-2">
           This policy may be updated periodically. Riders will be informed
           of major changes via:
@@ -262,7 +262,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">10. Contact us</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">10. Contact us</h4>
         <p className="mb-1">
           If you have any questions or requests related to your personal
           data, please contact:
@@ -273,7 +273,7 @@ export default function DataProtectionSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">11. Acknowledgment</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">11. Acknowledgment</h4>
         <p>
           By registering as a rider and using the Dinebd platform, you
           acknowledge that you have read and agreed to the terms of this
@@ -300,7 +300,7 @@ export default function DataProtectionSection({
           request deletion of my personal data.
         </p>
 
-        <p className="font-bold text-gray-800 mb-3">Rider information</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Rider information</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="dpFullName">Full Name</Label>
@@ -350,8 +350,8 @@ export default function DataProtectionSection({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
-          <p className="font-bold text-gray-800">For Dinebd use only</p>
+        <div className="mt-6 p-4 sm:p-5 rounded-xl bg-gray-50 border border-gray-200 space-y-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-500">For Dinebd use only</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="dpOfficeVerifiedBy">Verified by (Full Name)</Label>

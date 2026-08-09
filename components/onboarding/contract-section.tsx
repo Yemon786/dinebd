@@ -18,7 +18,7 @@ export default function ContractSection({
   return (
     <div className="space-y-8 text-sm text-gray-700 leading-relaxed">
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">1. Introduction</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">1. Introduction</h4>
         <p>
           Welcome to Dinebd. By becoming a food delivery rider with Dinebd,
           you agree to comply with the following Terms and Conditions. These
@@ -31,7 +31,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           2. Eligibility and Registration
         </h4>
         <p className="font-semibold text-gray-800">Eligibility:</p>
@@ -65,7 +65,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           3. Vehicle Requirements
         </h4>
         <p className="font-semibold text-gray-800">Vehicle Condition:</p>
@@ -96,7 +96,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           4. Rider Responsibilities
         </h4>
         <p className="font-semibold text-gray-800">Timeliness:</p>
@@ -159,7 +159,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           5. Payment and Earnings
         </h4>
         <p className="font-semibold text-gray-800">Earnings Structure:</p>
@@ -197,7 +197,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">6. App Usage</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">6. App Usage</h4>
         <p className="font-semibold text-gray-800">Account Security:</p>
         <ul className="list-disc list-inside space-y-1 mb-3">
           <li>
@@ -221,7 +221,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           7. Delivery Procedures
         </h4>
         <p className="font-semibold text-gray-800">Order Pickup:</p>
@@ -254,7 +254,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           8. Policy on Food Delivery Cash/Partial Payment and Collection
         </h4>
         <p className="font-semibold text-gray-800">Order Payment:</p>
@@ -306,7 +306,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">9. Dispute Resolution</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">9. Dispute Resolution</h4>
         <p className="font-semibold text-gray-800">Customer Issues:</p>
         <ul className="list-disc list-inside space-y-1 mb-3">
           <li>
@@ -329,7 +329,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           10. Termination of Agreement
         </h4>
         <p className="font-semibold text-gray-800">Voluntary Termination:</p>
@@ -354,7 +354,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">11. Employment Status</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">11. Employment Status</h4>
         <ul className="list-disc list-inside space-y-1">
           <li>
             As a rider for Dinebd, you are classified as self-employed. This
@@ -369,7 +369,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">12. Changes to Terms</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">12. Changes to Terms</h4>
         <ul className="list-disc list-inside space-y-1">
           <li>
             Dinebd reserves the right to modify these Terms and Conditions
@@ -384,7 +384,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           13. Dinebd rider community guidelines
         </h4>
         <p className="mb-3">
@@ -602,7 +602,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">
           14. Dinebd Rider Payment Policy
         </h4>
         <p className="font-semibold text-gray-800">Important Rules</p>
@@ -784,7 +784,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">16. Governing law</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">16. Governing law</h4>
         <ul className="list-disc list-inside space-y-1">
           <li>These Terms and Conditions are governed by the laws of Bangladesh.</li>
           <li>
@@ -795,7 +795,7 @@ export default function ContractSection({
       </div>
 
       <div>
-        <h4 className="font-bold text-gray-800 mb-2">17. Contact information</h4>
+        <h4 className="font-bold text-gray-900 text-[15px] mb-2 pl-3 border-l-[3px] border-primary/50">17. Contact information</h4>
         <p className="mb-2">
           For any questions, concerns, or support, please contact Dinebd at
           the following:
@@ -828,7 +828,7 @@ export default function ContractSection({
           my access to the Dinebd platform.
         </p>
 
-        <p className="font-bold text-gray-800 mb-3">Rider Information</p>
+        <p className="text-xs font-bold uppercase tracking-wider text-primary mb-3">Rider Information</p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <Label htmlFor="contractFullName">Full Name</Label>
@@ -870,8 +870,8 @@ export default function ContractSection({
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-gray-200 space-y-4">
-          <p className="font-bold text-gray-800">For Dinebd Use Only</p>
+        <div className="mt-6 p-4 sm:p-5 rounded-xl bg-gray-50 border border-gray-200 space-y-4">
+          <p className="text-xs font-bold uppercase tracking-wider text-gray-500">For Dinebd Use Only</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="contractOfficeVerifiedBy">

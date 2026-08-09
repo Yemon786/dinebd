@@ -25,37 +25,50 @@ import type {
 // produced broken glyphs when the content was rendered as native PDF text.
 
 const styles = StyleSheet.create({
-  page: { padding: 40, fontSize: 9, fontFamily: "Helvetica", lineHeight: 1.35 },
+  page: { padding: 40, fontSize: 9, fontFamily: "Helvetica", lineHeight: 1.4, color: "#222" },
   docHeader: {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 14,
+    marginBottom: 6,
     color: "#ED7319",
+  },
+  docHeaderRule: {
+    borderBottomWidth: 2,
+    borderBottomColor: "#ED7319",
+    marginBottom: 14,
   },
   header: {
     fontSize: 13,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 4,
+    marginBottom: 10,
     color: "#ED7319",
+    paddingBottom: 6,
+    borderBottomWidth: 1.5,
+    borderBottomColor: "#ED7319",
   },
   subheader: { fontSize: 9, color: "#666", marginBottom: 12 },
-  section: { marginBottom: 12 },
+  section: { marginBottom: 16 },
   sectionTitle: {
     fontSize: 10.5,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 6,
-    marginTop: 10,
-    color: "#333",
-    borderBottomWidth: 1,
-    borderBottomColor: "#ED7319",
-    paddingBottom: 3,
+    marginBottom: 8,
+    marginTop: 12,
+    color: "#1a1a1a",
+    backgroundColor: "#FFF3E8",
+    borderLeftWidth: 3,
+    borderLeftColor: "#ED7319",
+    paddingVertical: 5,
+    paddingLeft: 8,
   },
   subsectionTitle: {
     fontSize: 9.5,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 3,
-    marginTop: 7,
-    color: "#444",
+    marginBottom: 5,
+    marginTop: 10,
+    color: "#333",
+    paddingBottom: 3,
+    borderBottomWidth: 0.75,
+    borderBottomColor: "#eee",
   },
   subsectionTitleUnderline: {
     fontSize: 9.5,
@@ -65,39 +78,46 @@ const styles = StyleSheet.create({
     color: "#444",
     textDecoration: "underline",
   },
-  row: { flexDirection: "row", marginBottom: 2 },
+  row: { flexDirection: "row", paddingVertical: 3, borderBottomWidth: 0.5, borderBottomColor: "#f0f0f0" },
   label: { width: 150, fontFamily: "Helvetica-Bold", color: "#555" },
-  value: { flex: 1, color: "#333" },
-  paragraph: { marginBottom: 4, textAlign: "justify", color: "#333" },
+  value: { flex: 1, color: "#222" },
+  paragraph: { marginBottom: 6, textAlign: "justify", color: "#333", lineHeight: 1.4 },
   bold: { fontFamily: "Helvetica-Bold" },
-  list: { marginBottom: 4 },
-  listRow: { flexDirection: "row", marginBottom: 2, paddingLeft: 4 },
-  listMarker: { width: 14, color: "#333" },
+  list: { marginBottom: 5 },
+  listRow: { flexDirection: "row", marginBottom: 3, paddingLeft: 4 },
+  listMarker: { width: 14, color: "#ED7319", fontFamily: "Helvetica-Bold" },
   listText: { flex: 1, color: "#333", textAlign: "justify" },
-  table: { marginTop: 4, marginBottom: 8, borderWidth: 1, borderColor: "#ccc" },
+  table: { marginTop: 4, marginBottom: 10, borderWidth: 1, borderColor: "#ddd", borderRadius: 4, overflow: "hidden" },
   tableHeaderRow: { flexDirection: "row", backgroundColor: "#ED7319" },
   tableHeaderCell: {
     color: "white",
     fontFamily: "Helvetica-Bold",
     fontSize: 7.5,
-    padding: 4,
+    padding: 5,
     borderRightWidth: 1,
     borderRightColor: "#fff",
   },
-  tableDataRow: { flexDirection: "row", borderTopWidth: 1, borderTopColor: "#ccc" },
+  tableDataRow: { flexDirection: "row", borderTopWidth: 1, borderTopColor: "#ddd" },
+  tableDataRowAlt: { backgroundColor: "#FAFAFA" },
   tableDataCell: {
     fontSize: 7.5,
-    padding: 4,
+    padding: 5,
     color: "#333",
     borderRightWidth: 1,
-    borderRightColor: "#ccc",
+    borderRightColor: "#eee",
   },
   signatureBlock: {
-    marginTop: 12,
+    marginTop: 14,
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  signatureBox: { width: "45%" },
+  signatureBox: {
+    width: "45%",
+    borderWidth: 0.75,
+    borderColor: "#eee",
+    borderRadius: 4,
+    padding: 8,
+  },
   signatureLabel: { fontFamily: "Helvetica-Bold", marginBottom: 6, color: "#333" },
   signatureImage: {
     width: 120,
@@ -112,10 +132,12 @@ const styles = StyleSheet.create({
   signatureDate: { color: "#555", fontSize: 8 },
   agreementBox: {
     backgroundColor: "#FFF6ED",
-    borderRadius: 3,
-    padding: 7,
+    borderRadius: 4,
+    borderLeftWidth: 3,
+    borderLeftColor: "#ED7319",
+    padding: 8,
     marginTop: 4,
-    marginBottom: 6,
+    marginBottom: 8,
   },
   statusAccepted: {
     fontSize: 8,
@@ -140,6 +162,9 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 8,
     color: "#999",
+    paddingTop: 6,
+    borderTopWidth: 0.5,
+    borderTopColor: "#e5e5e5",
   },
 });
 
@@ -199,7 +224,7 @@ function FieldRow({ label, value }: { label: string; value?: string }) {
 
 function AgreementLine({ checked, text }: { checked: boolean; text: string }) {
   return (
-    <View style={styles.agreementBox}>
+    <View style={styles.agreementBox} wrap={false}>
       <Text style={checked ? styles.statusAccepted : styles.statusNotAccepted}>
         {checked ? "Accepted" : "Not Accepted"}
       </Text>
@@ -221,7 +246,7 @@ function SingleSignature({
 }) {
   const hasImage = typeof signature === "string" && signature;
   return (
-    <View style={{ marginTop: 12, width: "45%" }}>
+    <View style={{ marginTop: 12, width: "45%" }} wrap={false} minPresenceAhead={90}>
       <Text style={styles.signatureLabel}>{label}</Text>
       {hasImage ? (
         <Image src={signature as string} style={styles.signatureImage} />
@@ -264,7 +289,7 @@ function SignaturePair({
     );
 
   return (
-    <View style={styles.signatureBlock}>
+    <View style={styles.signatureBlock} wrap={false} minPresenceAhead={90}>
       <View style={styles.signatureBox}>
         <Text style={styles.signatureLabel}>{leftLabel}</Text>
         {renderSig(leftSignature)}
@@ -584,8 +609,8 @@ function BenefitTable() {
         <Text style={[styles.tableHeaderCell, { flex: 2 }]}>Type of Coverage</Text>
         <Text style={[styles.tableHeaderCell, { flex: 1 }]}>Sum Assured/Coverage Amount</Text>
       </View>
-      {BENEFIT_SCHEDULE.map((row) => (
-        <View key={row.coverage} style={styles.tableDataRow}>
+      {BENEFIT_SCHEDULE.map((row, i) => (
+        <View key={row.coverage} style={sx(styles.tableDataRow, i % 2 === 1 && styles.tableDataRowAlt)} wrap={false}>
           <Text style={[styles.tableDataCell, { flex: 2 }]}>{row.coverage}</Text>
           <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.amount}</Text>
         </View>
@@ -602,8 +627,8 @@ function SubLimitsTable() {
         <Text style={[styles.tableHeaderCell, { flex: 3 }]}>Description of Accidental Injury due to Accident</Text>
         <Text style={[styles.tableHeaderCell, { flex: 1 }]}>Sum Assured/Coverage Amount (BDT.)</Text>
       </View>
-      {SUB_LIMITS.map((row) => (
-        <View key={row.type} style={styles.tableDataRow}>
+      {SUB_LIMITS.map((row, i) => (
+        <View key={row.type} style={sx(styles.tableDataRow, i % 2 === 1 && styles.tableDataRowAlt)} wrap={false}>
           <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.type}</Text>
           <Text style={[styles.tableDataCell, { flex: 3 }]}>{row.description}</Text>
           <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.amount}</Text>
@@ -636,13 +661,14 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
       <Page size="A4" style={styles.page} wrap>
         <PageFooter />
         <Text style={styles.docHeader}>DINEBD RIDER ONBOARDING &amp; CONTRACT</Text>
+        <View style={styles.docHeaderRule} />
         <Text style={styles.header}>1. Rider Registration Form</Text>
         <Text style={styles.subheader}>
           Please complete this form carefully. All information will remain confidential and used only for official purposes.
         </Text>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section A: Personal Information</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section A: Personal Information</Text>
           <FieldRow label="Rider Full Name" value={r.fullName} />
           <FieldRow label="Gender" value={r.gender} />
           <FieldRow label="Date of Birth" value={dob} />
@@ -654,7 +680,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section B: Contact Details</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section B: Contact Details</Text>
           <FieldRow label="Home Address" value={r.homeAddress} />
           <FieldRow label="Mobile Number (+880)" value={r.mobileNumber} />
           <FieldRow label="Email Address" value={r.emailAddress} />
@@ -664,14 +690,14 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section C: Emergency Contact</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section C: Emergency Contact</Text>
           <FieldRow label="Emergency Contact Name" value={r.emergencyContactName} />
           <FieldRow label="Relation to Rider" value={r.emergencyContactRelation} />
           <FieldRow label="Emergency Contact Number (+880)" value={r.emergencyContactNumber} />
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section D: Vehicle Information</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section D: Vehicle Information</Text>
           <FieldRow label="Vehicle Type" value={r.vehicleType} />
           <FieldRow label="Vehicle Model" value={r.vehicleModel} />
           <FieldRow label="Vehicle Color" value={r.vehicleColor} />
@@ -682,8 +708,8 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <FieldRow label="Vehicle Insurance Submitted" value={r.vehicleInsuranceSubmitted} />
         </View>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section E: Banking / Payment Details (bKash Only)</Text>
+        <View style={styles.section} break>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section E: Banking / Payment Details (bKash Only)</Text>
           <AgreementLine checked={r.paymentMethodBkash} text="Choose your Payment Method: bKash" />
           <FieldRow label="Confirm your bKash Account Type" value={r.bkashAccountType} />
           <FieldRow label="bKash Number" value={r.bkashNumber} />
@@ -695,13 +721,13 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section F: Supporting Documents (Submission Status)</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section F: Supporting Documents (Submission Status)</Text>
           <FieldRow label="NID / Passport Picture Submitted" value={r.nidPictureSubmitted} />
           <FieldRow label="Recent Passport-size Photo Submitted" value={r.photoSubmitted} />
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section G: Additional Information</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section G: Additional Information</Text>
           <FieldRow label="How do you know about Dinebd?" value={r.howKnowDinebd} />
           <FieldRow label="Are you working with any other food delivery company?" value={r.workingWithOtherCompany} />
           <FieldRow label="If Yes, please specify the company name" value={r.otherCompanyName} />
@@ -710,7 +736,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Section H: Declaration</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section H: Declaration</Text>
           <Text style={styles.paragraph}>
             I hereby declare that the information provided above is true and accurate. I agree to abide by
             Dinebd's Code of Conduct, Community Guidelines, and Terms of Employment, and authorize Dinebd to
@@ -743,7 +769,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={CONTRACT_BLOCKS} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Acknowledgment and Signature</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Acknowledgment and Signature</Text>
           <Text style={styles.paragraph}>
             By agreeing to these terms, you acknowledge that you have read, understood, and accepted them.
             Thank you for being a part of Dinebd.
@@ -782,7 +808,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={DATA_PROTECTION_BLOCKS} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Agreement &amp; Signature</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Agreement &amp; Signature</Text>
           <Text style={styles.paragraph}>
             I, the undersigned, confirm that I have read, understood, and agreed to abide by the Dinebd Rider
             Data Protection Policy. I acknowledge how my personal data will be collected, used, stored, and
@@ -867,7 +893,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <FieldRow label="Other Notes" value={ins.otherNotes} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Important Notes:</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Important Notes:</Text>
           <Blocks
             blocks={[
               {
@@ -892,7 +918,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={INSURANCE_BLOCKS_PART3} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Employee Declaration:</Text>
+          <Text style={styles.sectionTitle} minPresenceAhead={36}>Employee Declaration:</Text>
           <Text style={styles.paragraph}>
             I hereby declare that the information provided above is accurate and complete to the best of my
             knowledge. I understand that providing false information may lead to rejection of my insurance

@@ -54,7 +54,7 @@ export default function EquipmentSection({
 
       <div className="space-y-4 text-sm text-gray-700 leading-relaxed">
         <div>
-          <h4 className="font-bold text-gray-800 mb-2">
+          <h4 className="font-bold text-gray-900 mb-2 pl-3 border-l-[3px] border-primary/50">
             ইকুইপমেন্ট ব্যবহারের শর্তাবলী:
           </h4>
           <ul className="list-disc list-inside space-y-1">
@@ -65,7 +65,7 @@ export default function EquipmentSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 mb-2">ইকুইপমেন্ট নেওয়ার শর্ত:</h4>
+          <h4 className="font-bold text-gray-900 mb-2 pl-3 border-l-[3px] border-primary/50">ইকুইপমেন্ট নেওয়ার শর্ত:</h4>
           <ul className="list-disc list-inside space-y-1">
             <li>
               রাইডারকে প্রতিষ্ঠানের ইকুইপমেন্ট নেওয়ার জন্য ইকুইপমেন্ট এর মোট
@@ -76,7 +76,7 @@ export default function EquipmentSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 mb-2">
+          <h4 className="font-bold text-gray-900 mb-2 pl-3 border-l-[3px] border-primary/50">
             ইকুইপমেন্ট ফেরত দেওয়ার শর্ত:
           </h4>
           <ul className="list-disc list-inside space-y-1">
@@ -89,7 +89,7 @@ export default function EquipmentSection({
         </div>
 
         <div>
-          <h4 className="font-bold text-gray-800 mb-2">চুক্তির মেয়াদ:</h4>
+          <h4 className="font-bold text-gray-900 mb-2 pl-3 border-l-[3px] border-primary/50">চুক্তির মেয়াদ:</h4>
           <p>এই চুক্তি ইকুইপমেন্ট ফেরত দেওয়া পর্যন্ত কার্যকর থাকবে।</p>
         </div>
       </div>
