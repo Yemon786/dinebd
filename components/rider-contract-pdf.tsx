@@ -731,6 +731,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <FieldRow label="How do you know about Dinebd?" value={r.howKnowDinebd} />
           <FieldRow label="Are you working with any other food delivery company?" value={r.workingWithOtherCompany} />
           <FieldRow label="If Yes, please specify the company name" value={r.otherCompanyName} />
+          <FieldRow label="Do you have any disabilities?" value={r.hasDisability} />
           <FieldRow label="Any other information about yourself" value={r.otherInfoAboutSelf} />
           <FieldRow label="Any other comments?" value={r.otherComments} />
         </View>

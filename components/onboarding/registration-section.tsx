@@ -420,6 +420,15 @@ export default function RegistrationSection({
             />
           </div>
           <div>
+            <Label>Do you have any disabilities?</Label>
+            <RadioOptionGroup
+              name="hasDisability"
+              options={["Yes", "No"]}
+              value={data.hasDisability}
+              onChange={(v) => onChange({ hasDisability: v })}
+            />
+          </div>
+          <div>
             <Label htmlFor="regOtherInfo">
               Any other information about yourself
             </Label>

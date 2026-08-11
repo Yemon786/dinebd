@@ -36,6 +36,7 @@ export interface RegistrationData {
   howKnowDinebd: string;
   workingWithOtherCompany: string;
   otherCompanyName: string;
+  hasDisability: string;
   otherInfoAboutSelf: string;
   otherComments: string;
   declarationAgreed: boolean;
@@ -162,6 +163,7 @@ export const initialRiderOnboardingData: RiderOnboardingData = {
     howKnowDinebd: "",
     workingWithOtherCompany: "",
     otherCompanyName: "",
+    hasDisability: "",
     otherInfoAboutSelf: "",
     otherComments: "",
     declarationAgreed: false,
