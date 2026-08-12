@@ -96,6 +96,16 @@ export default function RegistrationSection({
             />
           </div>
           <div>
+            <Label htmlFor="regBirthCert">Birth Certificate Number</Label>
+            <Input
+              id="regBirthCert"
+              value={data.birthCertificateNumber}
+              onChange={(e) =>
+                onChange({ birthCertificateNumber: e.target.value })
+              }
+            />
+          </div>
+          <div>
             <Label htmlFor="regBlood">Blood Group</Label>
             <Input
               id="regBlood"
@@ -362,7 +372,7 @@ export default function RegistrationSection({
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <Label>NID / Passport Picture Submitted</Label>
+            <Label>NID / Passport / Birth Certificate Picture Submitted</Label>
             <RadioOptionGroup
               name="nidPictureSubmitted"
               options={["Yes", "No"]}

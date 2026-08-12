@@ -675,6 +675,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <FieldRow label="Age" value={r.age} />
           <FieldRow label="NID Number" value={r.nidNumber} />
           <FieldRow label="Passport Number (if available)" value={r.passportNumber} />
+          <FieldRow label="Birth Certificate Number" value={r.birthCertificateNumber} />
           <FieldRow label="Blood Group" value={r.bloodGroup} />
           <FieldRow label="Rider Picture Submitted" value={r.riderPictureSubmitted} />
         </View>
@@ -722,7 +723,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section F: Supporting Documents (Submission Status)</Text>
-          <FieldRow label="NID / Passport Picture Submitted" value={r.nidPictureSubmitted} />
+          <FieldRow label="NID / Passport / Birth Certificate Picture Submitted" value={r.nidPictureSubmitted} />
           <FieldRow label="Recent Passport-size Photo Submitted" value={r.photoSubmitted} />
         </View>
 

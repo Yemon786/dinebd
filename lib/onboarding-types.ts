@@ -7,6 +7,7 @@ export interface RegistrationData {
   age: string;
   nidNumber: string;
   passportNumber: string;
+  birthCertificateNumber: string;
   bloodGroup: string;
   riderPictureSubmitted: string;
   homeAddress: string;
@@ -134,6 +135,7 @@ export const initialRiderOnboardingData: RiderOnboardingData = {
     age: "",
     nidNumber: "",
     passportNumber: "",
+    birthCertificateNumber: "",
     bloodGroup: "",
     riderPictureSubmitted: "",
     homeAddress: "",
