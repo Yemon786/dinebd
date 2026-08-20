@@ -25,7 +25,7 @@ import type {
 // produced broken glyphs when the content was rendered as native PDF text.
 
 const styles = StyleSheet.create({
-  page: { padding: 40, fontSize: 9, fontFamily: "Helvetica", lineHeight: 1.4, color: "#222" },
+  page: { padding: 44, fontSize: 9, fontFamily: "Helvetica", lineHeight: 1.4, color: "#222" },
   docHeader: {
     fontSize: 16,
     fontFamily: "Helvetica-Bold",
@@ -35,65 +35,75 @@ const styles = StyleSheet.create({
   docHeaderRule: {
     borderBottomWidth: 2,
     borderBottomColor: "#ED7319",
-    marginBottom: 14,
+    marginBottom: 16,
   },
   header: {
     fontSize: 13,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 10,
+    marginBottom: 12,
     color: "#ED7319",
     paddingBottom: 6,
     borderBottomWidth: 1.5,
     borderBottomColor: "#ED7319",
   },
-  subheader: { fontSize: 9, color: "#666", marginBottom: 12 },
-  section: { marginBottom: 16 },
+  subheader: { fontSize: 9, color: "#666", marginBottom: 16, lineHeight: 1.45 },
+  section: { marginBottom: 20 },
   sectionTitle: {
     fontSize: 10.5,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 8,
-    marginTop: 12,
+    marginBottom: 10,
+    marginTop: 0,
     color: "#1a1a1a",
     backgroundColor: "#FFF3E8",
     borderLeftWidth: 3,
     borderLeftColor: "#ED7319",
-    paddingVertical: 5,
-    paddingLeft: 8,
+    paddingVertical: 6,
+    paddingLeft: 9,
   },
   subsectionTitle: {
     fontSize: 9.5,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 5,
-    marginTop: 10,
+    marginBottom: 6,
+    marginTop: 12,
     color: "#333",
-    paddingBottom: 3,
+    paddingBottom: 4,
     borderBottomWidth: 0.75,
     borderBottomColor: "#eee",
   },
   subsectionTitleUnderline: {
     fontSize: 9.5,
     fontFamily: "Helvetica-Bold",
-    marginBottom: 3,
-    marginTop: 7,
+    marginBottom: 4,
+    marginTop: 9,
     color: "#444",
     textDecoration: "underline",
   },
-  row: { flexDirection: "row", paddingVertical: 3, borderBottomWidth: 0.5, borderBottomColor: "#f0f0f0" },
-  label: { width: 150, fontFamily: "Helvetica-Bold", color: "#555" },
-  value: { flex: 1, color: "#222" },
-  paragraph: { marginBottom: 6, textAlign: "justify", color: "#333", lineHeight: 1.4 },
+  formCard: {
+    borderWidth: 0.75,
+    borderColor: "#e6e6e6",
+    borderRadius: 6,
+    backgroundColor: "#FCFCFC",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    marginVertical: 4,
+  },
+  row: { flexDirection: "row", paddingVertical: 4.5, borderBottomWidth: 0.5, borderBottomColor: "#f0f0f0" },
+  label: { width: 178, fontFamily: "Helvetica-Bold", color: "#555" },
+  value: { flex: 1, color: "#181818" },
+  mutedValue: { color: "#aaa", fontStyle: "italic" },
+  paragraph: { marginBottom: 7, textAlign: "justify", color: "#333", lineHeight: 1.45 },
   bold: { fontFamily: "Helvetica-Bold" },
-  list: { marginBottom: 5 },
-  listRow: { flexDirection: "row", marginBottom: 3, paddingLeft: 4 },
+  list: { marginBottom: 6 },
+  listRow: { flexDirection: "row", marginBottom: 4, paddingLeft: 4 },
   listMarker: { width: 14, color: "#ED7319", fontFamily: "Helvetica-Bold" },
   listText: { flex: 1, color: "#333", textAlign: "justify" },
-  table: { marginTop: 4, marginBottom: 10, borderWidth: 1, borderColor: "#ddd", borderRadius: 4, overflow: "hidden" },
+  table: { marginTop: 5, marginBottom: 12, borderWidth: 1, borderColor: "#ddd", borderRadius: 4, overflow: "hidden" },
   tableHeaderRow: { flexDirection: "row", backgroundColor: "#ED7319" },
   tableHeaderCell: {
     color: "white",
     fontFamily: "Helvetica-Bold",
     fontSize: 7.5,
-    padding: 5,
+    padding: 6,
     borderRightWidth: 1,
     borderRightColor: "#fff",
   },
@@ -101,43 +111,43 @@ const styles = StyleSheet.create({
   tableDataRowAlt: { backgroundColor: "#FAFAFA" },
   tableDataCell: {
     fontSize: 7.5,
-    padding: 5,
+    padding: 6,
     color: "#333",
     borderRightWidth: 1,
     borderRightColor: "#eee",
   },
   signatureBlock: {
-    marginTop: 14,
+    marginTop: 16,
     flexDirection: "row",
     justifyContent: "space-between",
   },
   signatureBox: {
     width: "45%",
     borderWidth: 0.75,
-    borderColor: "#eee",
-    borderRadius: 4,
-    padding: 8,
+    borderColor: "#e6e6e6",
+    borderRadius: 6,
+    padding: 10,
   },
-  signatureLabel: { fontFamily: "Helvetica-Bold", marginBottom: 6, color: "#333" },
+  signatureLabel: { fontFamily: "Helvetica-Bold", marginBottom: 7, color: "#333" },
   signatureImage: {
     width: 120,
     height: 40,
     objectFit: "contain",
     borderWidth: 1,
     borderColor: "#ccc",
-    marginBottom: 6,
+    marginBottom: 7,
   },
-  signatureLine: { borderBottomWidth: 1, borderBottomColor: "#333", marginBottom: 3, paddingBottom: 2 },
+  signatureLine: { borderBottomWidth: 1, borderBottomColor: "#333", marginBottom: 4, paddingBottom: 2 },
   signatureName: { fontFamily: "Helvetica-Bold", color: "#333" },
   signatureDate: { color: "#555", fontSize: 8 },
   agreementBox: {
     backgroundColor: "#FFF6ED",
-    borderRadius: 4,
+    borderRadius: 6,
     borderLeftWidth: 3,
     borderLeftColor: "#ED7319",
-    padding: 8,
+    padding: 9,
     marginTop: 4,
-    marginBottom: 8,
+    marginBottom: 9,
   },
   statusAccepted: {
     fontSize: 8,
@@ -153,12 +163,12 @@ const styles = StyleSheet.create({
     marginBottom: 3,
     textTransform: "uppercase",
   },
-  agreementText: { fontSize: 8.5, color: "#333", lineHeight: 1.3 },
+  agreementText: { fontSize: 8.5, color: "#333", lineHeight: 1.35 },
   footer: {
     position: "absolute",
     bottom: 20,
-    left: 40,
-    right: 40,
+    left: 44,
+    right: 44,
     textAlign: "center",
     fontSize: 8,
     color: "#999",
@@ -214,12 +224,17 @@ function Blocks({ blocks }: { blocks: Block[] }) {
 }
 
 function FieldRow({ label, value }: { label: string; value?: string }) {
+  const hasValue = !!(value && value.trim());
   return (
     <View style={styles.row}>
       <Text style={styles.label}>{label}:</Text>
-      <Text style={styles.value}>{value && value.trim() ? value : "N/A"}</Text>
+      <Text style={sx(styles.value, !hasValue && styles.mutedValue)}>{hasValue ? value : "N/A"}</Text>
     </View>
   );
+}
+
+function FieldCard({ children }: { children: React.ReactNode }) {
+  return <View style={styles.formCard}>{children}</View>;
 }
 
 function AgreementLine({ checked, text }: { checked: boolean; text: string }) {
@@ -651,6 +666,16 @@ interface RiderContractPDFProps {
   };
 }
 
+const formatTime = (value: string) => {
+  if (!value) return "";
+  const [hourStr, minuteStr] = value.split(":");
+  const hour = Number(hourStr);
+  if (Number.isNaN(hour) || !minuteStr) return value;
+  const period = hour >= 12 ? "PM" : "AM";
+  const hour12 = hour % 12 === 0 ? 12 : hour % 12;
+  return `${String(hour12).padStart(2, "0")}:${minuteStr} ${period}`;
+};
+
 const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
   const { registration: r, contract: c, dataProtection: dp, equipment: eq, insurance: ins, payment: pay } = data;
   const dob = [r.dobDay, r.dobMonth, r.dobYear].filter(Boolean).join("/");
@@ -669,52 +694,64 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section A: Personal Information</Text>
-          <FieldRow label="Rider Full Name" value={r.fullName} />
-          <FieldRow label="Gender" value={r.gender} />
-          <FieldRow label="Date of Birth" value={dob} />
-          <FieldRow label="Age" value={r.age} />
-          <FieldRow label="NID Number" value={r.nidNumber} />
-          <FieldRow label="Passport Number (if available)" value={r.passportNumber} />
-          <FieldRow label="Birth Certificate Number" value={r.birthCertificateNumber} />
-          <FieldRow label="Blood Group" value={r.bloodGroup} />
-          <FieldRow label="Rider Picture Submitted" value={r.riderPictureSubmitted} />
+          <FieldCard>
+            <FieldRow label="Rider Full Name" value={r.fullName} />
+            <FieldRow label="Gender" value={r.gender} />
+            <FieldRow label="Date of Birth" value={dob} />
+            <FieldRow label="Age" value={r.age} />
+            <FieldRow label="NID Number" value={r.nidNumber} />
+            <FieldRow label="Passport Number (if available)" value={r.passportNumber} />
+            <FieldRow label="Birth Certificate Number" value={r.birthCertificateNumber} />
+            <FieldRow label="Blood Group" value={r.bloodGroup} />
+            <FieldRow label="Rider Picture Submitted" value={r.riderPictureSubmitted} />
+            <FieldRow label="Daily Working Time — Start" value={formatTime(r.workStartTime)} />
+            <FieldRow label="Daily Working Time — Finish" value={formatTime(r.workFinishTime)} />
+          </FieldCard>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section B: Contact Details</Text>
-          <FieldRow label="Home Address" value={r.homeAddress} />
-          <FieldRow label="Mobile Number (+880)" value={r.mobileNumber} />
-          <FieldRow label="Email Address" value={r.emailAddress} />
-          <FieldRow label="Do you have a smartphone?" value={r.hasSmartphone} />
-          <FieldRow label="What phone do you use?" value={r.phoneModel} />
-          <FieldRow label="Which area are you interested in working in?" value={r.workAreaInterest} />
+          <FieldCard>
+            <FieldRow label="Home Address" value={r.homeAddress} />
+            <FieldRow label="Mobile Number (+880)" value={r.mobileNumber} />
+            <FieldRow label="Email Address" value={r.emailAddress} />
+            <FieldRow label="Do you have a smartphone?" value={r.hasSmartphone} />
+            <FieldRow label="What phone do you use?" value={r.phoneModel} />
+            <FieldRow label="Which area are you interested in working in?" value={r.workAreaInterest} />
+          </FieldCard>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section C: Emergency Contact</Text>
-          <FieldRow label="Emergency Contact Name" value={r.emergencyContactName} />
-          <FieldRow label="Relation to Rider" value={r.emergencyContactRelation} />
-          <FieldRow label="Emergency Contact Number (+880)" value={r.emergencyContactNumber} />
+          <FieldCard>
+            <FieldRow label="Emergency Contact Name" value={r.emergencyContactName} />
+            <FieldRow label="Relation to Rider" value={r.emergencyContactRelation} />
+            <FieldRow label="Emergency Contact Number (+880)" value={r.emergencyContactNumber} />
+          </FieldCard>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section D: Vehicle Information</Text>
-          <FieldRow label="Vehicle Type" value={r.vehicleType} />
-          <FieldRow label="Vehicle Model" value={r.vehicleModel} />
-          <FieldRow label="Vehicle Color" value={r.vehicleColor} />
-          <FieldRow label="Vehicle Registration Number (if applicable)" value={r.vehicleRegistrationNumber} />
-          <FieldRow label="License Number" value={r.licenseNumber} />
-          <FieldRow label="Vehicle Picture Submitted" value={r.vehiclePictureSubmitted} />
-          <FieldRow label="License Picture Submitted" value={r.licensePictureSubmitted} />
-          <FieldRow label="Vehicle Insurance Submitted" value={r.vehicleInsuranceSubmitted} />
+          <FieldCard>
+            <FieldRow label="Vehicle Type" value={r.vehicleType} />
+            <FieldRow label="Vehicle Model" value={r.vehicleModel} />
+            <FieldRow label="Vehicle Color" value={r.vehicleColor} />
+            <FieldRow label="Vehicle Registration Number (if applicable)" value={r.vehicleRegistrationNumber} />
+            <FieldRow label="License Number" value={r.licenseNumber} />
+            <FieldRow label="Vehicle Picture Submitted" value={r.vehiclePictureSubmitted} />
+            <FieldRow label="License Picture Submitted" value={r.licensePictureSubmitted} />
+            <FieldRow label="Vehicle Insurance Submitted" value={r.vehicleInsuranceSubmitted} />
+          </FieldCard>
         </View>
 
         <View style={styles.section} break>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section E: Banking / Payment Details (bKash Only)</Text>
           <AgreementLine checked={r.paymentMethodBkash} text="Choose your Payment Method: bKash" />
-          <FieldRow label="Confirm your bKash Account Type" value={r.bkashAccountType} />
-          <FieldRow label="bKash Number" value={r.bkashNumber} />
-          <FieldRow label="bKash Account Relation (Owner / Family Member / Others)" value={r.bkashAccountRelation} />
+          <FieldCard>
+            <FieldRow label="Confirm your bKash Account Type" value={r.bkashAccountType} />
+            <FieldRow label="bKash Number" value={r.bkashNumber} />
+            <FieldRow label="bKash Account Relation (Owner / Family Member / Others)" value={r.bkashAccountRelation} />
+          </FieldCard>
           <AgreementLine
             checked={r.bkashConfirmed}
             text="I confirm that the bKash account details provided are accurate and authorized for receiving payments, and I agree to Dinebd's terms and conditions."
@@ -723,18 +760,22 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section F: Supporting Documents (Submission Status)</Text>
-          <FieldRow label="NID / Passport / Birth Certificate Picture Submitted" value={r.nidPictureSubmitted} />
-          <FieldRow label="Recent Passport-size Photo Submitted" value={r.photoSubmitted} />
+          <FieldCard>
+            <FieldRow label="NID / Passport / Birth Certificate Picture Submitted" value={r.nidPictureSubmitted} />
+            <FieldRow label="Recent Passport-size Photo Submitted" value={r.photoSubmitted} />
+          </FieldCard>
         </View>
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Section G: Additional Information</Text>
-          <FieldRow label="How do you know about Dinebd?" value={r.howKnowDinebd} />
-          <FieldRow label="Are you working with any other food delivery company?" value={r.workingWithOtherCompany} />
-          <FieldRow label="If Yes, please specify the company name" value={r.otherCompanyName} />
-          <FieldRow label="Do you have any disabilities?" value={r.hasDisability} />
-          <FieldRow label="Any other information about yourself" value={r.otherInfoAboutSelf} />
-          <FieldRow label="Any other comments?" value={r.otherComments} />
+          <FieldCard>
+            <FieldRow label="How do you know about Dinebd?" value={r.howKnowDinebd} />
+            <FieldRow label="Are you working with any other food delivery company?" value={r.workingWithOtherCompany} />
+            <FieldRow label="If Yes, please specify the company name" value={r.otherCompanyName} />
+            <FieldRow label="Do you have any disabilities?" value={r.hasDisability} />
+            <FieldRow label="Any other information about yourself" value={r.otherInfoAboutSelf} />
+            <FieldRow label="Any other comments?" value={r.otherComments} />
+          </FieldCard>
         </View>
 
         <View style={styles.section}>
@@ -748,12 +789,16 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             checked={r.declarationAgreed}
             text="I declare that the information provided above is true and accurate, and I agree to Dinebd's Code of Conduct, Community Guidelines, and Terms of Employment."
           />
-          <FieldRow label="Name" value={r.name} />
+          <FieldCard>
+            <FieldRow label="Name" value={r.name} />
+          </FieldCard>
           <SingleSignature label="Rider Signature" name={r.name} signature={r.signature} date={r.date} />
 
           <Text style={sx(styles.subsectionTitle, { marginTop: 12 })}>For Office Use Only</Text>
-          <FieldRow label="Verified by Dinebd (representative name)" value={r.officeVerifiedBy} />
-          <FieldRow label="Remarks (if any)" value={r.officeRemarks} />
+          <FieldCard>
+            <FieldRow label="Verified by Dinebd (representative name)" value={r.officeVerifiedBy} />
+            <FieldRow label="Remarks (if any)" value={r.officeRemarks} />
+          </FieldCard>
           <SingleSignature
             label="Dinebd representative signature"
             name={r.officeVerifiedBy}
@@ -782,8 +827,10 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             comply may result in suspension or termination of my access to the Dinebd platform.
           </Text>
           <Text style={sx(styles.subsectionTitle)}>Rider Information</Text>
-          <FieldRow label="Full Name" value={c.fullName} />
-          <FieldRow label="National ID Number" value={c.nidNumber} />
+          <FieldCard>
+            <FieldRow label="Full Name" value={c.fullName} />
+            <FieldRow label="National ID Number" value={c.nidNumber} />
+          </FieldCard>
           <AgreementLine
             checked={c.agreed}
             text="I have read, understood, and agreed to abide by the Dinebd Rider Terms and Conditions, including all related policies and guidelines."
@@ -821,9 +868,11 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             access, update, or request deletion of my personal data.
           </Text>
           <Text style={sx(styles.subsectionTitle)}>Rider information</Text>
-          <FieldRow label="Full Name" value={dp.fullName} />
-          <FieldRow label="National ID Number" value={dp.nidNumber} />
-          <FieldRow label="Mobile Number" value={dp.mobileNumber} />
+          <FieldCard>
+            <FieldRow label="Full Name" value={dp.fullName} />
+            <FieldRow label="National ID Number" value={dp.nidNumber} />
+            <FieldRow label="Mobile Number" value={dp.mobileNumber} />
+          </FieldCard>
           <AgreementLine
             checked={dp.agreed}
             text="I have read, understood, and agreed to abide by the Dinebd Rider Data Protection Policy."
@@ -886,13 +935,15 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           and benefits are subject to the terms of the group life insurance policy.
         </Text>
         <View style={styles.section}>
-          <FieldRow label="Dinebd rider ID" value={ins.riderId} />
-          <FieldRow label="Full Name (As per NID)" value={ins.fullName} />
-          <FieldRow label="Date of Birth (YYYY-MM-DD)" value={ins.dob} />
-          <FieldRow label="Active Mobile Phone Number" value={ins.mobileNumber} />
-          <FieldRow label="NID/Birth Certificate Number" value={ins.nidOrBirthCert} />
-          <FieldRow label="Address" value={ins.address} />
-          <FieldRow label="Other Notes" value={ins.otherNotes} />
+          <FieldCard>
+            <FieldRow label="Dinebd rider ID" value={ins.riderId} />
+            <FieldRow label="Full Name (As per NID)" value={ins.fullName} />
+            <FieldRow label="Date of Birth (YYYY-MM-DD)" value={ins.dob} />
+            <FieldRow label="Active Mobile Phone Number" value={ins.mobileNumber} />
+            <FieldRow label="NID/Birth Certificate Number" value={ins.nidOrBirthCert} />
+            <FieldRow label="Address" value={ins.address} />
+            <FieldRow label="Other Notes" value={ins.otherNotes} />
+          </FieldCard>
         </View>
         <View style={styles.section}>
           <Text style={styles.sectionTitle} minPresenceAhead={36}>Important Notes:</Text>
@@ -930,7 +981,9 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             checked={ins.declarationAgreed}
             text="I confirm the above declaration is accurate and I agree to the full terms and conditions of the insurance policy."
           />
-          <FieldRow label="Full Name (as per NID)" value={ins.signatureFullName} />
+          <FieldCard>
+            <FieldRow label="Full Name (as per NID)" value={ins.signatureFullName} />
+          </FieldCard>
           <SingleSignature label="Rider Signature" name={ins.signatureFullName} signature={ins.signature} date={ins.date} />
         </View>
       </Page>
@@ -945,12 +998,14 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           provided Bkash number below is verified and authorized to receive funds.
         </Text>
         <View style={styles.section}>
-          <FieldRow label="Rider Name" value={pay.riderName} />
-          <FieldRow label="Name of Bkash Account Holder" value={pay.accountHolderName} />
-          <FieldRow label="Bkash Number" value={pay.bkashNumber} />
-          <FieldRow label="Bkash Account Type" value={pay.accountType} />
-          <FieldRow label="Bkash Account Relation (Owner/Family, others)" value={pay.accountRelation} />
-          <FieldRow label="Other Information" value={pay.otherInfo} />
+          <FieldCard>
+            <FieldRow label="Rider Name" value={pay.riderName} />
+            <FieldRow label="Name of Bkash Account Holder" value={pay.accountHolderName} />
+            <FieldRow label="Bkash Number" value={pay.bkashNumber} />
+            <FieldRow label="Bkash Account Type" value={pay.accountType} />
+            <FieldRow label="Bkash Account Relation (Owner/Family, others)" value={pay.accountRelation} />
+            <FieldRow label="Other Information" value={pay.otherInfo} />
+          </FieldCard>
         </View>
         <View style={styles.section}>
           <Text style={styles.paragraph}>
@@ -965,7 +1020,9 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             checked={pay.agreed}
             text="I confirm that the Bkash account details provided are correct and authorized for payment."
           />
-          <FieldRow label="Rider Name" value={pay.signatureRiderName} />
+          <FieldCard>
+            <FieldRow label="Rider Name" value={pay.signatureRiderName} />
+          </FieldCard>
           <SingleSignature
             label="Rider Signature"
             name={pay.signatureRiderName}

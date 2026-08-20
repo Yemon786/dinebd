@@ -10,6 +10,8 @@ export interface RegistrationData {
   birthCertificateNumber: string;
   bloodGroup: string;
   riderPictureSubmitted: string;
+  workStartTime: string;
+  workFinishTime: string;
   homeAddress: string;
   mobileNumber: string;
   emailAddress: string;
@@ -138,6 +140,8 @@ export const initialRiderOnboardingData: RiderOnboardingData = {
     birthCertificateNumber: "",
     bloodGroup: "",
     riderPictureSubmitted: "",
+    workStartTime: "",
+    workFinishTime: "",
     homeAddress: "",
     mobileNumber: "",
     emailAddress: "",

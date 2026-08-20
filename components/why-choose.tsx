@@ -35,8 +35,7 @@ export default function WhyChoose() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
           <h2 className="text-4xl font-bold text-gray-900 mb-3">
-            Why People Choose{" "}
-            <span className="text-primary">Dinebd</span>
+            Why People Choose <span className="text-primary">Dinebd</span>
           </h2>
           <p className="text-gray-500 text-lg max-w-xl mx-auto">
             Built for food lovers, trusted by restaurants, powered by riders.
@@ -65,16 +64,19 @@ export default function WhyChoose() {
         </div>
 
         {/* Stats — contained card with dividers */}
-        <div className="bg-white border border-gray-200 rounded-2xl grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
-          {stats.map((stat) => (
-            <div key={stat.label} className="py-10 text-center">
-              <p className="text-5xl font-bold text-primary mb-2">
-                {stat.number}
-              </p>
-              <p className="text-gray-500 font-medium">{stat.label}</p>
-            </div>
-          ))}
-        </div>
+        {/* Temporarily hidden — see task to remove homepage stats section. Data kept in `stats` above to restore later. */}
+        {false && (
+          <div className="bg-white border border-gray-200 rounded-2xl grid md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-gray-200">
+            {stats.map((stat) => (
+              <div key={stat.label} className="py-10 text-center">
+                <p className="text-5xl font-bold text-primary mb-2">
+                  {stat.number}
+                </p>
+                <p className="text-gray-500 font-medium">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

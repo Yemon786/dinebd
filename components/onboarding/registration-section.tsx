@@ -122,6 +122,33 @@ export default function RegistrationSection({
               onChange={(v) => onChange({ riderPictureSubmitted: v })}
             />
           </div>
+          <div>
+            <Label>Daily Working Time</Label>
+            <div className="flex gap-2 items-center">
+              <div className="flex-1">
+                <Label htmlFor="regWorkStartTime" className="text-xs text-gray-500 font-normal mb-1">
+                  Start Time
+                </Label>
+                <Input
+                  id="regWorkStartTime"
+                  type="time"
+                  value={data.workStartTime}
+                  onChange={(e) => onChange({ workStartTime: e.target.value })}
+                />
+              </div>
+              <div className="flex-1">
+                <Label htmlFor="regWorkFinishTime" className="text-xs text-gray-500 font-normal mb-1">
+                  Finish Time
+                </Label>
+                <Input
+                  id="regWorkFinishTime"
+                  type="time"
+                  value={data.workFinishTime}
+                  onChange={(e) => onChange({ workFinishTime: e.target.value })}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

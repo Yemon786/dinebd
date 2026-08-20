@@ -1,4 +1,27 @@
-import { ArrowRight, Clock, Star, ShieldCheck } from "lucide-react";
+import { ArrowRight, Clock, Star, ShieldCheck, Zap, MapPin, UtensilsCrossed } from "lucide-react";
+
+const highlights = [
+  {
+    icon: Zap,
+    title: "Fast Delivery",
+    description: "Hot meals delivered in under 30 minutes",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Verified Restaurants",
+    description: "Every partner vetted for quality & hygiene",
+  },
+  {
+    icon: MapPin,
+    title: "Live Order Tracking",
+    description: "Know exactly when your order will arrive",
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "All-in-One App",
+    description: "Delivery, dine-in bookings & homemade meals",
+  },
+];
 
 export default function Hero() {
   return (
@@ -62,23 +85,49 @@ export default function Hero() {
           </div>
 
           {/* Right — stat cards */}
+          {/* Temporarily hidden — see task to remove homepage stats. Restore by removing the `false &&` wrapper. */}
+          {false && (
+            <div className="hidden md:grid grid-cols-2 gap-4">
+              <div className="bg-primary rounded-2xl p-7 flex flex-col justify-center">
+                <p className="text-4xl font-bold text-white mb-1">50K+</p>
+                <p className="text-orange-100 text-sm">Happy Customers</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
+                <p className="text-4xl font-bold text-white mb-1">10K+</p>
+                <p className="text-gray-300 text-sm">Restaurant Partners</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
+                <p className="text-4xl font-bold text-white mb-1">1,500+</p>
+                <p className="text-gray-300 text-sm">Active Riders</p>
+              </div>
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
+                <p className="text-4xl font-bold text-white mb-1">5</p>
+                <p className="text-gray-300 text-sm">Services in One App</p>
+              </div>
+            </div>
+          )}
+
+          {/* Right — feature highlights */}
           <div className="hidden md:grid grid-cols-2 gap-4">
-            <div className="bg-primary rounded-2xl p-7 flex flex-col justify-center">
-              <p className="text-4xl font-bold text-white mb-1">50K+</p>
-              <p className="text-orange-100 text-sm">Happy Customers</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
-              <p className="text-4xl font-bold text-white mb-1">10K+</p>
-              <p className="text-gray-300 text-sm">Restaurant Partners</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
-              <p className="text-4xl font-bold text-white mb-1">1,500+</p>
-              <p className="text-gray-300 text-sm">Active Riders</p>
-            </div>
-            <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-7 flex flex-col justify-center">
-              <p className="text-4xl font-bold text-white mb-1">5</p>
-              <p className="text-gray-300 text-sm">Services in One App</p>
-            </div>
+            {highlights.map((item) => {
+              const Icon = item.icon;
+              return (
+                <div
+                  key={item.title}
+                  className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-6 flex flex-col gap-3 hover:bg-white/[0.15] transition-colors"
+                >
+                  <div className="w-11 h-11 bg-primary/20 rounded-xl flex items-center justify-center">
+                    <Icon className="text-primary" size={22} />
+                  </div>
+                  <div>
+                    <p className="font-bold text-white mb-1">{item.title}</p>
+                    <p className="text-gray-300 text-sm leading-relaxed">
+                      {item.description}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
