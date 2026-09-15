@@ -124,5 +124,42 @@
   }
 }
 
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+  .animate-marquee {
+    animation: marquee 28s linear infinite;
+  }
+
+  .bg-dot-grid {
+    background-image: radial-gradient(
+      circle,
+      rgba(17, 24, 39, 0.09) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+  .bg-dot-grid-light {
+    background-image: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.12) 1px,
+      transparent 1px
+    );
+    background-size: 20px 20px;
+  }
+}
 

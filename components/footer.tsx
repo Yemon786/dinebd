@@ -24,6 +24,7 @@ export default function Footer() {
   const footerLinks = {
     company: [
       { label: "About Us", href: "/about-us" },
+      { label: "Journal", href: "/journal" },
       { label: "Contact Us", href: "/contact-us" },
       { label: "Privacy Policy", href: "/privacy-policy" },
       { label: "FAQ", href: "/faq" },
