@@ -182,9 +182,15 @@ const styles = StyleSheet.create({
   },
 });
 
-interface DaySchedule {
-  items: string;
-  quantity: string;
+export interface DateMealEntry {
+  id: string;
+  date: string;
+  lunch: boolean;
+  dinner: boolean;
+  lunchItems: string;
+  lunchQuantity: string;
+  dinnerItems: string;
+  dinnerQuantity: string;
 }
 
 export interface CateringOrderPDFData {
@@ -203,11 +209,8 @@ export interface CateringOrderPDFData {
   };
   lunchService: {
     packageName: string;
-    mealSchedule: Record<string, DaySchedule>;
+    dateEntries: DateMealEntry[];
     additionalItems: string;
-    lunchStartDate: string;
-    lunchEndDate: string;
-    numberOfDays: string;
     deliveryTime: string;
     totalLunchesPerDay: string;
     dietaryRequirements: string;
@@ -217,7 +220,6 @@ export interface CateringOrderPDFData {
     numberOfDays: string;
     lunchesPerDay: string;
     subtotal: string;
-    vatAmount: string;
     deliveryFee: string;
     otherCosts: string;
     paymentPreference: "advance" | "daily" | "";
@@ -232,16 +234,6 @@ export interface CateringOrderPDFData {
     representativeDate: string;
   };
 }
-
-const DAY_LABELS: { key: string; label: string }[] = [
-  { key: "monday", label: "Monday" },
-  { key: "tuesday", label: "Tuesday" },
-  { key: "wednesday", label: "Wednesday" },
-  { key: "thursday", label: "Thursday" },
-  { key: "friday", label: "Friday" },
-  { key: "saturday", label: "Saturday" },
-  { key: "sunday", label: "Sunday" },
-];
 
 const formatDate = (dateStr: string): string => {
   if (!dateStr) return "N/A";
@@ -259,9 +251,15 @@ const gbp = (value: string): string => {
   return `£${(isNaN(n) ? 0 : n).toFixed(2)}`;
 };
 
+const VAT_RATE = 0.05;
+
+const computeVat = (subtotal: string): number => {
+  return (parseFloat(subtotal) || 0) * VAT_RATE;
+};
+
 const computeTotal = (finance: CateringOrderPDFData["finance"]): number => {
   const subtotal = parseFloat(finance.subtotal) || 0;
-  const vat = parseFloat(finance.vatAmount) || 0;
+  const vat = computeVat(finance.subtotal);
   const delivery = parseFloat(finance.deliveryFee) || 0;
   const other = parseFloat(finance.otherCosts) || 0;
   return subtotal + vat + delivery + other;
@@ -275,6 +273,36 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
   const total = computeTotal(finance);
   const amountPaid = parseFloat(finance.amountPaid) || 0;
   const outstanding = total - amountPaid;
+
+  const cateringDaysCount = new Set(
+    lunchService.dateEntries
+      .filter((entry) => entry.date && (entry.lunch || entry.dinner))
+      .map((entry) => entry.date),
+  ).size;
+
+  const scheduleRows = lunchService.dateEntries.flatMap((entry) => {
+    const rows: { date: string; mealType: string; items: string; quantity: string }[] = [];
+    if (entry.lunch) {
+      rows.push({
+        date: entry.date,
+        mealType: "Lunch",
+        items: entry.lunchItems,
+        quantity: entry.lunchQuantity,
+      });
+    }
+    if (entry.dinner) {
+      rows.push({
+        date: entry.date,
+        mealType: "Dinner",
+        items: entry.dinnerItems,
+        quantity: entry.dinnerQuantity,
+      });
+    }
+    if (!entry.lunch && !entry.dinner) {
+      rows.push({ date: entry.date, mealType: "N/A", items: "", quantity: "" });
+    }
+    return rows;
+  });
 
   return (
     <Document>
@@ -356,7 +384,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
         </View>
 
         {/* Section C */}
-        <View style={styles.section} wrap={false}>
+        <View style={styles.section}>
           <Text style={styles.sectionTitle}>C. LUNCH SERVICE DETAILS</Text>
           <View style={styles.row}>
             <Text style={styles.label}>Package Name:</Text>
@@ -365,10 +393,13 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
 
-          <Text style={styles.subsectionTitle}>Weekly Meal Schedule</Text>
-          <View style={styles.table} wrap={false}>
+          <Text style={styles.subsectionTitle}>Meal Schedule by Date</Text>
+          <View style={styles.table}>
             <View style={styles.tableHeader}>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>Day</Text>
+              <Text style={[styles.tableHeaderText, { flex: 1 }]}>Date</Text>
+              <Text style={[styles.tableHeaderText, { flex: 0.8 }]}>
+                Meal Type
+              </Text>
               <Text style={[styles.tableHeaderText, { flex: 2 }]}>
                 Meal / Food Items
               </Text>
@@ -376,31 +407,37 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                 Quantity / People
               </Text>
             </View>
-            {DAY_LABELS.map((day, index) => {
-              const entry = lunchService.mealSchedule[day.key] || {
-                items: "",
-                quantity: "",
-              };
-              return (
+            {scheduleRows.length === 0 ? (
+              <View style={styles.tableRow}>
+                <Text style={[styles.tableCell, { flex: 4.8 }]}>
+                  No catering dates added.
+                </Text>
+              </View>
+            ) : (
+              scheduleRows.map((row, index) => (
                 <View
-                  key={day.key}
+                  key={`${row.date}-${row.mealType}-${index}`}
+                  wrap={false}
                   style={[
                     styles.tableRow,
                     { backgroundColor: index % 2 === 0 ? "#fff5e6" : "#fff" },
                   ]}
                 >
                   <Text style={[styles.tableCell, { flex: 1 }]}>
-                    {day.label}
+                    {formatDate(row.date)}
+                  </Text>
+                  <Text style={[styles.tableCell, { flex: 0.8 }]}>
+                    {row.mealType}
                   </Text>
                   <Text style={[styles.tableCell, { flex: 2 }]}>
-                    {entry.items || "N/A"}
+                    {row.items || "N/A"}
                   </Text>
                   <Text style={[styles.tableCell, { flex: 1 }]}>
-                    {entry.quantity || "N/A"}
+                    {row.quantity || "N/A"}
                   </Text>
                 </View>
-              );
-            })}
+              ))
+            )}
           </View>
         </View>
 
@@ -413,21 +450,9 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           </Text>
 
           <View style={styles.row}>
-            <Text style={styles.label}>Lunch Start Date:</Text>
+            <Text style={styles.label}>Total Catering Days:</Text>
             <Text style={styles.value}>
-              {formatDate(lunchService.lunchStartDate)}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Lunch End Date:</Text>
-            <Text style={styles.value}>
-              {formatDate(lunchService.lunchEndDate)}
-            </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>Number of Days:</Text>
-            <Text style={styles.value}>
-              {lunchService.numberOfDays || "N/A"}
+              {cateringDaysCount || "N/A"}
             </Text>
           </View>
           <View style={styles.row}>
@@ -503,9 +528,9 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
               <Text style={styles.financeValue}>{gbp(finance.subtotal)}</Text>
             </View>
             <View style={styles.financeRow}>
-              <Text style={styles.financeLabel}>VAT Amount</Text>
+              <Text style={styles.financeLabel}>VAT: 5%</Text>
               <Text style={styles.financeValue}>
-                {gbp(finance.vatAmount)}
+                {`£${computeVat(finance.subtotal).toFixed(2)}`}
               </Text>
             </View>
             <View style={styles.financeRow}>
@@ -566,7 +591,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <Text style={[styles.paragraph, { fontSize: 8, color: "#777" }]}>
-            Subtotal + VAT Amount + Delivery Fee + Other Costs = TOTAL
+            Subtotal + VAT (5%) + Delivery Fee + Other Costs = TOTAL
           </Text>
           <View style={styles.row}>
             <Text style={styles.label}>Amount Paid:</Text>

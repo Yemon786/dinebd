@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Menu, Lock, Eye, EyeOff, Download, CheckCircle2, Calculator } from "lucide-react";
+import { Menu, Lock, Eye, EyeOff, Download, CheckCircle2, Plus, Trash2 } from "lucide-react";
 import FormSection from "@/components/forms/FormSection";
 import CheckboxAgreement from "@/components/forms/CheckboxAgreement";
 import { RadioOptionGroup } from "@/components/onboarding/radio-group";
 import CateringOrderSidebar from "@/components/catering-order-sidebar";
-import CateringOrderPDF from "@/components/catering-order-pdf";
+import CateringOrderPDF, { type DateMealEntry } from "@/components/catering-order-pdf";
 import { pdf } from "@react-pdf/renderer";
 
 const SECTIONS = [
@@ -26,20 +26,20 @@ const SECTIONS = [
   },
 ];
 
-const DAYS: { key: string; label: string }[] = [
-  { key: "monday", label: "Monday" },
-  { key: "tuesday", label: "Tuesday" },
-  { key: "wednesday", label: "Wednesday" },
-  { key: "thursday", label: "Thursday" },
-  { key: "friday", label: "Friday" },
-  { key: "saturday", label: "Saturday" },
-  { key: "sunday", label: "Sunday" },
-];
+const VAT_RATE = 0.05;
 
-interface DaySchedule {
-  items: string;
-  quantity: string;
-}
+const genId = () => Math.random().toString(36).slice(2, 10);
+
+const createEmptyDateEntry = (): DateMealEntry => ({
+  id: genId(),
+  date: "",
+  lunch: false,
+  dinner: false,
+  lunchItems: "",
+  lunchQuantity: "",
+  dinnerItems: "",
+  dinnerQuantity: "",
+});
 
 interface CateringOrderData {
   orderVendor: {
@@ -57,11 +57,8 @@ interface CateringOrderData {
   };
   lunchService: {
     packageName: string;
-    mealSchedule: Record<string, DaySchedule>;
+    dateEntries: DateMealEntry[];
     additionalItems: string;
-    lunchStartDate: string;
-    lunchEndDate: string;
-    numberOfDays: string;
     deliveryTime: string;
     totalLunchesPerDay: string;
     dietaryRequirements: string;
@@ -71,7 +68,6 @@ interface CateringOrderData {
     numberOfDays: string;
     lunchesPerDay: string;
     subtotal: string;
-    vatAmount: string;
     deliveryFee: string;
     otherCosts: string;
     paymentPreference: "advance" | "daily" | "";
@@ -86,14 +82,6 @@ interface CateringOrderData {
     representativeDate: string;
   };
 }
-
-const initialMealSchedule: Record<string, DaySchedule> = DAYS.reduce(
-  (acc, day) => {
-    acc[day.key] = { items: "", quantity: "" };
-    return acc;
-  },
-  {} as Record<string, DaySchedule>,
-);
 
 const initialData: CateringOrderData = {
   orderVendor: {
@@ -111,11 +99,8 @@ const initialData: CateringOrderData = {
   },
   lunchService: {
     packageName: "",
-    mealSchedule: initialMealSchedule,
+    dateEntries: [createEmptyDateEntry()],
     additionalItems: "",
-    lunchStartDate: "",
-    lunchEndDate: "",
-    numberOfDays: "",
     deliveryTime: "",
     totalLunchesPerDay: "",
     dietaryRequirements: "",
@@ -125,7 +110,6 @@ const initialData: CateringOrderData = {
     numberOfDays: "",
     lunchesPerDay: "",
     subtotal: "",
-    vatAmount: "",
     deliveryFee: "",
     otherCosts: "",
     paymentPreference: "",
@@ -164,6 +148,130 @@ const CurrencyInput = ({
   </div>
 );
 
+const DateEntryCard = ({
+  entry,
+  onChange,
+  onRemove,
+  canRemove,
+}: {
+  entry: DateMealEntry;
+  onChange: (patch: Partial<DateMealEntry>) => void;
+  onRemove: () => void;
+  canRemove: boolean;
+}) => (
+  <div className="rounded-xl border border-gray-200 p-4 space-y-4 bg-white">
+    <div className="flex items-end gap-3">
+      <div className="flex-1">
+        <Label htmlFor={`date-${entry.id}`}>Date</Label>
+        <Input
+          id={`date-${entry.id}`}
+          type="date"
+          value={entry.date}
+          onChange={(e) => onChange({ date: e.target.value })}
+        />
+      </div>
+      {canRemove && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onRemove}
+          className="shrink-0 px-3 text-red-500 border-red-200 hover:bg-red-50 hover:text-red-600"
+          title="Remove this date"
+        >
+          <Trash2 className="w-4 h-4" />
+        </Button>
+      )}
+    </div>
+
+    <div className="flex flex-wrap gap-5">
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={entry.lunch}
+          onChange={(e) => onChange({ lunch: e.target.checked })}
+          className="w-4 h-4 cursor-pointer accent-orange-500"
+        />
+        <span className="text-sm font-medium text-gray-700">Lunch</span>
+      </label>
+      <label className="flex items-center gap-2 cursor-pointer">
+        <input
+          type="checkbox"
+          checked={entry.dinner}
+          onChange={(e) => onChange({ dinner: e.target.checked })}
+          className="w-4 h-4 cursor-pointer accent-orange-500"
+        />
+        <span className="text-sm font-medium text-gray-700">Dinner</span>
+      </label>
+    </div>
+
+    {entry.lunch && (
+      <div className="rounded-lg bg-orange-50/50 border border-orange-100 p-3">
+        <p className="text-xs font-bold uppercase tracking-wide text-primary mb-2.5">
+          Lunch
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <Label htmlFor={`lunch-items-${entry.id}`}>Meal / Food Items</Label>
+            <Input
+              id={`lunch-items-${entry.id}`}
+              value={entry.lunchItems}
+              onChange={(e) => onChange({ lunchItems: e.target.value })}
+              placeholder="e.g. Chicken biryani, salad"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`lunch-qty-${entry.id}`}>Quantity / People</Label>
+            <Input
+              id={`lunch-qty-${entry.id}`}
+              value={entry.lunchQuantity}
+              onChange={(e) => onChange({ lunchQuantity: e.target.value })}
+              placeholder="e.g. 25"
+              className="bg-white"
+            />
+          </div>
+        </div>
+      </div>
+    )}
+
+    {entry.dinner && (
+      <div className="rounded-lg bg-orange-50/50 border border-orange-100 p-3">
+        <p className="text-xs font-bold uppercase tracking-wide text-primary mb-2.5">
+          Dinner
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <Label htmlFor={`dinner-items-${entry.id}`}>Meal / Food Items</Label>
+            <Input
+              id={`dinner-items-${entry.id}`}
+              value={entry.dinnerItems}
+              onChange={(e) => onChange({ dinnerItems: e.target.value })}
+              placeholder="e.g. Grilled chicken, rice"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`dinner-qty-${entry.id}`}>Quantity / People</Label>
+            <Input
+              id={`dinner-qty-${entry.id}`}
+              value={entry.dinnerQuantity}
+              onChange={(e) => onChange({ dinnerQuantity: e.target.value })}
+              placeholder="e.g. 25"
+              className="bg-white"
+            />
+          </div>
+        </div>
+      </div>
+    )}
+
+    {!entry.lunch && !entry.dinner && (
+      <p className="text-xs text-gray-400">
+        Select Lunch, Dinner, or both for this date.
+      </p>
+    )}
+  </div>
+);
+
 export default function CateringOrderPortal() {
   const [formData, setFormData] = useState<CateringOrderData>(initialData);
   const [activeSection, setActiveSection] = useState("");
@@ -194,15 +302,19 @@ export default function CateringOrderPortal() {
     }
   };
 
+  const vatAmount = useMemo(() => {
+    const subtotal = parseFloat(formData.finance.subtotal) || 0;
+    return subtotal * VAT_RATE;
+  }, [formData.finance.subtotal]);
+
   const total = useMemo(() => {
     const subtotal = parseFloat(formData.finance.subtotal) || 0;
-    const vat = parseFloat(formData.finance.vatAmount) || 0;
     const delivery = parseFloat(formData.finance.deliveryFee) || 0;
     const other = parseFloat(formData.finance.otherCosts) || 0;
-    return subtotal + vat + delivery + other;
+    return subtotal + vatAmount + delivery + other;
   }, [
     formData.finance.subtotal,
-    formData.finance.vatAmount,
+    vatAmount,
     formData.finance.deliveryFee,
     formData.finance.otherCosts,
   ]);
@@ -212,22 +324,44 @@ export default function CateringOrderPortal() {
     return total - amountPaid;
   }, [total, formData.finance.amountPaid]);
 
-  const calculateLunchDays = () => {
-    const { lunchStartDate, lunchEndDate } = formData.lunchService;
-    if (!lunchStartDate || !lunchEndDate) return;
-    const start = new Date(lunchStartDate);
-    const end = new Date(lunchEndDate);
-    const diffDays =
-      Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
-    if (diffDays > 0) {
-      setFormData((prev) => ({
-        ...prev,
-        lunchService: {
-          ...prev.lunchService,
-          numberOfDays: String(diffDays),
-        },
-      }));
-    }
+  const totalCateringDays = useMemo(() => {
+    return new Set(
+      formData.lunchService.dateEntries
+        .filter((entry) => entry.date && (entry.lunch || entry.dinner))
+        .map((entry) => entry.date),
+    ).size;
+  }, [formData.lunchService.dateEntries]);
+
+  const addDateEntry = () => {
+    setFormData((prev) => ({
+      ...prev,
+      lunchService: {
+        ...prev.lunchService,
+        dateEntries: [...prev.lunchService.dateEntries, createEmptyDateEntry()],
+      },
+    }));
+  };
+
+  const removeDateEntry = (id: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      lunchService: {
+        ...prev.lunchService,
+        dateEntries: prev.lunchService.dateEntries.filter((entry) => entry.id !== id),
+      },
+    }));
+  };
+
+  const updateDateEntry = (id: string, patch: Partial<DateMealEntry>) => {
+    setFormData((prev) => ({
+      ...prev,
+      lunchService: {
+        ...prev.lunchService,
+        dateEntries: prev.lunchService.dateEntries.map((entry) =>
+          entry.id === id ? { ...entry, ...patch } : entry,
+        ),
+      },
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -598,93 +732,35 @@ export default function CateringOrderPortal() {
 
                   <div>
                     <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 mb-4 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
-                      Weekly Meal Schedule
+                      Meal Schedule by Date
                     </h3>
-                    <div className="overflow-x-auto rounded-xl border border-gray-200">
-                      <table className="w-full min-w-[560px]">
-                        <thead>
-                          <tr className="bg-primary text-white">
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-28">
-                              Day
-                            </th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold">
-                              Meal / Food Items
-                            </th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-40">
-                              Quantity / People
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {DAYS.map((day, idx) => (
-                            <tr
-                              key={day.key}
-                              className={`border-b border-gray-100 ${
-                                idx % 2 === 0 ? "bg-orange-50/40" : "bg-white"
-                              }`}
-                            >
-                              <td className="px-4 py-2.5 text-sm font-medium text-gray-700">
-                                {day.label}
-                              </td>
-                              <td className="px-4 py-2 min-w-[220px]">
-                                <Input
-                                  value={
-                                    formData.lunchService.mealSchedule[day.key]
-                                      ?.items ?? ""
-                                  }
-                                  onChange={(e) =>
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      lunchService: {
-                                        ...prev.lunchService,
-                                        mealSchedule: {
-                                          ...prev.lunchService.mealSchedule,
-                                          [day.key]: {
-                                            ...prev.lunchService.mealSchedule[
-                                              day.key
-                                            ],
-                                            items: e.target.value,
-                                          },
-                                        },
-                                      },
-                                    }))
-                                  }
-                                  placeholder="e.g. Chicken biryani, salad"
-                                  className="bg-white"
-                                />
-                              </td>
-                              <td className="px-4 py-2 min-w-[120px]">
-                                <Input
-                                  value={
-                                    formData.lunchService.mealSchedule[day.key]
-                                      ?.quantity ?? ""
-                                  }
-                                  onChange={(e) =>
-                                    setFormData((prev) => ({
-                                      ...prev,
-                                      lunchService: {
-                                        ...prev.lunchService,
-                                        mealSchedule: {
-                                          ...prev.lunchService.mealSchedule,
-                                          [day.key]: {
-                                            ...prev.lunchService.mealSchedule[
-                                              day.key
-                                            ],
-                                            quantity: e.target.value,
-                                          },
-                                        },
-                                      },
-                                    }))
-                                  }
-                                  placeholder="e.g. 25"
-                                  className="bg-white"
-                                />
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
+                    <p className="text-xs text-gray-500 mb-4">
+                      Add each catering date and choose Lunch, Dinner, or
+                      both. Dates do not need to be consecutive or form a
+                      full week.
+                    </p>
+                    <div className="space-y-4">
+                      {formData.lunchService.dateEntries.map((entry) => (
+                        <DateEntryCard
+                          key={entry.id}
+                          entry={entry}
+                          canRemove={formData.lunchService.dateEntries.length > 1}
+                          onChange={(patch) =>
+                            updateDateEntry(entry.id, patch)
+                          }
+                          onRemove={() => removeDateEntry(entry.id)}
+                        />
+                      ))}
                     </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={addDateEntry}
+                      className="mt-4"
+                    >
+                      <Plus className="w-4 h-4" />
+                      Add Date
+                    </Button>
                   </div>
 
                   <div>
@@ -710,70 +786,18 @@ export default function CateringOrderPortal() {
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="lunchStartDate">Lunch Start Date</Label>
+                      <Label htmlFor="totalCateringDays">
+                        Total Catering Days
+                      </Label>
                       <Input
-                        id="lunchStartDate"
-                        type="date"
-                        value={formData.lunchService.lunchStartDate}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            lunchService: {
-                              ...prev.lunchService,
-                              lunchStartDate: e.target.value,
-                            },
-                          }))
-                        }
+                        id="totalCateringDays"
+                        value={totalCateringDays}
+                        disabled
+                        className="bg-gray-50 text-gray-600"
                       />
-                    </div>
-                    <div>
-                      <Label htmlFor="lunchEndDate">Lunch End Date</Label>
-                      <Input
-                        id="lunchEndDate"
-                        type="date"
-                        value={formData.lunchService.lunchEndDate}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            lunchService: {
-                              ...prev.lunchService,
-                              lunchEndDate: e.target.value,
-                            },
-                          }))
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="numberOfDays">Number of Days</Label>
-                      <div className="flex gap-2">
-                        <Input
-                          id="numberOfDays"
-                          inputMode="numeric"
-                          value={formData.lunchService.numberOfDays}
-                          onChange={(e) =>
-                            setFormData((prev) => ({
-                              ...prev,
-                              lunchService: {
-                                ...prev.lunchService,
-                                numberOfDays: e.target.value,
-                              },
-                            }))
-                          }
-                          placeholder="Enter number of days"
-                        />
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={calculateLunchDays}
-                          className="shrink-0 px-3"
-                          title="Calculate from start and end dates"
-                        >
-                          <Calculator className="w-4 h-4" />
-                        </Button>
-                      </div>
                       <p className="text-xs text-gray-400 mt-1">
-                        Enter manually, or use the calculator to fill it in
-                        from the start/end dates.
+                        Automatically calculated from the catering dates
+                        added below.
                       </p>
                     </div>
                     <div>
@@ -939,18 +963,10 @@ export default function CateringOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            VAT Amount
+                            VAT: 5%
                           </td>
-                          <td className="px-4 py-2 w-48">
-                            <CurrencyInput
-                              value={formData.finance.vatAmount}
-                              onChange={(v) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  finance: { ...prev.finance, vatAmount: v },
-                                }))
-                              }
-                            />
+                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-medium">
+                            £{vatAmount.toFixed(2)}
                           </td>
                         </tr>
                         <tr className="border-b border-gray-100 bg-orange-50/40">
@@ -1073,7 +1089,7 @@ export default function CateringOrderPortal() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">
-                      Subtotal + VAT Amount + Delivery Fee + Other Costs =
+                      Subtotal + VAT (5%) + Delivery Fee + Other Costs =
                       TOTAL
                     </p>
                     <div className="flex items-center justify-between pt-2 border-t border-primary/10">
