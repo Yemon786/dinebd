@@ -16,7 +16,7 @@ import { pdf } from "@react-pdf/renderer";
 const SECTIONS = [
   { id: "order-vendor-details", letter: "A", title: "Order & Vendor Details" },
   { id: "customer-details", letter: "B", title: "Customer Details" },
-  { id: "lunch-service-details", letter: "C", title: "Lunch Service Details" },
+  { id: "lunch-service-details", letter: "C", title: "Catering Details" },
   { id: "finance", letter: "D", title: "Finance" },
   { id: "catering-terms", letter: "E", title: "Catering Terms & Conditions" },
   {
@@ -332,6 +332,21 @@ export default function CateringOrderPortal() {
     ).size;
   }, [formData.lunchService.dateEntries]);
 
+  const totalPeoplePerDay = useMemo(() => {
+    const perDayTotals = new Map<string, number>();
+    formData.lunchService.dateEntries.forEach((entry) => {
+      if (!entry.date || (!entry.lunch && !entry.dinner)) return;
+      let dayTotal = 0;
+      if (entry.lunch) dayTotal += parseFloat(entry.lunchQuantity) || 0;
+      if (entry.dinner) dayTotal += parseFloat(entry.dinnerQuantity) || 0;
+      perDayTotals.set(entry.date, (perDayTotals.get(entry.date) || 0) + dayTotal);
+    });
+    const dayValues = Array.from(perDayTotals.values());
+    if (dayValues.length === 0) return "";
+    const average = dayValues.reduce((sum, v) => sum + v, 0) / dayValues.length;
+    return String(Math.round(average));
+  }, [formData.lunchService.dateEntries]);
+
   const addDateEntry = () => {
     setFormData((prev) => ({
       ...prev,
@@ -379,6 +394,10 @@ export default function CateringOrderPortal() {
         <CateringOrderPDF
           data={{
             ...formData,
+            lunchService: {
+              ...formData.lunchService,
+              totalLunchesPerDay: totalPeoplePerDay,
+            },
             finance: {
               ...formData.finance,
             },
@@ -501,7 +520,7 @@ export default function CateringOrderPortal() {
               DIENBD CATERING
             </h1>
             <p className="text-sm text-gray-600 mt-3 max-w-3xl">
-              Thank you for choosing Dienbd Catering for your office lunch
+              Thank you for choosing Dienbd Catering for your office catering
               service. To confirm and process your order, kindly complete the
               following details.
             </p>
@@ -713,24 +732,6 @@ export default function CateringOrderPortal() {
               {section.id === "lunch-service-details" && (
                 <div className="space-y-8">
                   <div>
-                    <Label htmlFor="packageName">Package Name</Label>
-                    <Input
-                      id="packageName"
-                      value={formData.lunchService.packageName}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          lunchService: {
-                            ...prev.lunchService,
-                            packageName: e.target.value,
-                          },
-                        }))
-                      }
-                      placeholder="Enter package name"
-                    />
-                  </div>
-
-                  <div>
                     <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 mb-4 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
                       Meal Schedule by Date
                     </h3>
@@ -739,6 +740,23 @@ export default function CateringOrderPortal() {
                       both. Dates do not need to be consecutive or form a
                       full week.
                     </p>
+                    <div className="mb-4">
+                      <Label htmlFor="packageName">Package Name</Label>
+                      <Input
+                        id="packageName"
+                        value={formData.lunchService.packageName}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            lunchService: {
+                              ...prev.lunchService,
+                              packageName: e.target.value,
+                            },
+                          }))
+                        }
+                        placeholder="Enter package name"
+                      />
+                    </div>
                     <div className="space-y-4">
                       {formData.lunchService.dateEntries.map((entry) => (
                         <DateEntryCard
@@ -821,24 +839,18 @@ export default function CateringOrderPortal() {
                     </div>
                     <div>
                       <Label htmlFor="totalLunchesPerDay">
-                        Total Number of Lunches / People per Day
+                        Total Number of People / Quantity Per Day
                       </Label>
                       <Input
                         id="totalLunchesPerDay"
-                        type="number"
-                        min="0"
-                        value={formData.lunchService.totalLunchesPerDay}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            lunchService: {
-                              ...prev.lunchService,
-                              totalLunchesPerDay: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="e.g. 25"
+                        value={totalPeoplePerDay}
+                        disabled
+                        className="bg-gray-50 text-gray-600"
                       />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Automatically calculated from the quantity entered
+                        for each catering date above.
+                      </p>
                     </div>
                   </div>
 
@@ -925,7 +937,7 @@ export default function CateringOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            Number of Lunches / People per Day
+                            Number of People / Quantity Per Day
                           </td>
                           <td className="px-4 py-2 w-48">
                             <Input

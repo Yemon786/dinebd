@@ -86,16 +86,49 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     fontSize: 8,
   },
-  tableRow: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderBottomColor: "#eee",
-    padding: 5,
+  scheduleGroup: {
+    marginBottom: 10,
   },
-  tableCell: {
-    flex: 1,
+  scheduleGroupLast: {
+    marginBottom: 0,
+  },
+  scheduleDateHeader: {
+    flexDirection: "row",
+    backgroundColor: "#fff1e0",
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderLeftWidth: 3,
+    borderLeftColor: ORANGE,
+  },
+  scheduleDateHeaderText: {
+    fontFamily: "Helvetica-Bold",
+    fontSize: 9,
+    color: "#333",
+  },
+  scheduleMealRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    paddingVertical: 3,
+    paddingHorizontal: 10,
+    borderBottomWidth: 0.5,
+    borderBottomColor: "#f2f2f2",
+  },
+  scheduleMealType: {
+    width: 55,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 8,
+    color: ORANGE,
+  },
+  scheduleMealValue: {
     fontSize: 8,
     color: "#333",
+  },
+  scheduleEmptyRow: {
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    fontSize: 8,
+    fontFamily: "Helvetica-Oblique",
+    color: "#999",
   },
   financeRow: {
     flexDirection: "row",
@@ -280,29 +313,45 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
       .map((entry) => entry.date),
   ).size;
 
-  const scheduleRows = lunchService.dateEntries.flatMap((entry) => {
-    const rows: { date: string; mealType: string; items: string; quantity: string }[] = [];
-    if (entry.lunch) {
-      rows.push({
-        date: entry.date,
-        mealType: "Lunch",
-        items: entry.lunchItems,
-        quantity: entry.lunchQuantity,
-      });
-    }
-    if (entry.dinner) {
-      rows.push({
-        date: entry.date,
-        mealType: "Dinner",
-        items: entry.dinnerItems,
-        quantity: entry.dinnerQuantity,
-      });
-    }
-    if (!entry.lunch && !entry.dinner) {
-      rows.push({ date: entry.date, mealType: "N/A", items: "", quantity: "" });
-    }
-    return rows;
-  });
+  const totalPeoplePerDay = (() => {
+    const perDayTotals = new Map<string, number>();
+    lunchService.dateEntries.forEach((entry) => {
+      if (!entry.date || (!entry.lunch && !entry.dinner)) return;
+      let dayTotal = 0;
+      if (entry.lunch) dayTotal += parseFloat(entry.lunchQuantity) || 0;
+      if (entry.dinner) dayTotal += parseFloat(entry.dinnerQuantity) || 0;
+      perDayTotals.set(entry.date, (perDayTotals.get(entry.date) || 0) + dayTotal);
+    });
+    const dayValues = Array.from(perDayTotals.values());
+    if (dayValues.length === 0) return "";
+    const average = dayValues.reduce((sum, v) => sum + v, 0) / dayValues.length;
+    return String(Math.round(average));
+  })();
+
+  const scheduleDateGroups = (() => {
+    const groups = new Map<
+      string,
+      {
+        date: string;
+        lunch?: { items: string; quantity: string };
+        dinner?: { items: string; quantity: string };
+      }
+    >();
+    lunchService.dateEntries.forEach((entry) => {
+      if (!entry.date) return;
+      const group = groups.get(entry.date) ?? { date: entry.date };
+      if (entry.lunch) {
+        group.lunch = { items: entry.lunchItems, quantity: entry.lunchQuantity };
+      }
+      if (entry.dinner) {
+        group.dinner = { items: entry.dinnerItems, quantity: entry.dinnerQuantity };
+      }
+      groups.set(entry.date, group);
+    });
+    return Array.from(groups.values()).sort((a, b) =>
+      a.date.localeCompare(b.date),
+    );
+  })();
 
   return (
     <Document>
@@ -318,7 +367,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           DIENBD CATERING
         </Text>
         <Text style={styles.intro}>
-          Thank you for choosing Dienbd Catering for your office lunch
+          Thank you for choosing Dienbd Catering for your office catering
           service. To confirm and process your order, kindly complete the
           following details.
         </Text>
@@ -385,56 +434,89 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
 
         {/* Section C */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>C. LUNCH SERVICE DETAILS</Text>
+          <Text style={styles.sectionTitle}>C. CATERING DETAILS</Text>
+
+          <Text style={styles.subsectionTitle}>Meal Schedule by Date</Text>
           <View style={styles.row}>
             <Text style={styles.label}>Package Name:</Text>
             <Text style={styles.value}>
               {lunchService.packageName || "N/A"}
             </Text>
           </View>
-
-          <Text style={styles.subsectionTitle}>Meal Schedule by Date</Text>
           <View style={styles.table}>
             <View style={styles.tableHeader}>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>Date</Text>
-              <Text style={[styles.tableHeaderText, { flex: 0.8 }]}>
-                Meal Type
+              <Text style={[styles.tableHeaderText, { width: 55 }]}>
+                Meal
               </Text>
-              <Text style={[styles.tableHeaderText, { flex: 2 }]}>
+              <Text style={[styles.tableHeaderText, { flex: 2.4 }]}>
                 Meal / Food Items
               </Text>
-              <Text style={[styles.tableHeaderText, { flex: 1 }]}>
+              <Text
+                style={[
+                  styles.tableHeaderText,
+                  { flex: 1, textAlign: "right" },
+                ]}
+              >
                 Quantity / People
               </Text>
             </View>
-            {scheduleRows.length === 0 ? (
-              <View style={styles.tableRow}>
-                <Text style={[styles.tableCell, { flex: 4.8 }]}>
-                  No catering dates added.
-                </Text>
-              </View>
+            {scheduleDateGroups.length === 0 ? (
+              <Text style={styles.scheduleEmptyRow}>
+                No catering dates added.
+              </Text>
             ) : (
-              scheduleRows.map((row, index) => (
+              scheduleDateGroups.map((group, index) => (
                 <View
-                  key={`${row.date}-${row.mealType}-${index}`}
+                  key={group.date}
                   wrap={false}
-                  style={[
-                    styles.tableRow,
-                    { backgroundColor: index % 2 === 0 ? "#fff5e6" : "#fff" },
-                  ]}
+                  style={
+                    index === scheduleDateGroups.length - 1
+                      ? [styles.scheduleGroup, styles.scheduleGroupLast]
+                      : styles.scheduleGroup
+                  }
                 >
-                  <Text style={[styles.tableCell, { flex: 1 }]}>
-                    {formatDate(row.date)}
-                  </Text>
-                  <Text style={[styles.tableCell, { flex: 0.8 }]}>
-                    {row.mealType}
-                  </Text>
-                  <Text style={[styles.tableCell, { flex: 2 }]}>
-                    {row.items || "N/A"}
-                  </Text>
-                  <Text style={[styles.tableCell, { flex: 1 }]}>
-                    {row.quantity || "N/A"}
-                  </Text>
+                  <View style={styles.scheduleDateHeader}>
+                    <Text style={styles.scheduleDateHeaderText}>
+                      {formatDate(group.date)}
+                    </Text>
+                  </View>
+                  {group.lunch && (
+                    <View style={styles.scheduleMealRow}>
+                      <Text style={styles.scheduleMealType}>Lunch</Text>
+                      <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
+                        {group.lunch.items || "N/A"}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.scheduleMealValue,
+                          { flex: 1, textAlign: "right" },
+                        ]}
+                      >
+                        {group.lunch.quantity || "N/A"}
+                      </Text>
+                    </View>
+                  )}
+                  {group.dinner && (
+                    <View style={styles.scheduleMealRow}>
+                      <Text style={styles.scheduleMealType}>Dinner</Text>
+                      <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
+                        {group.dinner.items || "N/A"}
+                      </Text>
+                      <Text
+                        style={[
+                          styles.scheduleMealValue,
+                          { flex: 1, textAlign: "right" },
+                        ]}
+                      >
+                        {group.dinner.quantity || "N/A"}
+                      </Text>
+                    </View>
+                  )}
+                  {!group.lunch && !group.dinner && (
+                    <Text style={styles.scheduleEmptyRow}>
+                      No meal selected for this date.
+                    </Text>
+                  )}
                 </View>
               ))
             )}
@@ -462,9 +544,9 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Total Lunches / People per Day:</Text>
+            <Text style={styles.label}>Total People / Quantity Per Day:</Text>
             <Text style={styles.value}>
-              {lunchService.totalLunchesPerDay || "N/A"}
+              {totalPeoplePerDay || "N/A"}
             </Text>
           </View>
 
@@ -517,7 +599,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>
-                Number of Lunches / People per Day
+                Number of People / Quantity Per Day
               </Text>
               <Text style={styles.financeValue}>
                 {finance.lunchesPerDay || "N/A"}

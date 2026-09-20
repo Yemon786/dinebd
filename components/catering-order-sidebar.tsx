@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 const navigationItems = [
   { id: "order-vendor-details", letter: "A", label: "Order & Vendor Details" },
   { id: "customer-details", letter: "B", label: "Customer Details" },
-  { id: "lunch-service-details", letter: "C", label: "Lunch Service Details" },
+  { id: "lunch-service-details", letter: "C", label: "Catering Details" },
   { id: "finance", letter: "D", label: "Finance" },
   { id: "catering-terms", letter: "E", label: "Catering Terms & Conditions" },
   {

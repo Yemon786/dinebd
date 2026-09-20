@@ -43,7 +43,7 @@ const createEmptyDateEntry = (): DateMealEntry => ({
 
 const PACKAGING_OPTIONS = [
   "Individual Portions",
-  "Office Lunch Packaging",
+  "Office Catering Packaging",
   "Catering / Event Packaging",
   "Other",
 ];
@@ -635,7 +635,7 @@ export default function CateringVendorOrderPortal() {
                       </p>
                     </div>
                     <div>
-                      <Label htmlFor="totalLunches">Total Number of Lunches</Label>
+                      <Label htmlFor="totalLunches">Total Number of People / Quantity</Label>
                       <Input
                         id="totalLunches"
                         inputMode="numeric"

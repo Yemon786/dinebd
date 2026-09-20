@@ -235,7 +235,7 @@ export interface CateringVendorOrderPDFData {
 
 const PACKAGING_OPTIONS = [
   "Individual Portions",
-  "Office Lunch Packaging",
+  "Office Catering Packaging",
   "Catering / Event Packaging",
   "Other",
 ];
@@ -448,7 +448,7 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Total Number of Lunches:</Text>
+            <Text style={styles.label}>Total Number of People / Quantity:</Text>
             <Text style={styles.value}>
               {cateringDetails.totalLunches || "N/A"}
             </Text>
