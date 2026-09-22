@@ -281,29 +281,52 @@ const computeVat = (totalFoodValue: string): number => {
   return (parseFloat(totalFoodValue) || 0) * VAT_RATE;
 };
 
-const CheckboxRowGroup: React.FC<{ options: string[]; selected: string[] }> = ({
-  options,
-  selected,
-}) => (
-  <>
-    {options.map((option) => {
-      const checked = selected.includes(option);
-      return (
-        <View key={option} style={styles.checkboxRow}>
-          <Text
-            style={[
-              styles.checkboxGlyph,
-              { color: checked ? ORANGE : "#666" },
-            ]}
-          >
-            {checked ? "[ X ]" : "[    ]"}
-          </Text>
-          <Text>{option}</Text>
-        </View>
-      );
-    })}
-  </>
-);
+const CheckboxRowGroup: React.FC<{
+  options: string[];
+  selected: string[];
+  selectedOnly?: boolean;
+}> = ({ options, selected, selectedOnly }) => {
+  if (selectedOnly) {
+    if (selected.length === 0) {
+      return <Text style={styles.paragraph}>N/A</Text>;
+    }
+    return (
+      <>
+        {options
+          .filter((option) => selected.includes(option))
+          .map((option) => (
+            <View key={option} style={styles.checkboxRow}>
+              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>
+                [ X ]
+              </Text>
+              <Text>{option}</Text>
+            </View>
+          ))}
+      </>
+    );
+  }
+
+  return (
+    <>
+      {options.map((option) => {
+        const checked = selected.includes(option);
+        return (
+          <View key={option} style={styles.checkboxRow}>
+            <Text
+              style={[
+                styles.checkboxGlyph,
+                { color: checked ? ORANGE : "#666" },
+              ]}
+            >
+              {checked ? "[ X ]" : "[    ]"}
+            </Text>
+            <Text>{option}</Text>
+          </View>
+        );
+      })}
+    </>
+  );
+};
 
 const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = ({
   data,
@@ -586,7 +609,11 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
           <Text style={styles.paragraph}>{additionalItems || "N/A"}</Text>
 
           <Text style={styles.subsectionTitle}>Packaging Requirements</Text>
-          <CheckboxRowGroup options={PACKAGING_OPTIONS} selected={packaging.selected} />
+          <CheckboxRowGroup
+            options={PACKAGING_OPTIONS}
+            selected={packaging.selected}
+            selectedOnly
+          />
           {packaging.selected.includes("Other") && (
             <View style={styles.row}>
               <Text style={styles.label}>Other (specify):</Text>
@@ -703,6 +730,7 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
           <CheckboxRowGroup
             options={PAYMENT_STATUS_OPTIONS}
             selected={finance.paymentStatus}
+            selectedOnly
           />
           <Text style={[styles.paragraph, { marginTop: 4 }]}>
             The amount shown as TOTAL VENDOR PAYOUT is the amount the
@@ -723,7 +751,11 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
         />
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>E. DELIVERY & FOOD HANDOVER</Text>
-          <CheckboxRowGroup options={DELIVERY_OPTIONS} selected={delivery.selected} />
+          <CheckboxRowGroup
+            options={DELIVERY_OPTIONS}
+            selected={delivery.selected}
+            selectedOnly
+          />
           <Text style={[styles.paragraph, { marginTop: 4 }]}>
             Food must only be released to an authorised Dinebd rider or
             person authorised by Dinebd. Before handover, the rider will

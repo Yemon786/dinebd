@@ -105,13 +105,15 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: "#333",
   },
-  scheduleMealRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
+  scheduleMealBlock: {
     paddingVertical: 3,
     paddingHorizontal: 10,
     borderBottomWidth: 0.5,
     borderBottomColor: "#f2f2f2",
+  },
+  scheduleMealRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
   },
   scheduleMealType: {
     width: 55,
@@ -120,6 +122,22 @@ const styles = StyleSheet.create({
     color: ORANGE,
   },
   scheduleMealValue: {
+    fontSize: 8,
+    color: "#333",
+  },
+  scheduleMealSubRow: {
+    flexDirection: "row",
+    marginTop: 2,
+    paddingLeft: 55,
+  },
+  scheduleMealSubLabel: {
+    width: 90,
+    fontFamily: "Helvetica-Bold",
+    fontSize: 8,
+    color: "#666",
+  },
+  scheduleMealSubValue: {
+    flex: 1,
     fontSize: 8,
     color: "#333",
   },
@@ -222,8 +240,12 @@ export interface DateMealEntry {
   dinner: boolean;
   lunchItems: string;
   lunchQuantity: string;
+  lunchPackageName: string;
+  lunchPrice: string;
   dinnerItems: string;
   dinnerQuantity: string;
+  dinnerPackageName: string;
+  dinnerPrice: string;
 }
 
 export interface CateringOrderPDFData {
@@ -232,7 +254,6 @@ export interface CateringOrderPDFData {
     vendorName: string;
     vendorReferenceNumber: string;
     vendorContactNumber: string;
-    orderDate: string;
     date: string;
   };
   customer: {
@@ -241,11 +262,10 @@ export interface CateringOrderPDFData {
     officeAddress: string;
   };
   lunchService: {
-    packageName: string;
     dateEntries: DateMealEntry[];
     additionalItems: string;
     deliveryTime: string;
-    totalLunchesPerDay: string;
+    totalPeopleQuantity: string;
     dietaryRequirements: string;
     otherInformation: string;
   };
@@ -313,19 +333,17 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
       .map((entry) => entry.date),
   ).size;
 
-  const totalPeoplePerDay = (() => {
-    const perDayTotals = new Map<string, number>();
+  const totalPeopleQuantity = (() => {
+    let total = 0;
+    let hasEntry = false;
     lunchService.dateEntries.forEach((entry) => {
       if (!entry.date || (!entry.lunch && !entry.dinner)) return;
-      let dayTotal = 0;
-      if (entry.lunch) dayTotal += parseFloat(entry.lunchQuantity) || 0;
-      if (entry.dinner) dayTotal += parseFloat(entry.dinnerQuantity) || 0;
-      perDayTotals.set(entry.date, (perDayTotals.get(entry.date) || 0) + dayTotal);
+      hasEntry = true;
+      if (entry.lunch) total += parseFloat(entry.lunchQuantity) || 0;
+      if (entry.dinner) total += parseFloat(entry.dinnerQuantity) || 0;
     });
-    const dayValues = Array.from(perDayTotals.values());
-    if (dayValues.length === 0) return "";
-    const average = dayValues.reduce((sum, v) => sum + v, 0) / dayValues.length;
-    return String(Math.round(average));
+    if (!hasEntry) return "";
+    return String(Math.round(total));
   })();
 
   const scheduleDateGroups = (() => {
@@ -333,18 +351,38 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
       string,
       {
         date: string;
-        lunch?: { items: string; quantity: string };
-        dinner?: { items: string; quantity: string };
+        lunch?: {
+          items: string;
+          quantity: string;
+          packageName: string;
+          price: string;
+        };
+        dinner?: {
+          items: string;
+          quantity: string;
+          packageName: string;
+          price: string;
+        };
       }
     >();
     lunchService.dateEntries.forEach((entry) => {
       if (!entry.date) return;
       const group = groups.get(entry.date) ?? { date: entry.date };
       if (entry.lunch) {
-        group.lunch = { items: entry.lunchItems, quantity: entry.lunchQuantity };
+        group.lunch = {
+          items: entry.lunchItems,
+          quantity: entry.lunchQuantity,
+          packageName: entry.lunchPackageName,
+          price: entry.lunchPrice,
+        };
       }
       if (entry.dinner) {
-        group.dinner = { items: entry.dinnerItems, quantity: entry.dinnerQuantity };
+        group.dinner = {
+          items: entry.dinnerItems,
+          quantity: entry.dinnerQuantity,
+          packageName: entry.dinnerPackageName,
+          price: entry.dinnerPrice,
+        };
       }
       groups.set(entry.date, group);
     });
@@ -398,12 +436,6 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Order Date:</Text>
-            <Text style={styles.value}>
-              {formatDate(orderVendor.orderDate)}
-            </Text>
-          </View>
-          <View style={styles.row}>
             <Text style={styles.label}>Date:</Text>
             <Text style={styles.value}>{formatDate(orderVendor.date)}</Text>
           </View>
@@ -437,12 +469,6 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           <Text style={styles.sectionTitle}>C. CATERING DETAILS</Text>
 
           <Text style={styles.subsectionTitle}>Meal Schedule by Date</Text>
-          <View style={styles.row}>
-            <Text style={styles.label}>Package Name:</Text>
-            <Text style={styles.value}>
-              {lunchService.packageName || "N/A"}
-            </Text>
-          </View>
           <View style={styles.table}>
             <View style={styles.tableHeader}>
               <Text style={[styles.tableHeaderText, { width: 55 }]}>
@@ -481,35 +507,97 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                     </Text>
                   </View>
                   {group.lunch && (
-                    <View style={styles.scheduleMealRow}>
-                      <Text style={styles.scheduleMealType}>Lunch</Text>
-                      <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
-                        {group.lunch.items || "N/A"}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.scheduleMealValue,
-                          { flex: 1, textAlign: "right" },
-                        ]}
-                      >
-                        {group.lunch.quantity || "N/A"}
-                      </Text>
+                    <View style={styles.scheduleMealBlock}>
+                      <View style={styles.scheduleMealRow}>
+                        <Text style={styles.scheduleMealType}>Lunch</Text>
+                        <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
+                          {group.lunch.items || "N/A"}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.scheduleMealValue,
+                            { flex: 1, textAlign: "right" },
+                          ]}
+                        >
+                          {group.lunch.quantity || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Package Name:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.lunch.packageName || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Price (per Person):
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.lunch.price ? gbp(group.lunch.price) : "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Amount:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {gbp(
+                            String(
+                              (parseFloat(group.lunch.price) || 0) *
+                                (parseFloat(group.lunch.quantity) || 0),
+                            ),
+                          )}
+                        </Text>
+                      </View>
                     </View>
                   )}
                   {group.dinner && (
-                    <View style={styles.scheduleMealRow}>
-                      <Text style={styles.scheduleMealType}>Dinner</Text>
-                      <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
-                        {group.dinner.items || "N/A"}
-                      </Text>
-                      <Text
-                        style={[
-                          styles.scheduleMealValue,
-                          { flex: 1, textAlign: "right" },
-                        ]}
-                      >
-                        {group.dinner.quantity || "N/A"}
-                      </Text>
+                    <View style={styles.scheduleMealBlock}>
+                      <View style={styles.scheduleMealRow}>
+                        <Text style={styles.scheduleMealType}>Dinner</Text>
+                        <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
+                          {group.dinner.items || "N/A"}
+                        </Text>
+                        <Text
+                          style={[
+                            styles.scheduleMealValue,
+                            { flex: 1, textAlign: "right" },
+                          ]}
+                        >
+                          {group.dinner.quantity || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Package Name:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.dinner.packageName || "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Price (per Person):
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.dinner.price ? gbp(group.dinner.price) : "N/A"}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Amount:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {gbp(
+                            String(
+                              (parseFloat(group.dinner.price) || 0) *
+                                (parseFloat(group.dinner.quantity) || 0),
+                            ),
+                          )}
+                        </Text>
+                      </View>
                     </View>
                   )}
                   {!group.lunch && !group.dinner && (
@@ -544,9 +632,9 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Total People / Quantity Per Day:</Text>
+            <Text style={styles.label}>Total People / Quantity:</Text>
             <Text style={styles.value}>
-              {totalPeoplePerDay || "N/A"}
+              {totalPeopleQuantity || "N/A"}
             </Text>
           </View>
 
@@ -636,28 +724,21 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           </View>
 
           <Text style={styles.subsectionTitle}>Payment Preference</Text>
-          <View style={styles.checkboxRow}>
-            <Text
-              style={[
-                styles.checkboxGlyph,
-                { color: finance.paymentPreference === "advance" ? ORANGE : "#666" },
-              ]}
-            >
-              {finance.paymentPreference === "advance" ? "☑" : "☐"}
-            </Text>
-            <Text>Advance Payment / Full Paid</Text>
-          </View>
-          <View style={styles.checkboxRow}>
-            <Text
-              style={[
-                styles.checkboxGlyph,
-                { color: finance.paymentPreference === "daily" ? ORANGE : "#666" },
-              ]}
-            >
-              {finance.paymentPreference === "daily" ? "☑" : "☐"}
-            </Text>
-            <Text>Daily Payment / Partial Payment</Text>
-          </View>
+          {finance.paymentPreference === "advance" && (
+            <View style={styles.checkboxRow}>
+              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <Text>Advance Payment / Full Paid</Text>
+            </View>
+          )}
+          {finance.paymentPreference === "daily" && (
+            <View style={styles.checkboxRow}>
+              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <Text>Daily Payment / Partial Payment</Text>
+            </View>
+          )}
+          {finance.paymentPreference === "" && (
+            <Text style={styles.paragraph}>N/A</Text>
+          )}
 
           <View style={styles.row}>
             <Text style={styles.label}>Payment Reference:</Text>
