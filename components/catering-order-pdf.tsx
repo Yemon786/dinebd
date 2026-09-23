@@ -205,14 +205,14 @@ const styles = StyleSheet.create({
   },
   signatureLabel: {
     fontFamily: "Helvetica-Bold",
-    marginBottom: 6,
+    marginBottom: 4,
     color: "#333",
   },
   signatureLine: {
     borderBottomWidth: 1,
     borderBottomColor: "#333",
-    marginBottom: 3,
-    paddingBottom: 10,
+    marginBottom: 2,
+    paddingBottom: 4,
   },
   signatureName: {
     fontFamily: "Helvetica-Bold",
@@ -695,23 +695,25 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Subtotal</Text>
-              <Text style={styles.financeValue}>{gbp(finance.subtotal)}</Text>
+              <Text style={[styles.financeValue, styles.bold]}>
+                {gbp(finance.subtotal)}
+              </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>VAT: 5%</Text>
-              <Text style={styles.financeValue}>
+              <Text style={[styles.financeValue, styles.bold]}>
                 {`£${computeVat(finance.subtotal).toFixed(2)}`}
               </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Delivery Fee</Text>
-              <Text style={styles.financeValue}>
+              <Text style={[styles.financeValue, styles.bold]}>
                 {gbp(finance.deliveryFee)}
               </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Other Costs</Text>
-              <Text style={styles.financeValue}>
+              <Text style={[styles.financeValue, styles.bold]}>
                 {gbp(finance.otherCosts)}
               </Text>
             </View>
@@ -727,13 +729,13 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           {finance.paymentPreference === "advance" && (
             <View style={styles.checkboxRow}>
               <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
-              <Text>Advance Payment / Full Paid</Text>
+              <Text style={styles.bold}>Advance Payment / Full Paid</Text>
             </View>
           )}
           {finance.paymentPreference === "daily" && (
             <View style={styles.checkboxRow}>
               <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
-              <Text>Daily Payment / Partial Payment</Text>
+              <Text style={styles.bold}>Daily Payment / Partial Payment</Text>
             </View>
           )}
           {finance.paymentPreference === "" && (
@@ -758,11 +760,11 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           </Text>
           <View style={styles.row}>
             <Text style={styles.label}>Amount Paid:</Text>
-            <Text style={styles.value}>{`£${amountPaid.toFixed(2)}`}</Text>
+            <Text style={[styles.value, styles.bold]}>{`£${amountPaid.toFixed(2)}`}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Outstanding Balance:</Text>
-            <Text style={styles.value}>
+            <Text style={[styles.value, styles.bold]}>
               {`£${outstanding.toFixed(2)}`}
             </Text>
           </View>

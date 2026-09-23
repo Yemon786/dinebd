@@ -129,10 +129,12 @@ const CurrencyInput = ({
   value,
   onChange,
   placeholder,
+  className,
 }: {
   value: string;
   onChange: (v: string) => void;
   placeholder?: string;
+  className?: string;
 }) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
@@ -143,7 +145,7 @@ const CurrencyInput = ({
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder ?? "0.00"}
-      className="pl-7"
+      className={`pl-7 ${className ?? ""}`}
     />
   </div>
 );
@@ -211,26 +213,6 @@ const DateEntryCard = ({
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
-            <Label htmlFor={`lunch-items-${entry.id}`}>Meal / Food Items</Label>
-            <Input
-              id={`lunch-items-${entry.id}`}
-              value={entry.lunchItems}
-              onChange={(e) => onChange({ lunchItems: e.target.value })}
-              placeholder="e.g. Chicken biryani, salad"
-              className="bg-white"
-            />
-          </div>
-          <div>
-            <Label htmlFor={`lunch-qty-${entry.id}`}>Quantity / People</Label>
-            <Input
-              id={`lunch-qty-${entry.id}`}
-              value={entry.lunchQuantity}
-              onChange={(e) => onChange({ lunchQuantity: e.target.value })}
-              placeholder="e.g. 25"
-              className="bg-white"
-            />
-          </div>
-          <div>
             <Label htmlFor={`lunch-package-name-${entry.id}`}>
               Package Name
             </Label>
@@ -254,6 +236,26 @@ const DateEntryCard = ({
               placeholder="e.g. 100.00"
             />
           </div>
+          <div>
+            <Label htmlFor={`lunch-items-${entry.id}`}>Meal / Food Items</Label>
+            <Input
+              id={`lunch-items-${entry.id}`}
+              value={entry.lunchItems}
+              onChange={(e) => onChange({ lunchItems: e.target.value })}
+              placeholder="e.g. Chicken biryani, salad"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`lunch-qty-${entry.id}`}>Quantity / People</Label>
+            <Input
+              id={`lunch-qty-${entry.id}`}
+              value={entry.lunchQuantity}
+              onChange={(e) => onChange({ lunchQuantity: e.target.value })}
+              placeholder="e.g. 25"
+              className="bg-white"
+            />
+          </div>
         </div>
       </div>
     )}
@@ -264,26 +266,6 @@ const DateEntryCard = ({
           Dinner
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <div>
-            <Label htmlFor={`dinner-items-${entry.id}`}>Meal / Food Items</Label>
-            <Input
-              id={`dinner-items-${entry.id}`}
-              value={entry.dinnerItems}
-              onChange={(e) => onChange({ dinnerItems: e.target.value })}
-              placeholder="e.g. Grilled chicken, rice"
-              className="bg-white"
-            />
-          </div>
-          <div>
-            <Label htmlFor={`dinner-qty-${entry.id}`}>Quantity / People</Label>
-            <Input
-              id={`dinner-qty-${entry.id}`}
-              value={entry.dinnerQuantity}
-              onChange={(e) => onChange({ dinnerQuantity: e.target.value })}
-              placeholder="e.g. 25"
-              className="bg-white"
-            />
-          </div>
           <div>
             <Label htmlFor={`dinner-package-name-${entry.id}`}>
               Package Name
@@ -306,6 +288,26 @@ const DateEntryCard = ({
               value={entry.dinnerPrice}
               onChange={(v) => onChange({ dinnerPrice: v })}
               placeholder="e.g. 100.00"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`dinner-items-${entry.id}`}>Meal / Food Items</Label>
+            <Input
+              id={`dinner-items-${entry.id}`}
+              value={entry.dinnerItems}
+              onChange={(e) => onChange({ dinnerItems: e.target.value })}
+              placeholder="e.g. Grilled chicken, rice"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`dinner-qty-${entry.id}`}>Quantity / People</Label>
+            <Input
+              id={`dinner-qty-${entry.id}`}
+              value={entry.dinnerQuantity}
+              onChange={(e) => onChange({ dinnerQuantity: e.target.value })}
+              placeholder="e.g. 25"
+              className="bg-white"
             />
           </div>
         </div>
@@ -1001,7 +1003,7 @@ export default function CateringOrderPortal() {
                               Auto-calculated from meal schedule prices
                             </span>
                           </td>
-                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-medium">
+                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-bold">
                             £{mealScheduleSubtotal.toFixed(2)}
                           </td>
                         </tr>
@@ -1009,7 +1011,7 @@ export default function CateringOrderPortal() {
                           <td className="px-4 py-3 text-sm text-gray-700">
                             VAT: 5%
                           </td>
-                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-medium">
+                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-bold">
                             £{vatAmount.toFixed(2)}
                           </td>
                         </tr>
@@ -1026,6 +1028,7 @@ export default function CateringOrderPortal() {
                                   finance: { ...prev.finance, deliveryFee: v },
                                 }))
                               }
+                              className="font-bold"
                             />
                           </td>
                         </tr>
@@ -1042,6 +1045,7 @@ export default function CateringOrderPortal() {
                                   finance: { ...prev.finance, otherCosts: v },
                                 }))
                               }
+                              className="font-bold"
                             />
                           </td>
                         </tr>
@@ -1119,6 +1123,7 @@ export default function CateringOrderPortal() {
                             finance: { ...prev.finance, amountPaid: v },
                           }))
                         }
+                        className="font-bold"
                       />
                     </div>
                   </div>
@@ -1140,7 +1145,7 @@ export default function CateringOrderPortal() {
                       <span className="text-sm font-semibold text-gray-700">
                         Amount Paid
                       </span>
-                      <span className="text-sm font-semibold text-gray-800">
+                      <span className="text-sm font-bold text-gray-800">
                         £{(parseFloat(formData.finance.amountPaid) || 0).toFixed(2)}
                       </span>
                     </div>
