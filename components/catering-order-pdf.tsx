@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
+import { bdt, taka } from "./pdf-taka";
 
 const ORANGE = "#ED7319";
 
@@ -196,7 +197,7 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
   },
   signatureBlock: {
-    marginTop: 12,
+    marginTop: 0,
     flexDirection: "row",
     justifyContent: "space-between",
   },
@@ -207,12 +208,6 @@ const styles = StyleSheet.create({
     fontFamily: "Helvetica-Bold",
     marginBottom: 4,
     color: "#333",
-  },
-  signatureLine: {
-    borderBottomWidth: 1,
-    borderBottomColor: "#333",
-    marginBottom: 2,
-    paddingBottom: 4,
   },
   signatureName: {
     fontFamily: "Helvetica-Bold",
@@ -251,7 +246,6 @@ export interface DateMealEntry {
 export interface CateringOrderPDFData {
   orderVendor: {
     cateringOrderId: string;
-    vendorName: string;
     vendorReferenceNumber: string;
     vendorContactNumber: string;
     date: string;
@@ -297,11 +291,6 @@ const formatDate = (dateStr: string): string => {
     month: "long",
     year: "numeric",
   });
-};
-
-const gbp = (value: string): string => {
-  const n = parseFloat(value);
-  return `£${(isNaN(n) ? 0 : n).toFixed(2)}`;
 };
 
 const VAT_RATE = 0.05;
@@ -420,10 +409,6 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Vendor Name:</Text>
-            <Text style={styles.value}>{orderVendor.vendorName || "N/A"}</Text>
-          </View>
-          <View style={styles.row}>
             <Text style={styles.label}>Vendor Reference Number:</Text>
             <Text style={styles.value}>
               {orderVendor.vendorReferenceNumber || "N/A"}
@@ -535,7 +520,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                           Price (per Person):
                         </Text>
                         <Text style={styles.scheduleMealSubValue}>
-                          {group.lunch.price ? gbp(group.lunch.price) : "N/A"}
+                          {group.lunch.price ? bdt(group.lunch.price) : "N/A"}
                         </Text>
                       </View>
                       <View style={styles.scheduleMealSubRow}>
@@ -543,7 +528,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                           Amount:
                         </Text>
                         <Text style={styles.scheduleMealSubValue}>
-                          {gbp(
+                          {bdt(
                             String(
                               (parseFloat(group.lunch.price) || 0) *
                                 (parseFloat(group.lunch.quantity) || 0),
@@ -582,7 +567,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                           Price (per Person):
                         </Text>
                         <Text style={styles.scheduleMealSubValue}>
-                          {group.dinner.price ? gbp(group.dinner.price) : "N/A"}
+                          {group.dinner.price ? bdt(group.dinner.price) : "N/A"}
                         </Text>
                       </View>
                       <View style={styles.scheduleMealSubRow}>
@@ -590,7 +575,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                           Amount:
                         </Text>
                         <Text style={styles.scheduleMealSubValue}>
-                          {gbp(
+                          {bdt(
                             String(
                               (parseFloat(group.dinner.price) || 0) *
                                 (parseFloat(group.dinner.quantity) || 0),
@@ -687,7 +672,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>
-                Number of People / Quantity Per Day
+                Number of People / Quantity
               </Text>
               <Text style={styles.financeValue}>
                 {finance.lunchesPerDay || "N/A"}
@@ -696,31 +681,31 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Subtotal</Text>
               <Text style={[styles.financeValue, styles.bold]}>
-                {gbp(finance.subtotal)}
+                {bdt(finance.subtotal, true)}
               </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>VAT: 5%</Text>
               <Text style={[styles.financeValue, styles.bold]}>
-                {`£${computeVat(finance.subtotal).toFixed(2)}`}
+                {taka(computeVat(finance.subtotal), true)}
               </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Delivery Fee</Text>
               <Text style={[styles.financeValue, styles.bold]}>
-                {gbp(finance.deliveryFee)}
+                {bdt(finance.deliveryFee, true)}
               </Text>
             </View>
             <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>Other Costs</Text>
               <Text style={[styles.financeValue, styles.bold]}>
-                {gbp(finance.otherCosts)}
+                {bdt(finance.otherCosts, true)}
               </Text>
             </View>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>TOTAL</Text>
               <Text style={styles.totalValue}>
-                {`£${total.toFixed(2)}`}
+                {taka(total, true)}
               </Text>
             </View>
           </View>
@@ -752,7 +737,7 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           <View style={[styles.row, { marginTop: 8 }]}>
             <Text style={[styles.label, styles.bold]}>TOTAL AMOUNT:</Text>
             <Text style={[styles.value, styles.bold]}>
-              {`£${total.toFixed(2)}`}
+              {taka(total, true)}
             </Text>
           </View>
           <Text style={[styles.paragraph, { fontSize: 8, color: "#777" }]}>
@@ -760,12 +745,12 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           </Text>
           <View style={styles.row}>
             <Text style={styles.label}>Amount Paid:</Text>
-            <Text style={[styles.value, styles.bold]}>{`£${amountPaid.toFixed(2)}`}</Text>
+            <Text style={[styles.value, styles.bold]}>{taka(amountPaid, true)}</Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Outstanding Balance:</Text>
             <Text style={[styles.value, styles.bold]}>
-              {`£${outstanding.toFixed(2)}`}
+              {taka(outstanding, true)}
             </Text>
           </View>
         </View>
@@ -989,7 +974,6 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           <View style={styles.signatureBlock}>
             <View style={styles.signatureBox}>
               <Text style={styles.signatureLabel}>Customer</Text>
-              <View style={styles.signatureLine} />
               <Text style={styles.signatureName}>
                 Name: {signOff.customerName || "N/A"}
               </Text>
@@ -1001,7 +985,6 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
               <Text style={styles.signatureLabel}>
                 Dinebd Representative
               </Text>
-              <View style={styles.signatureLine} />
               <Text style={styles.signatureName}>
                 Name: {signOff.representativeName || "N/A"}
               </Text>

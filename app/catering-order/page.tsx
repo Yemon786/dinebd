@@ -48,7 +48,6 @@ const createEmptyDateEntry = (): DateMealEntry => ({
 interface CateringOrderData {
   orderVendor: {
     cateringOrderId: string;
-    vendorName: string;
     vendorReferenceNumber: string;
     vendorContactNumber: string;
     date: string;
@@ -88,7 +87,6 @@ interface CateringOrderData {
 const initialData: CateringOrderData = {
   orderVendor: {
     cateringOrderId: "",
-    vendorName: "",
     vendorReferenceNumber: "",
     vendorContactNumber: "",
     date: "",
@@ -138,7 +136,7 @@ const CurrencyInput = ({
 }) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-      £
+      ৳
     </span>
     <Input
       inputMode="decimal"
@@ -670,23 +668,6 @@ export default function CateringOrderPortal() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="vendorName">Vendor Name</Label>
-                    <Input
-                      id="vendorName"
-                      value={formData.orderVendor.vendorName}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          orderVendor: {
-                            ...prev.orderVendor,
-                            vendorName: e.target.value,
-                          },
-                        }))
-                      }
-                      placeholder="Enter vendor name"
-                    />
-                  </div>
-                  <div>
                     <Label htmlFor="vendorReferenceNumber">
                       Vendor Reference Number
                     </Label>
@@ -987,7 +968,7 @@ export default function CateringOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            Number of People / Quantity Per Day
+                            Number of People / Quantity
                             <span className="block text-xs text-gray-400 font-normal">
                               Auto-calculated from meal schedule quantities
                             </span>
@@ -1004,7 +985,7 @@ export default function CateringOrderPortal() {
                             </span>
                           </td>
                           <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-bold">
-                            £{mealScheduleSubtotal.toFixed(2)}
+                            ৳{mealScheduleSubtotal.toFixed(2)}
                           </td>
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
@@ -1012,7 +993,7 @@ export default function CateringOrderPortal() {
                             VAT: 5%
                           </td>
                           <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-bold">
-                            £{vatAmount.toFixed(2)}
+                            ৳{vatAmount.toFixed(2)}
                           </td>
                         </tr>
                         <tr className="border-b border-gray-100 bg-orange-50/40">
@@ -1054,7 +1035,7 @@ export default function CateringOrderPortal() {
                             TOTAL
                           </td>
                           <td className="px-4 py-3 text-right text-base font-bold text-primary">
-                            £{total.toFixed(2)}
+                            ৳{total.toFixed(2)}
                           </td>
                         </tr>
                       </tbody>
@@ -1134,7 +1115,7 @@ export default function CateringOrderPortal() {
                         TOTAL AMOUNT
                       </span>
                       <span className="text-lg font-bold text-primary">
-                        £{total.toFixed(2)}
+                        ৳{total.toFixed(2)}
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">
@@ -1146,7 +1127,7 @@ export default function CateringOrderPortal() {
                         Amount Paid
                       </span>
                       <span className="text-sm font-bold text-gray-800">
-                        £{(parseFloat(formData.finance.amountPaid) || 0).toFixed(2)}
+                        ৳{(parseFloat(formData.finance.amountPaid) || 0).toFixed(2)}
                       </span>
                     </div>
                     <div className="flex items-center justify-between">
@@ -1154,7 +1135,7 @@ export default function CateringOrderPortal() {
                         Outstanding Balance
                       </span>
                       <span className="text-sm font-bold text-gray-900">
-                        £{outstandingBalance.toFixed(2)}
+                        ৳{outstandingBalance.toFixed(2)}
                       </span>
                     </div>
                   </div>

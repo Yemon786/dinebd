@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -35,9 +35,13 @@ const createEmptyDateEntry = (): DateMealEntry => ({
   dinner: false,
   lunchItems: "",
   lunchQuantity: "",
+  lunchPackageName: "",
+  lunchPrice: "",
   lunchInstructions: "",
   dinnerItems: "",
   dinnerQuantity: "",
+  dinnerPackageName: "",
+  dinnerPrice: "",
   dinnerInstructions: "",
 });
 
@@ -70,18 +74,14 @@ const initialData: CateringVendorOrderData = {
     vendorContactNumber: "",
     confirmationDate: "",
     dinebdRepresentative: "",
+    dinebdContactPerson: "",
+    dinebdContactNumber: "",
   },
   cateringDetails: {
-    packageName: "",
     totalLunches: "",
     handoverTime: "",
   },
   dateEntries: [createEmptyDateEntry()],
-  weeklySummary: {
-    week1: { dates: "", days: "", lunches: "", foodValue: "" },
-    week2: { dates: "", days: "", lunches: "", foodValue: "" },
-    week3: { dates: "", days: "", lunches: "", foodValue: "" },
-  },
   additionalItems: "",
   packaging: { selected: [], otherText: "" },
   dietary: {
@@ -103,6 +103,31 @@ function toggleInArray(list: string[], value: string): string[] {
     ? list.filter((v) => v !== value)
     : [...list, value];
 }
+
+const CurrencyInput = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+}) => (
+  <div className="relative">
+    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+      ৳
+    </span>
+    <Input
+      inputMode="decimal"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder ?? "0.00"}
+      className={`pl-7 bg-white ${className ?? ""}`}
+    />
+  </div>
+);
 
 const DateEntryCard = ({
   entry,
@@ -167,6 +192,30 @@ const DateEntryCard = ({
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <div>
+            <Label htmlFor={`lunch-package-name-${entry.id}`}>
+              Package Name
+            </Label>
+            <Input
+              id={`lunch-package-name-${entry.id}`}
+              value={entry.lunchPackageName}
+              onChange={(e) =>
+                onChange({ lunchPackageName: e.target.value })
+              }
+              placeholder="Enter package name"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`lunch-price-${entry.id}`}>
+              Price (per Person)
+            </Label>
+            <CurrencyInput
+              value={entry.lunchPrice}
+              onChange={(v) => onChange({ lunchPrice: v })}
+              placeholder="e.g. 100.00"
+            />
+          </div>
+          <div>
             <Label htmlFor={`lunch-items-${entry.id}`}>Meal / Food Items</Label>
             <Input
               id={`lunch-items-${entry.id}`}
@@ -208,6 +257,30 @@ const DateEntryCard = ({
           Dinner
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div>
+            <Label htmlFor={`dinner-package-name-${entry.id}`}>
+              Package Name
+            </Label>
+            <Input
+              id={`dinner-package-name-${entry.id}`}
+              value={entry.dinnerPackageName}
+              onChange={(e) =>
+                onChange({ dinnerPackageName: e.target.value })
+              }
+              placeholder="Enter package name"
+              className="bg-white"
+            />
+          </div>
+          <div>
+            <Label htmlFor={`dinner-price-${entry.id}`}>
+              Price (per Person)
+            </Label>
+            <CurrencyInput
+              value={entry.dinnerPrice}
+              onChange={(v) => onChange({ dinnerPrice: v })}
+              placeholder="e.g. 100.00"
+            />
+          </div>
           <div>
             <Label htmlFor={`dinner-items-${entry.id}`}>Meal / Food Items</Label>
             <Input
@@ -300,6 +373,60 @@ export default function CateringVendorOrderPortal() {
         .map((entry) => entry.date),
     ).size;
   }, [formData.dateEntries]);
+
+  const totalPeopleQuantity = useMemo(() => {
+    let total = 0;
+    let hasEntry = false;
+    formData.dateEntries.forEach((entry) => {
+      if (!entry.date || (!entry.lunch && !entry.dinner)) return;
+      hasEntry = true;
+      if (entry.lunch) total += parseFloat(entry.lunchQuantity) || 0;
+      if (entry.dinner) total += parseFloat(entry.dinnerQuantity) || 0;
+    });
+    if (!hasEntry) return "";
+    return String(Math.round(total));
+  }, [formData.dateEntries]);
+
+  const mealScheduleSubtotal = useMemo(() => {
+    let total = 0;
+    formData.dateEntries.forEach((entry) => {
+      if (!entry.date) return;
+      if (entry.lunch) {
+        total +=
+          (parseFloat(entry.lunchPrice) || 0) *
+          (parseFloat(entry.lunchQuantity) || 0);
+      }
+      if (entry.dinner) {
+        total +=
+          (parseFloat(entry.dinnerPrice) || 0) *
+          (parseFloat(entry.dinnerQuantity) || 0);
+      }
+    });
+    return total;
+  }, [formData.dateEntries]);
+
+  useEffect(() => {
+    const value = mealScheduleSubtotal.toFixed(2);
+    setFormData((prev) =>
+      prev.finance.totalFoodValue === value
+        ? prev
+        : { ...prev, finance: { ...prev.finance, totalFoodValue: value } },
+    );
+  }, [mealScheduleSubtotal]);
+
+  useEffect(() => {
+    setFormData((prev) =>
+      prev.cateringDetails.totalLunches === totalPeopleQuantity
+        ? prev
+        : {
+            ...prev,
+            cateringDetails: {
+              ...prev.cateringDetails,
+              totalLunches: totalPeopleQuantity,
+            },
+          },
+    );
+  }, [totalPeopleQuantity]);
 
   const addDateEntry = () => {
     setFormData((prev) => ({
@@ -596,29 +723,47 @@ export default function CateringVendorOrderPortal() {
                       placeholder="Enter Dinebd representative name"
                     />
                   </div>
+                  <div>
+                    <Label htmlFor="dinebdContactPerson">Dinebd Contact Person</Label>
+                    <Input
+                      id="dinebdContactPerson"
+                      value={formData.orderDetails.dinebdContactPerson}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          orderDetails: {
+                            ...prev.orderDetails,
+                            dinebdContactPerson: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Enter Dinebd contact person"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="dinebdContactNumber">Dinebd Contact Number</Label>
+                    <Input
+                      id="dinebdContactNumber"
+                      type="tel"
+                      value={formData.orderDetails.dinebdContactNumber}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          orderDetails: {
+                            ...prev.orderDetails,
+                            dinebdContactNumber: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Enter Dinebd contact number"
+                    />
+                  </div>
                 </div>
               )}
 
               {section.id === "catering-order-details" && (
                 <div className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="md:col-span-2">
-                      <Label htmlFor="packageName">Package / Catering Plan Name</Label>
-                      <Input
-                        id="packageName"
-                        value={formData.cateringDetails.packageName}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            cateringDetails: {
-                              ...prev.cateringDetails,
-                              packageName: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Enter package / catering plan name"
-                      />
-                    </div>
                     <div>
                       <Label htmlFor="totalCateringDays">
                         Total Number of Catering Days
@@ -638,19 +783,14 @@ export default function CateringVendorOrderPortal() {
                       <Label htmlFor="totalLunches">Total Number of People / Quantity</Label>
                       <Input
                         id="totalLunches"
-                        inputMode="numeric"
                         value={formData.cateringDetails.totalLunches}
-                        onChange={(e) =>
-                          setFormData((prev) => ({
-                            ...prev,
-                            cateringDetails: {
-                              ...prev.cateringDetails,
-                              totalLunches: e.target.value,
-                            },
-                          }))
-                        }
-                        placeholder="Enter total number of lunches"
+                        disabled
+                        className="bg-gray-50 text-gray-600"
                       />
+                      <p className="text-xs text-gray-400 mt-1">
+                        Automatically calculated from the quantity entered
+                        for each catering date.
+                      </p>
                     </div>
                     <div>
                       <Label htmlFor="handoverTime">Required Food Handover Time</Label>
@@ -688,7 +828,7 @@ export default function CateringVendorOrderPortal() {
                 <div className="space-y-10">
                   <div>
                     <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 mb-4 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
-                      Catering Dates
+                      Meal Schedule by Date
                     </h3>
                     <p className="text-xs text-gray-500 mb-4">
                       Add each catering date and choose Lunch, Dinner, or
@@ -715,105 +855,6 @@ export default function CateringVendorOrderPortal() {
                       <Plus className="w-4 h-4" />
                       Add Date
                     </Button>
-                  </div>
-
-                  <div>
-                    <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 mb-4 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
-                      Weekly Order Summary
-                    </h3>
-                    <div className="overflow-x-auto rounded-xl border border-gray-200">
-                      <table className="w-full min-w-[640px]">
-                        <thead>
-                          <tr className="bg-primary text-white">
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-24">Week</th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold">Catering Dates</th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-32">Number of Days</th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-32">Lunches / People</th>
-                            <th className="px-4 py-3 text-left text-sm font-semibold w-32">Food Value</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {(["week1", "week2", "week3"] as const).map((key, idx) => {
-                            const label = key === "week1" ? "Week 1" : key === "week2" ? "Week 2" : "Week 3";
-                            const row = formData.weeklySummary[key];
-                            return (
-                              <tr
-                                key={key}
-                                className={`border-b border-gray-100 ${idx % 2 === 0 ? "bg-orange-50/40" : "bg-white"}`}
-                              >
-                                <td className="px-4 py-2.5 text-sm font-medium text-gray-700 align-top pt-4">
-                                  {label}
-                                </td>
-                                <td className="px-4 py-2 min-w-[180px]">
-                                  <Input
-                                    value={row.dates}
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        weeklySummary: {
-                                          ...prev.weeklySummary,
-                                          [key]: { ...prev.weeklySummary[key], dates: e.target.value },
-                                        },
-                                      }))
-                                    }
-                                    placeholder="e.g. 1-7 Oct 2026"
-                                    className="bg-white"
-                                  />
-                                </td>
-                                <td className="px-4 py-2 min-w-[110px]">
-                                  <Input
-                                    value={row.days}
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        weeklySummary: {
-                                          ...prev.weeklySummary,
-                                          [key]: { ...prev.weeklySummary[key], days: e.target.value },
-                                        },
-                                      }))
-                                    }
-                                    placeholder="e.g. 7"
-                                    className="bg-white"
-                                  />
-                                </td>
-                                <td className="px-4 py-2 min-w-[110px]">
-                                  <Input
-                                    value={row.lunches}
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        weeklySummary: {
-                                          ...prev.weeklySummary,
-                                          [key]: { ...prev.weeklySummary[key], lunches: e.target.value },
-                                        },
-                                      }))
-                                    }
-                                    placeholder="e.g. 25"
-                                    className="bg-white"
-                                  />
-                                </td>
-                                <td className="px-4 py-2 min-w-[110px]">
-                                  <Input
-                                    value={row.foodValue}
-                                    onChange={(e) =>
-                                      setFormData((prev) => ({
-                                        ...prev,
-                                        weeklySummary: {
-                                          ...prev.weeklySummary,
-                                          [key]: { ...prev.weeklySummary[key], foodValue: e.target.value },
-                                        },
-                                      }))
-                                    }
-                                    placeholder="e.g. 500.00"
-                                    className="bg-white"
-                                  />
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
-                    </div>
                   </div>
 
                   <div>
@@ -971,14 +1012,8 @@ export default function CateringVendorOrderPortal() {
                           <td className="px-4 py-2 w-48">
                             <Input
                               value={formData.finance.totalFoodValue}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  finance: { ...prev.finance, totalFoodValue: e.target.value },
-                                }))
-                              }
-                              placeholder="0.00"
-                              className="text-right bg-white"
+                              disabled
+                              className="text-right bg-gray-50 text-gray-600"
                             />
                           </td>
                         </tr>
