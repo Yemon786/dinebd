@@ -249,6 +249,7 @@ export interface CateringOrderPDFData {
     vendorReferenceNumber: string;
     vendorContactNumber: string;
     date: string;
+    dinebdRepresentative: string;
   };
   customer: {
     customerName: string;
@@ -284,13 +285,10 @@ export interface CateringOrderPDFData {
 
 const formatDate = (dateStr: string): string => {
   if (!dateStr) return "N/A";
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return dateStr;
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
+  if (!match) return dateStr;
+  const [, year, month, day] = match;
+  return `${day}/${month}/${year}`;
 };
 
 const VAT_RATE = 0.05;
@@ -423,6 +421,12 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           <View style={styles.row}>
             <Text style={styles.label}>Date:</Text>
             <Text style={styles.value}>{formatDate(orderVendor.date)}</Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>DineBD Representative:</Text>
+            <Text style={styles.value}>
+              {orderVendor.dinebdRepresentative || "N/A"}
+            </Text>
           </View>
         </View>
 

@@ -249,7 +249,6 @@ export interface CateringVendorOrderPDFData {
     vendorContactNumber: string;
     confirmationDate: string;
     dinebdRepresentative: string;
-    dinebdContactPerson: string;
     dinebdContactNumber: string;
   };
   cateringDetails: {
@@ -271,6 +270,7 @@ export interface CateringVendorOrderPDFData {
   finance: {
     totalFoodValue: string;
     platformFee: string;
+    paymentPreference: "advance" | "daily" | "";
     paymentStatus: string[];
   };
   delivery: {
@@ -298,13 +298,10 @@ const DELIVERY_OPTIONS = [
 
 const formatDate = (dateStr: string): string => {
   if (!dateStr) return "N/A";
-  const date = new Date(dateStr);
-  if (isNaN(date.getTime())) return dateStr;
-  return date.toLocaleDateString("en-GB", {
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateStr);
+  if (!match) return dateStr;
+  const [, year, month, day] = match;
+  return `${day}/${month}/${year}`;
 };
 
 const num = (value: string): string => {
@@ -546,12 +543,6 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Dinebd Contact Person:</Text>
-            <Text style={styles.value}>
-              {orderDetails.dinebdContactPerson || "N/A"}
-            </Text>
-          </View>
-          <View style={styles.row}>
             <Text style={styles.label}>Dinebd Contact Number:</Text>
             <Text style={styles.value}>
               {orderDetails.dinebdContactNumber || "N/A"}
@@ -738,6 +729,20 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
               </Text>
             </View>
             <View style={styles.financeRow}>
+              <Text style={styles.financeLabel}>Number of Days</Text>
+              <Text style={styles.financeValue}>
+                {cateringDaysCount || "N/A"}
+              </Text>
+            </View>
+            <View style={styles.financeRow}>
+              <Text style={styles.financeLabel}>
+                Number of People / Quantity
+              </Text>
+              <Text style={styles.financeValue}>
+                {cateringDetails.totalLunches || "N/A"}
+              </Text>
+            </View>
+            <View style={styles.financeRow}>
               <Text style={styles.financeLabel}>
                 Total Food / Catering Order Value
               </Text>
@@ -773,6 +778,23 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
             separately by Dinebd. It is not included in the vendor payout
             calculation.
           </Text>
+
+          <Text style={styles.subsectionTitle}>Payment Preference</Text>
+          {finance.paymentPreference === "advance" && (
+            <View style={styles.checkboxRow}>
+              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <Text style={styles.bold}>Advance Payment / Full Paid</Text>
+            </View>
+          )}
+          {finance.paymentPreference === "daily" && (
+            <View style={styles.checkboxRow}>
+              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <Text style={styles.bold}>Daily Payment / Partial Payment</Text>
+            </View>
+          )}
+          {finance.paymentPreference === "" && (
+            <Text style={styles.paragraph}>N/A</Text>
+          )}
 
           <Text style={styles.subsectionTitle}>Payment Status</Text>
           <CheckboxRowGroup

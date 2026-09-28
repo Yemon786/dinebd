@@ -3,10 +3,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DateInput } from "@/components/ui/date-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Menu, Lock, Eye, EyeOff, Download, CheckCircle2, Plus, Trash2 } from "lucide-react";
 import FormSection from "@/components/forms/FormSection";
+import { RadioOptionGroup } from "@/components/onboarding/radio-group";
 import CateringVendorOrderSidebar from "@/components/catering-vendor-order-sidebar";
 import CateringVendorOrderPDF, {
   type CateringVendorOrderPDFData,
@@ -74,7 +76,6 @@ const initialData: CateringVendorOrderData = {
     vendorContactNumber: "",
     confirmationDate: "",
     dinebdRepresentative: "",
-    dinebdContactPerson: "",
     dinebdContactNumber: "",
   },
   cateringDetails: {
@@ -93,6 +94,7 @@ const initialData: CateringVendorOrderData = {
   finance: {
     totalFoodValue: "",
     platformFee: "",
+    paymentPreference: "",
     paymentStatus: [],
   },
   delivery: { selected: [] },
@@ -144,9 +146,8 @@ const DateEntryCard = ({
     <div className="flex items-end gap-3">
       <div className="flex-1">
         <Label htmlFor={`date-${entry.id}`}>Date</Label>
-        <Input
+        <DateInput
           id={`date-${entry.id}`}
-          type="date"
           value={entry.date}
           onChange={(e) => onChange({ date: e.target.value })}
         />
@@ -691,9 +692,8 @@ export default function CateringVendorOrderPortal() {
                   </div>
                   <div>
                     <Label htmlFor="confirmationDate">Order Confirmation Date</Label>
-                    <Input
+                    <DateInput
                       id="confirmationDate"
-                      type="date"
                       value={formData.orderDetails.confirmationDate}
                       onChange={(e) =>
                         setFormData((prev) => ({
@@ -721,23 +721,6 @@ export default function CateringVendorOrderPortal() {
                         }))
                       }
                       placeholder="Enter Dinebd representative name"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="dinebdContactPerson">Dinebd Contact Person</Label>
-                    <Input
-                      id="dinebdContactPerson"
-                      value={formData.orderDetails.dinebdContactPerson}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          orderDetails: {
-                            ...prev.orderDetails,
-                            dinebdContactPerson: e.target.value,
-                          },
-                        }))
-                      }
-                      placeholder="Enter Dinebd contact person"
                     />
                   </div>
                   <div>
@@ -1007,6 +990,30 @@ export default function CateringVendorOrderPortal() {
                       <tbody>
                         <tr className="border-b border-gray-100 bg-orange-50/40">
                           <td className="px-4 py-3 text-sm text-gray-700">
+                            Number of Days
+                          </td>
+                          <td className="px-4 py-2 w-48">
+                            <Input
+                              value={totalCateringDays > 0 ? String(totalCateringDays) : ""}
+                              disabled
+                              className="text-right bg-gray-50 text-gray-600"
+                            />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-gray-100 bg-white">
+                          <td className="px-4 py-3 text-sm text-gray-700">
+                            Number of People / Quantity
+                          </td>
+                          <td className="px-4 py-2 w-48">
+                            <Input
+                              value={formData.cateringDetails.totalLunches}
+                              disabled
+                              className="text-right bg-gray-50 text-gray-600"
+                            />
+                          </td>
+                        </tr>
+                        <tr className="border-b border-gray-100 bg-orange-50/40">
+                          <td className="px-4 py-3 text-sm text-gray-700">
                             Total Food / Catering Order Value
                           </td>
                           <td className="px-4 py-2 w-48">
@@ -1069,6 +1076,38 @@ export default function CateringVendorOrderPortal() {
                       managed separately by Dinebd. It is not included in the
                       vendor payout calculation.
                     </p>
+                  </div>
+
+                  <div>
+                    <h3 className="flex items-center gap-2 text-base font-bold text-gray-900 pb-2.5 mb-4 border-b border-gray-200 before:content-[''] before:w-1 before:h-4 before:rounded-full before:bg-primary">
+                      Payment Preference
+                    </h3>
+                    <RadioOptionGroup
+                      name="paymentPreference"
+                      options={[
+                        "Advance Payment / Full Paid",
+                        "Daily Payment / Partial Payment",
+                      ]}
+                      value={
+                        formData.finance.paymentPreference === "advance"
+                          ? "Advance Payment / Full Paid"
+                          : formData.finance.paymentPreference === "daily"
+                            ? "Daily Payment / Partial Payment"
+                            : ""
+                      }
+                      onChange={(v) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          finance: {
+                            ...prev.finance,
+                            paymentPreference:
+                              v === "Advance Payment / Full Paid"
+                                ? "advance"
+                                : "daily",
+                          },
+                        }))
+                      }
+                    />
                   </div>
 
                   <div>

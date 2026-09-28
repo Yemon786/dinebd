@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { DateInput } from "@/components/ui/date-input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Menu, Lock, Eye, EyeOff, Download, CheckCircle2, Plus, Trash2 } from "lucide-react";
@@ -51,6 +52,7 @@ interface CateringOrderData {
     vendorReferenceNumber: string;
     vendorContactNumber: string;
     date: string;
+    dinebdRepresentative: string;
   };
   customer: {
     customerName: string;
@@ -90,6 +92,7 @@ const initialData: CateringOrderData = {
     vendorReferenceNumber: "",
     vendorContactNumber: "",
     date: "",
+    dinebdRepresentative: "",
   },
   customer: {
     customerName: "",
@@ -163,9 +166,8 @@ const DateEntryCard = ({
     <div className="flex items-end gap-3">
       <div className="flex-1">
         <Label htmlFor={`date-${entry.id}`}>Date</Label>
-        <Input
+        <DateInput
           id={`date-${entry.id}`}
-          type="date"
           value={entry.date}
           onChange={(e) => onChange({ date: e.target.value })}
         />
@@ -708,9 +710,8 @@ export default function CateringOrderPortal() {
                   </div>
                   <div>
                     <Label htmlFor="orderVendorDate">Date</Label>
-                    <Input
+                    <DateInput
                       id="orderVendorDate"
-                      type="date"
                       value={formData.orderVendor.date}
                       onChange={(e) =>
                         setFormData((prev) => ({
@@ -721,6 +722,25 @@ export default function CateringOrderPortal() {
                           },
                         }))
                       }
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="dinebdRepresentative">
+                      DineBD Representative
+                    </Label>
+                    <Input
+                      id="dinebdRepresentative"
+                      value={formData.orderVendor.dinebdRepresentative}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          orderVendor: {
+                            ...prev.orderVendor,
+                            dinebdRepresentative: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Enter DineBD representative name"
                     />
                   </div>
                 </div>
@@ -1427,9 +1447,8 @@ export default function CateringOrderPortal() {
                         </div>
                         <div>
                           <Label htmlFor="signOffCustomerDate">Date</Label>
-                          <Input
+                          <DateInput
                             id="signOffCustomerDate"
-                            type="date"
                             value={formData.signOff.customerDate}
                             onChange={(e) =>
                               setFormData((prev) => ({
@@ -1465,9 +1484,8 @@ export default function CateringOrderPortal() {
                         </div>
                         <div>
                           <Label htmlFor="signOffRepDate">Date</Label>
-                          <Input
+                          <DateInput
                             id="signOffRepDate"
-                            type="date"
                             value={formData.signOff.representativeDate}
                             onChange={(e) =>
                               setFormData((prev) => ({
