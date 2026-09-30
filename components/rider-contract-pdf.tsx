@@ -91,7 +91,10 @@ const styles = StyleSheet.create({
   label: { width: 178, fontFamily: "Helvetica-Bold", color: "#555" },
   value: { flex: 1, color: "#181818" },
   mutedValue: { color: "#aaa", fontStyle: "italic" },
-  paragraph: { marginBottom: 4, textAlign: "justify", color: "#333", lineHeight: 1.25 },
+  // fontSize must be set here (not just inherited from the page) or react-pdf
+  // resolves the unitless lineHeight against its default font size, producing
+  // large gaps between wrapped lines.
+  paragraph: { marginBottom: 4, textAlign: "justify", color: "#333", fontSize: 9, lineHeight: 1.2 },
   bold: { fontFamily: "Helvetica-Bold" },
   list: { marginBottom: 3 },
   listRow: { flexDirection: "row", marginBottom: 2, paddingLeft: 4 },
@@ -103,6 +106,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "Helvetica-Bold",
     fontSize: 7.5,
+    lineHeight: 1.2,
     padding: 4,
     borderRightWidth: 1,
     borderRightColor: "#fff",
@@ -111,6 +115,7 @@ const styles = StyleSheet.create({
   tableDataRowAlt: { backgroundColor: "#FAFAFA" },
   tableDataCell: {
     fontSize: 7.5,
+    lineHeight: 1.2,
     padding: 4,
     color: "#333",
     borderRightWidth: 1,
@@ -139,7 +144,7 @@ const styles = StyleSheet.create({
   },
   signatureLine: { borderBottomWidth: 1, borderBottomColor: "#333", marginBottom: 2, paddingBottom: 1 },
   signatureName: { fontFamily: "Helvetica-Bold", color: "#333" },
-  signatureDate: { color: "#555", fontSize: 8 },
+  signatureDate: { color: "#555", fontSize: 8, lineHeight: 1.2 },
   agreementBox: {
     backgroundColor: "#FFF6ED",
     borderRadius: 6,
@@ -151,6 +156,7 @@ const styles = StyleSheet.create({
   },
   statusAccepted: {
     fontSize: 8,
+    lineHeight: 1.2,
     fontFamily: "Helvetica-Bold",
     color: "#ED7319",
     marginBottom: 2,
@@ -158,12 +164,13 @@ const styles = StyleSheet.create({
   },
   statusNotAccepted: {
     fontSize: 8,
+    lineHeight: 1.2,
     fontFamily: "Helvetica-Bold",
     color: "#999",
     marginBottom: 2,
     textTransform: "uppercase",
   },
-  agreementText: { fontSize: 8.5, color: "#333", lineHeight: 1.15 },
+  agreementText: { fontSize: 8.5, color: "#333", lineHeight: 1.2 },
   footer: {
     position: "absolute",
     bottom: 20,
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
     right: 44,
     textAlign: "center",
     fontSize: 8,
+    lineHeight: 1.2,
     color: "#999",
     paddingTop: 6,
     borderTopWidth: 0.5,
@@ -189,38 +197,79 @@ type Block =
 const romanMarker = (i: number) => `${["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"][i] ?? i + 1}.`;
 const alphaMarker = (i: number) => `${String.fromCharCode(97 + i)}.`;
 const numMarker = (i: number) => `${i + 1}.`;
+// Wrap whole words only; react-pdf's default hyphenation splits words ("Condi-tions").
+const noHyphenation = (word: string) => [word];
 
-function Blocks({ blocks }: { blocks: Block[] }) {
+// Headings and bold run-in labels ("Eligibility:") introduce the content after them.
+const isLeadIn = (b: Block) => b.kind === "h" || (b.kind === "p" && !!b.bold);
+
+function BlockItem({ b }: { b: Block }) {
+  if (b.kind === "h") {
+    return <Text style={b.underline ? styles.subsectionTitleUnderline : styles.subsectionTitle}>{b.text}</Text>;
+  }
+  if (b.kind === "p") {
+    return (
+      <Text style={sx(styles.paragraph, b.bold && styles.bold)} hyphenationCallback={noHyphenation}>
+        {b.text}
+      </Text>
+    );
+  }
+  return <ListRows block={b} from={0} to={b.items.length} />;
+}
+
+// Each bullet is kept whole so a page break never strands one line or a lone marker.
+function ListRows({ block, from, to, style }: { block: Extract<Block, { kind: "ul" }>; from: number; to: number; style?: object }) {
   return (
-    <>
-      {blocks.map((b, i) => {
-        if (b.kind === "h") {
-          return (
-            <Text key={i} style={b.underline ? styles.subsectionTitleUnderline : styles.subsectionTitle}>
-              {b.text}
-            </Text>
-          );
-        }
-        if (b.kind === "p") {
-          return (
-            <Text key={i} style={sx(styles.paragraph, b.bold && styles.bold)}>
-              {b.text}
-            </Text>
-          );
-        }
+    <View style={sx(styles.list, style)}>
+      {block.items.slice(from, to).map((item, k) => {
+        const j = from + k;
         return (
-          <View key={i} style={styles.list}>
-            {b.items.map((item, j) => (
-              <View key={j} style={styles.listRow}>
-                <Text style={styles.listMarker}>{b.marker ? b.marker(j) : "•"}</Text>
-                <Text style={styles.listText}>{item}</Text>
-              </View>
-            ))}
+          <View key={j} style={styles.listRow} wrap={false}>
+            <Text style={styles.listMarker}>{block.marker ? block.marker(j) : "•"}</Text>
+            <Text style={styles.listText}>{item}</Text>
           </View>
         );
       })}
-    </>
+    </View>
   );
+}
+
+function Blocks({ blocks }: { blocks: Block[] }) {
+  const out: React.ReactNode[] = [];
+  let i = 0;
+  while (i < blocks.length) {
+    if (!isLeadIn(blocks[i])) {
+      out.push(<BlockItem key={i} b={blocks[i]} />);
+      i += 1;
+      continue;
+    }
+    // Keep a run of headings/labels on the same page as the start of what they introduce:
+    // the whole next paragraph, or the first bullet of the next list.
+    const start = i;
+    while (i < blocks.length && isLeadIn(blocks[i])) i += 1;
+    const leadIns = blocks.slice(start, i);
+    const next = blocks[i];
+    if (next?.kind === "ul") {
+      const splitList = next.items.length > 1;
+      out.push(
+        <View key={start} wrap={false}>
+          {leadIns.map((b, k) => <BlockItem key={k} b={b} />)}
+          <ListRows block={next} from={0} to={1} style={splitList ? { marginBottom: 0 } : undefined} />
+        </View>
+      );
+      if (splitList) out.push(<ListRows key={i} block={next} from={1} to={next.items.length} />);
+      i += 1;
+    } else {
+      out.push(
+        <View key={start} wrap={false}>
+          {leadIns.map((b, k) => <BlockItem key={k} b={b} />)}
+          {next && <BlockItem b={next} />}
+        </View>
+      );
+      if (next) i += 1;
+    }
+  }
+  return <>{out}</>;
 }
 
 function FieldRow({ label, value }: { label: string; value?: string }) {
@@ -620,7 +669,7 @@ const INSURANCE_BLOCKS_PART3: Block[] = [
 function BenefitTable() {
   return (
     <View style={styles.table}>
-      <View style={styles.tableHeaderRow}>
+      <View style={styles.tableHeaderRow} minPresenceAhead={40}>
         <Text style={[styles.tableHeaderCell, { flex: 2 }]}>Type of Coverage</Text>
         <Text style={[styles.tableHeaderCell, { flex: 1 }]}>Sum Assured/Coverage Amount</Text>
       </View>
@@ -637,7 +686,7 @@ function BenefitTable() {
 function SubLimitsTable() {
   return (
     <View style={styles.table}>
-      <View style={styles.tableHeaderRow}>
+      <View style={styles.tableHeaderRow} minPresenceAhead={40}>
         <Text style={[styles.tableHeaderCell, { flex: 1 }]}>Types of Accidental Injury</Text>
         <Text style={[styles.tableHeaderCell, { flex: 3 }]}>Description of Accidental Injury due to Accident</Text>
         <Text style={[styles.tableHeaderCell, { flex: 1 }]}>Sum Assured/Coverage Amount (BDT.)</Text>
@@ -779,32 +828,38 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
         </View>
 
         <View style={styles.section}>
-          <Text style={styles.sectionTitle} minPresenceAhead={36}>Section H: Declaration</Text>
-          <Text style={styles.paragraph}>
-            I hereby declare that the information provided above is true and accurate. I agree to abide by
-            Dinebd's Code of Conduct, Community Guidelines, and Terms of Employment, and authorize Dinebd to
-            use the payment details provided for processing payments.
-          </Text>
+          <View wrap={false}>
+            <Text style={styles.sectionTitle}>Section H: Declaration</Text>
+            <Text style={styles.paragraph}>
+              I hereby declare that the information provided above is true and accurate. I agree to abide by
+              Dinebd's Code of Conduct, Community Guidelines, and Terms of Employment, and authorize Dinebd to
+              use the payment details provided for processing payments.
+            </Text>
+          </View>
           <AgreementLine
             checked={r.declarationAgreed}
             text="I declare that the information provided above is true and accurate, and I agree to Dinebd's Code of Conduct, Community Guidelines, and Terms of Employment."
           />
-          <FieldCard>
-            <FieldRow label="Name" value={r.name} />
-          </FieldCard>
-          <SingleSignature label="Rider Signature" name={r.name} signature={r.signature} date={r.date} />
+          <View wrap={false}>
+            <FieldCard>
+              <FieldRow label="Name" value={r.name} />
+            </FieldCard>
+            <SingleSignature label="Rider Signature" name={r.name} signature={r.signature} date={r.date} />
+          </View>
 
-          <Text style={sx(styles.subsectionTitle, { marginTop: 12 })}>For Office Use Only</Text>
-          <FieldCard>
-            <FieldRow label="Verified by Dinebd (representative name)" value={r.officeVerifiedBy} />
-            <FieldRow label="Remarks (if any)" value={r.officeRemarks} />
-          </FieldCard>
-          <SingleSignature
-            label="Dinebd representative signature"
-            name={r.officeVerifiedBy}
-            signature={r.officeSignature}
-            date={r.officeDate}
-          />
+          <View wrap={false}>
+            <Text style={sx(styles.subsectionTitle, { marginTop: 12 })}>For Office Use Only</Text>
+            <FieldCard>
+              <FieldRow label="Verified by Dinebd (representative name)" value={r.officeVerifiedBy} />
+              <FieldRow label="Remarks (if any)" value={r.officeRemarks} />
+            </FieldCard>
+            <SingleSignature
+              label="Dinebd representative signature"
+              name={r.officeVerifiedBy}
+              signature={r.officeSignature}
+              date={r.officeDate}
+            />
+          </View>
         </View>
       </Page>
 
@@ -816,36 +871,40 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={CONTRACT_BLOCKS} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle} minPresenceAhead={36}>Acknowledgment and Signature</Text>
-          <Text style={styles.paragraph}>
-            By agreeing to these terms, you acknowledge that you have read, understood, and accepted them.
-            Thank you for being a part of Dinebd.
-          </Text>
+          <View wrap={false}>
+            <Text style={styles.sectionTitle}>Acknowledgment and Signature</Text>
+            <Text style={styles.paragraph}>
+              By agreeing to these terms, you acknowledge that you have read, understood, and accepted them.
+              Thank you for being a part of Dinebd.
+            </Text>
+          </View>
           <Text style={styles.paragraph}>
             I, the undersigned, confirm that I have read, understood, and agreed to abide by the Dinebd Rider
             Terms and Conditions, including all related policies and guidelines. I acknowledge that failure to
             comply may result in suspension or termination of my access to the Dinebd platform.
           </Text>
-          <Text style={sx(styles.subsectionTitle)}>Rider Information</Text>
-          <FieldCard>
-            <FieldRow label="Full Name" value={c.fullName} />
-            <FieldRow label="National ID Number" value={c.nidNumber} />
-          </FieldCard>
-          <AgreementLine
-            checked={c.agreed}
-            text="I have read, understood, and agreed to abide by the Dinebd Rider Terms and Conditions, including all related policies and guidelines."
-          />
-          <SignaturePair
-            leftLabel="Rider Signature"
-            leftName={c.fullName}
-            leftSignature={c.signature}
-            leftDate={c.date}
-            rightLabel="For Dinebd Use Only"
-            rightName={c.officeVerifiedBy}
-            rightSignature={c.officeSignature}
-            rightDate={c.officeDate}
-            rightExtra={c.officePosition ? `Position: ${c.officePosition}` : undefined}
-          />
+          <View wrap={false}>
+            <Text style={sx(styles.subsectionTitle)}>Rider Information</Text>
+            <FieldCard>
+              <FieldRow label="Full Name" value={c.fullName} />
+              <FieldRow label="National ID Number" value={c.nidNumber} />
+            </FieldCard>
+            <AgreementLine
+              checked={c.agreed}
+              text="I have read, understood, and agreed to abide by the Dinebd Rider Terms and Conditions, including all related policies and guidelines."
+            />
+            <SignaturePair
+              leftLabel="Rider Signature"
+              leftName={c.fullName}
+              leftSignature={c.signature}
+              leftDate={c.date}
+              rightLabel="For Dinebd Use Only"
+              rightName={c.officeVerifiedBy}
+              rightSignature={c.officeSignature}
+              rightDate={c.officeDate}
+              rightExtra={c.officePosition ? `Position: ${c.officePosition}` : undefined}
+            />
+          </View>
         </View>
       </Page>
 
@@ -857,37 +916,41 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={DATA_PROTECTION_BLOCKS} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle} minPresenceAhead={36}>Agreement &amp; Signature</Text>
-          <Text style={styles.paragraph}>
-            I, the undersigned, confirm that I have read, understood, and agreed to abide by the Dinebd Rider
-            Data Protection Policy. I acknowledge how my personal data will be collected, used, stored, and
-            protected as outlined in this policy.
-          </Text>
+          <View wrap={false}>
+            <Text style={styles.sectionTitle}>Agreement &amp; Signature</Text>
+            <Text style={styles.paragraph}>
+              I, the undersigned, confirm that I have read, understood, and agreed to abide by the Dinebd Rider
+              Data Protection Policy. I acknowledge how my personal data will be collected, used, stored, and
+              protected as outlined in this policy.
+            </Text>
+          </View>
           <Text style={styles.paragraph}>
             I understand my rights under this policy and applicable Bangladeshi law, including the right to
             access, update, or request deletion of my personal data.
           </Text>
-          <Text style={sx(styles.subsectionTitle)}>Rider information</Text>
-          <FieldCard>
-            <FieldRow label="Full Name" value={dp.fullName} />
-            <FieldRow label="National ID Number" value={dp.nidNumber} />
-            <FieldRow label="Mobile Number" value={dp.mobileNumber} />
-          </FieldCard>
-          <AgreementLine
-            checked={dp.agreed}
-            text="I have read, understood, and agreed to abide by the Dinebd Rider Data Protection Policy."
-          />
-          <SignaturePair
-            leftLabel="Rider Signature"
-            leftName={dp.fullName}
-            leftSignature={dp.signature}
-            leftDate={dp.date}
-            rightLabel="For Dinebd use only"
-            rightName={dp.officeVerifiedBy}
-            rightSignature={dp.officeSignature}
-            rightDate={dp.officeDate}
-            rightExtra={dp.officePosition ? `Position: ${dp.officePosition}` : undefined}
-          />
+          <View wrap={false}>
+            <Text style={sx(styles.subsectionTitle)}>Rider information</Text>
+            <FieldCard>
+              <FieldRow label="Full Name" value={dp.fullName} />
+              <FieldRow label="National ID Number" value={dp.nidNumber} />
+              <FieldRow label="Mobile Number" value={dp.mobileNumber} />
+            </FieldCard>
+            <AgreementLine
+              checked={dp.agreed}
+              text="I have read, understood, and agreed to abide by the Dinebd Rider Data Protection Policy."
+            />
+            <SignaturePair
+              leftLabel="Rider Signature"
+              leftName={dp.fullName}
+              leftSignature={dp.signature}
+              leftDate={dp.date}
+              rightLabel="For Dinebd use only"
+              rightName={dp.officeVerifiedBy}
+              rightSignature={dp.officeSignature}
+              rightDate={dp.officeDate}
+              rightExtra={dp.officePosition ? `Position: ${dp.officePosition}` : undefined}
+            />
+          </View>
         </View>
       </Page>
 
@@ -905,7 +968,7 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
               }}
             />
           ) : (
-            <Text style={{ fontSize: 8, color: "#999", fontStyle: "italic" }}>
+            <Text style={{ fontSize: 8, lineHeight: 1.2, color: "#999", fontStyle: "italic" }}>
               Bangla policy text unavailable — please regenerate this contract.
             </Text>
           )}
@@ -971,20 +1034,24 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
           <Blocks blocks={INSURANCE_BLOCKS_PART3} />
         </View>
         <View style={styles.section}>
-          <Text style={styles.sectionTitle} minPresenceAhead={36}>Employee Declaration:</Text>
-          <Text style={styles.paragraph}>
-            I hereby declare that the information provided above is accurate and complete to the best of my
-            knowledge. I understand that providing false information may lead to rejection of my insurance
-            coverage. I also agree to the full terms and conditions of the insurance policy.
-          </Text>
+          <View wrap={false}>
+            <Text style={styles.sectionTitle}>Employee Declaration:</Text>
+            <Text style={styles.paragraph}>
+              I hereby declare that the information provided above is accurate and complete to the best of my
+              knowledge. I understand that providing false information may lead to rejection of my insurance
+              coverage. I also agree to the full terms and conditions of the insurance policy.
+            </Text>
+          </View>
           <AgreementLine
             checked={ins.declarationAgreed}
             text="I confirm the above declaration is accurate and I agree to the full terms and conditions of the insurance policy."
           />
-          <FieldCard>
-            <FieldRow label="Full Name (as per NID)" value={ins.signatureFullName} />
-          </FieldCard>
-          <SingleSignature label="Rider Signature" name={ins.signatureFullName} signature={ins.signature} date={ins.date} />
+          <View wrap={false}>
+            <FieldCard>
+              <FieldRow label="Full Name (as per NID)" value={ins.signatureFullName} />
+            </FieldCard>
+            <SingleSignature label="Rider Signature" name={ins.signatureFullName} signature={ins.signature} date={ins.date} />
+          </View>
         </View>
       </Page>
 
@@ -1020,15 +1087,17 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
             checked={pay.agreed}
             text="I confirm that the Bkash account details provided are correct and authorized for payment."
           />
-          <FieldCard>
-            <FieldRow label="Rider Name" value={pay.signatureRiderName} />
-          </FieldCard>
-          <SingleSignature
-            label="Rider Signature"
-            name={pay.signatureRiderName}
-            signature={pay.signature}
-            date={pay.date}
-          />
+          <View wrap={false}>
+            <FieldCard>
+              <FieldRow label="Rider Name" value={pay.signatureRiderName} />
+            </FieldCard>
+            <SingleSignature
+              label="Rider Signature"
+              name={pay.signatureRiderName}
+              signature={pay.signature}
+              date={pay.date}
+            />
+          </View>
         </View>
       </Page>
     </Document>
