@@ -4,12 +4,12 @@ import { cn } from "@/lib/utils";
 
 const navigationItems = [
   { id: "order-vendor-details", letter: "A", label: "Dinebd & Vendor Order Details" },
-  { id: "catering-order-details", letter: "B", label: "Catering Order Details" },
-  { id: "meal-schedule", letter: "C", label: "Daily Meal Schedule" },
+  { id: "meal-schedule", letter: "B", label: "Daily Meal Schedule" },
+  { id: "catering-order-details", letter: "C", label: "Catering Order Details" },
   { id: "dietary-requirements", letter: "D", label: "Dietary & Food Preparation" },
-  { id: "finance-vendor-payout", letter: "D", label: "Finance & Vendor Payout" },
-  { id: "delivery-handover", letter: "E", label: "Delivery & Food Handover" },
-  { id: "vendor-terms", letter: "F", label: "Dinebd Catering Vendor Terms" },
+  { id: "finance-vendor-payout", letter: "E", label: "Finance & Vendor Payout" },
+  { id: "delivery-handover", letter: "F", label: "Delivery & Food Handover" },
+  { id: "vendor-terms", letter: "G", label: "Dinebd Catering Vendor Terms" },
 ];
 
 interface CateringVendorOrderSidebarProps {

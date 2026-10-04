@@ -3,6 +3,7 @@
 import React from "react";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { bdt, taka } from "./pdf-taka";
+import { PdfCheckbox } from "./pdf-checkbox";
 
 const ORANGE = "#ED7319";
 
@@ -122,6 +123,10 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: ORANGE,
   },
+  scheduleMealItems: {
+    width: 230,
+    paddingRight: 10,
+  },
   scheduleMealValue: {
     fontSize: 8,
     color: "#333",
@@ -192,9 +197,7 @@ const styles = StyleSheet.create({
     marginBottom: 6,
   },
   checkboxGlyph: {
-    fontSize: 11,
     marginRight: 6,
-    fontFamily: "Helvetica-Bold",
   },
   signatureBlock: {
     marginTop: 0,
@@ -247,9 +250,9 @@ export interface CateringOrderPDFData {
   orderVendor: {
     cateringOrderId: string;
     vendorReferenceNumber: string;
-    vendorContactNumber: string;
     date: string;
     dinebdRepresentative: string;
+    dinebdContactNumber: string;
   };
   customer: {
     customerName: string;
@@ -277,9 +280,8 @@ export interface CateringOrderPDFData {
   acceptance: boolean;
   signOff: {
     customerName: string;
-    customerDate: string;
     representativeName: string;
-    representativeDate: string;
+    date: string;
   };
 }
 
@@ -304,6 +306,8 @@ const computeTotal = (finance: CateringOrderPDFData["finance"]): number => {
   const other = parseFloat(finance.otherCosts) || 0;
   return subtotal + vat + delivery + other;
 };
+
+const noHyphenation = (word: string) => [word];
 
 const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
   data,
@@ -389,10 +393,10 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           }
         />
         <Text style={styles.header}>
-          DIENBD CATERING
+          Dinebd Catering
         </Text>
         <Text style={styles.intro}>
-          Thank you for choosing Dienbd Catering for your office catering
+          Thank you for choosing Dinebd Catering for your office catering
           service. To confirm and process your order, kindly complete the
           following details.
         </Text>
@@ -413,20 +417,20 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <View style={styles.row}>
-            <Text style={styles.label}>Vendor Contact Number:</Text>
+            <Text style={styles.label}>Dinebd Contact Number:</Text>
             <Text style={styles.value}>
-              {orderVendor.vendorContactNumber || "N/A"}
+              {orderVendor.dinebdContactNumber || "N/A"}
+            </Text>
+          </View>
+          <View style={styles.row}>
+            <Text style={styles.label}>Dinebd Representative:</Text>
+            <Text style={styles.value}>
+              {orderVendor.dinebdRepresentative || "N/A"}
             </Text>
           </View>
           <View style={styles.row}>
             <Text style={styles.label}>Date:</Text>
             <Text style={styles.value}>{formatDate(orderVendor.date)}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.label}>DineBD Representative:</Text>
-            <Text style={styles.value}>
-              {orderVendor.dinebdRepresentative || "N/A"}
-            </Text>
           </View>
         </View>
 
@@ -463,16 +467,8 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
               <Text style={[styles.tableHeaderText, { width: 55 }]}>
                 Meal
               </Text>
-              <Text style={[styles.tableHeaderText, { flex: 2.4 }]}>
+              <Text style={[styles.tableHeaderText, { flex: 1 }]}>
                 Meal / Food Items
-              </Text>
-              <Text
-                style={[
-                  styles.tableHeaderText,
-                  { flex: 1, textAlign: "right" },
-                ]}
-              >
-                Quantity / People
               </Text>
             </View>
             {scheduleDateGroups.length === 0 ? (
@@ -499,16 +495,14 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                     <View style={styles.scheduleMealBlock}>
                       <View style={styles.scheduleMealRow}>
                         <Text style={styles.scheduleMealType}>Lunch</Text>
-                        <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
-                          {group.lunch.items || "N/A"}
-                        </Text>
                         <Text
                           style={[
                             styles.scheduleMealValue,
-                            { flex: 1, textAlign: "right" },
+                            styles.scheduleMealItems,
                           ]}
+                          hyphenationCallback={noHyphenation}
                         >
-                          {group.lunch.quantity || "N/A"}
+                          {group.lunch.items || "N/A"}
                         </Text>
                       </View>
                       <View style={styles.scheduleMealSubRow}>
@@ -540,22 +534,28 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                           )}
                         </Text>
                       </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Quantity / People:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.lunch.quantity || "N/A"}
+                        </Text>
+                      </View>
                     </View>
                   )}
                   {group.dinner && (
                     <View style={styles.scheduleMealBlock}>
                       <View style={styles.scheduleMealRow}>
                         <Text style={styles.scheduleMealType}>Dinner</Text>
-                        <Text style={[styles.scheduleMealValue, { flex: 2.4 }]}>
-                          {group.dinner.items || "N/A"}
-                        </Text>
                         <Text
                           style={[
                             styles.scheduleMealValue,
-                            { flex: 1, textAlign: "right" },
+                            styles.scheduleMealItems,
                           ]}
+                          hyphenationCallback={noHyphenation}
                         >
-                          {group.dinner.quantity || "N/A"}
+                          {group.dinner.items || "N/A"}
                         </Text>
                       </View>
                       <View style={styles.scheduleMealSubRow}>
@@ -585,6 +585,14 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
                                 (parseFloat(group.dinner.quantity) || 0),
                             ),
                           )}
+                        </Text>
+                      </View>
+                      <View style={styles.scheduleMealSubRow}>
+                        <Text style={styles.scheduleMealSubLabel}>
+                          Quantity / People:
+                        </Text>
+                        <Text style={styles.scheduleMealSubValue}>
+                          {group.dinner.quantity || "N/A"}
                         </Text>
                       </View>
                     </View>
@@ -717,13 +725,13 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           <Text style={styles.subsectionTitle}>Payment Preference</Text>
           {finance.paymentPreference === "advance" && (
             <View style={styles.checkboxRow}>
-              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <PdfCheckbox checked size={10} style={styles.checkboxGlyph} />
               <Text style={styles.bold}>Advance Payment / Full Paid</Text>
             </View>
           )}
           {finance.paymentPreference === "daily" && (
             <View style={styles.checkboxRow}>
-              <Text style={[styles.checkboxGlyph, { color: ORANGE }]}>☑</Text>
+              <PdfCheckbox checked size={10} style={styles.checkboxGlyph} />
               <Text style={styles.bold}>Daily Payment / Partial Payment</Text>
             </View>
           )}
@@ -956,14 +964,11 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
           </Text>
 
           <View style={[styles.checkboxRow, { marginTop: 8 }]}>
-            <Text
-              style={[
-                styles.checkboxGlyph,
-                { color: acceptance ? ORANGE : "#666" },
-              ]}
-            >
-              {acceptance ? "☑" : "☐"}
-            </Text>
+            <PdfCheckbox
+              checked={acceptance}
+              size={10}
+              style={styles.checkboxGlyph}
+            />
             <Text style={{ flex: 1 }}>
               By ticking the box, I accept these above Catering Terms &
               Conditions and agree to proceed with the catering order.
@@ -973,16 +978,13 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>
-            CUSTOMER / DINEBD REPRESENTATIVE SIGN-OFF
+            CUSTOMER / Dinebd REPRESENTATIVE SIGN-OFF
           </Text>
           <View style={styles.signatureBlock}>
             <View style={styles.signatureBox}>
               <Text style={styles.signatureLabel}>Customer</Text>
               <Text style={styles.signatureName}>
                 Name: {signOff.customerName || "N/A"}
-              </Text>
-              <Text style={styles.signatureDate}>
-                Date: {formatDate(signOff.customerDate)}
               </Text>
             </View>
             <View style={styles.signatureBox}>
@@ -992,11 +994,11 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
               <Text style={styles.signatureName}>
                 Name: {signOff.representativeName || "N/A"}
               </Text>
-              <Text style={styles.signatureDate}>
-                Date: {formatDate(signOff.representativeDate)}
-              </Text>
             </View>
           </View>
+          <Text style={[styles.signatureDate, { marginTop: 6 }]}>
+            Date: {formatDate(signOff.date)}
+          </Text>
         </View>
 
         <View style={styles.section}>

@@ -50,9 +50,9 @@ interface CateringOrderData {
   orderVendor: {
     cateringOrderId: string;
     vendorReferenceNumber: string;
-    vendorContactNumber: string;
     date: string;
     dinebdRepresentative: string;
+    dinebdContactNumber: string;
   };
   customer: {
     customerName: string;
@@ -80,9 +80,8 @@ interface CateringOrderData {
   acceptance: boolean;
   signOff: {
     customerName: string;
-    customerDate: string;
     representativeName: string;
-    representativeDate: string;
+    date: string;
   };
 }
 
@@ -90,9 +89,9 @@ const initialData: CateringOrderData = {
   orderVendor: {
     cateringOrderId: "",
     vendorReferenceNumber: "",
-    vendorContactNumber: "",
     date: "",
     dinebdRepresentative: "",
+    dinebdContactNumber: "",
   },
   customer: {
     customerName: "",
@@ -120,9 +119,8 @@ const initialData: CateringOrderData = {
   acceptance: false,
   signOff: {
     customerName: "",
-    customerDate: "",
     representativeName: "",
-    representativeDate: "",
+    date: "",
   },
 };
 
@@ -340,7 +338,7 @@ export default function CateringOrderPortal() {
       setIsAuthenticated(true);
       setPasswordError("");
     } else {
-      setPasswordError("Incorrect password. Please contact DineBD for access.");
+      setPasswordError("Incorrect password. Please contact Dinebd for access.");
     }
   };
 
@@ -582,7 +580,7 @@ export default function CateringOrderPortal() {
             </form>
 
             <p className="text-xs text-gray-400 text-center mt-6">
-              This form is restricted to authorized DineBD staff and catering
+              This form is restricted to authorized Dinebd staff and catering
               partners only.
             </p>
           </div>
@@ -612,10 +610,10 @@ export default function CateringOrderPortal() {
         <form onSubmit={handleSubmit} className="flex-1 min-w-0">
           <div className="mb-8 pb-6 border-b border-gray-200">
             <h1 className="text-lg sm:text-3xl font-extrabold text-primary tracking-tight">
-              DIENBD CATERING
+              Dinebd Catering
             </h1>
             <p className="text-sm text-gray-600 mt-3 max-w-3xl">
-              Thank you for choosing Dienbd Catering for your office catering
+              Thank you for choosing Dinebd Catering for your office catering
               service. To confirm and process your order, kindly complete the
               following details.
             </p>
@@ -689,23 +687,42 @@ export default function CateringOrderPortal() {
                     />
                   </div>
                   <div>
-                    <Label htmlFor="vendorContactNumber">
-                      Vendor Contact Number
+                    <Label htmlFor="dinebdContactNumber">
+                      Dinebd Contact Number
                     </Label>
                     <Input
-                      id="vendorContactNumber"
+                      id="dinebdContactNumber"
                       type="tel"
-                      value={formData.orderVendor.vendorContactNumber}
+                      value={formData.orderVendor.dinebdContactNumber}
                       onChange={(e) =>
                         setFormData((prev) => ({
                           ...prev,
                           orderVendor: {
                             ...prev.orderVendor,
-                            vendorContactNumber: e.target.value,
+                            dinebdContactNumber: e.target.value,
                           },
                         }))
                       }
-                      placeholder="Enter vendor contact number"
+                      placeholder="Enter Dinebd contact number"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="dinebdRepresentative">
+                      Dinebd Representative
+                    </Label>
+                    <Input
+                      id="dinebdRepresentative"
+                      value={formData.orderVendor.dinebdRepresentative}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          orderVendor: {
+                            ...prev.orderVendor,
+                            dinebdRepresentative: e.target.value,
+                          },
+                        }))
+                      }
+                      placeholder="Enter Dinebd representative name"
                     />
                   </div>
                   <div>
@@ -722,25 +739,6 @@ export default function CateringOrderPortal() {
                           },
                         }))
                       }
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="dinebdRepresentative">
-                      DineBD Representative
-                    </Label>
-                    <Input
-                      id="dinebdRepresentative"
-                      value={formData.orderVendor.dinebdRepresentative}
-                      onChange={(e) =>
-                        setFormData((prev) => ({
-                          ...prev,
-                          orderVendor: {
-                            ...prev.orderVendor,
-                            dinebdRepresentative: e.target.value,
-                          },
-                        }))
-                      }
-                      placeholder="Enter DineBD representative name"
                     />
                   </div>
                 </div>
@@ -1424,80 +1422,60 @@ export default function CateringOrderPortal() {
                     <h3 className="text-base font-bold text-gray-900 mb-4">
                       Customer / Dinebd Representative Sign-Off
                     </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="signOffCustomerName">
-                            Customer Name
-                          </Label>
-                          <Input
-                            id="signOffCustomerName"
-                            value={formData.signOff.customerName}
-                            onChange={(e) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                signOff: {
-                                  ...prev.signOff,
-                                  customerName: e.target.value,
-                                },
-                              }))
-                            }
-                            placeholder="Enter customer name"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="signOffCustomerDate">Date</Label>
-                          <DateInput
-                            id="signOffCustomerDate"
-                            value={formData.signOff.customerDate}
-                            onChange={(e) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                signOff: {
-                                  ...prev.signOff,
-                                  customerDate: e.target.value,
-                                },
-                              }))
-                            }
-                          />
-                        </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                      <div>
+                        <Label htmlFor="signOffCustomerName">
+                          Customer Name
+                        </Label>
+                        <Input
+                          id="signOffCustomerName"
+                          value={formData.signOff.customerName}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              signOff: {
+                                ...prev.signOff,
+                                customerName: e.target.value,
+                              },
+                            }))
+                          }
+                          placeholder="Enter customer name"
+                        />
                       </div>
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="signOffRepName">
-                            Dinebd Representative Name
-                          </Label>
-                          <Input
-                            id="signOffRepName"
-                            value={formData.signOff.representativeName}
-                            onChange={(e) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                signOff: {
-                                  ...prev.signOff,
-                                  representativeName: e.target.value,
-                                },
-                              }))
-                            }
-                            placeholder="Enter representative name"
-                          />
-                        </div>
-                        <div>
-                          <Label htmlFor="signOffRepDate">Date</Label>
-                          <DateInput
-                            id="signOffRepDate"
-                            value={formData.signOff.representativeDate}
-                            onChange={(e) =>
-                              setFormData((prev) => ({
-                                ...prev,
-                                signOff: {
-                                  ...prev.signOff,
-                                  representativeDate: e.target.value,
-                                },
-                              }))
-                            }
-                          />
-                        </div>
+                      <div>
+                        <Label htmlFor="signOffRepName">
+                          Dinebd Representative Name
+                        </Label>
+                        <Input
+                          id="signOffRepName"
+                          value={formData.signOff.representativeName}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              signOff: {
+                                ...prev.signOff,
+                                representativeName: e.target.value,
+                              },
+                            }))
+                          }
+                          placeholder="Enter representative name"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="signOffDate">Date</Label>
+                        <DateInput
+                          id="signOffDate"
+                          value={formData.signOff.date}
+                          onChange={(e) =>
+                            setFormData((prev) => ({
+                              ...prev,
+                              signOff: {
+                                ...prev.signOff,
+                                date: e.target.value,
+                              },
+                            }))
+                          }
+                        />
                       </div>
                     </div>
                   </div>

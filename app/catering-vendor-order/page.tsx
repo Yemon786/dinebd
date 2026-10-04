@@ -13,20 +13,19 @@ import CateringVendorOrderSidebar from "@/components/catering-vendor-order-sideb
 import CateringVendorOrderPDF, {
   type CateringVendorOrderPDFData,
   type DateMealEntry,
+  computePlatformFee,
 } from "@/components/catering-vendor-order-pdf";
 import { pdf } from "@react-pdf/renderer";
 
 const SECTIONS = [
   { id: "order-vendor-details", letter: "A", title: "Dinebd & Vendor Order Details" },
-  { id: "catering-order-details", letter: "B", title: "Catering Order Details" },
-  { id: "meal-schedule", letter: "C", title: "Daily Meal Schedule" },
+  { id: "meal-schedule", letter: "B", title: "Daily Meal Schedule" },
+  { id: "catering-order-details", letter: "C", title: "Catering Order Details" },
   { id: "dietary-requirements", letter: "D", title: "Dietary & Food Preparation Requirements" },
-  { id: "finance-vendor-payout", letter: "D", title: "Finance & Vendor Payout" },
-  { id: "delivery-handover", letter: "E", title: "Delivery & Food Handover" },
-  { id: "vendor-terms", letter: "F", title: "Dinebd Catering Vendor Terms" },
+  { id: "finance-vendor-payout", letter: "E", title: "Finance & Vendor Payout" },
+  { id: "delivery-handover", letter: "F", title: "Delivery & Food Handover" },
+  { id: "vendor-terms", letter: "G", title: "Dinebd Catering Vendor Terms" },
 ];
-
-const VAT_RATE = 0.05;
 
 const genId = () => Math.random().toString(36).slice(2, 10);
 
@@ -93,7 +92,6 @@ const initialData: CateringVendorOrderData = {
   },
   finance: {
     totalFoodValue: "",
-    platformFee: "",
     paymentPreference: "",
     paymentStatus: [],
   },
@@ -119,14 +117,14 @@ const CurrencyInput = ({
 }) => (
   <div className="relative">
     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-      ৳
+      BDT
     </span>
     <Input
       inputMode="decimal"
       value={value}
       onChange={(e) => onChange(e.target.value)}
       placeholder={placeholder ?? "0.00"}
-      className={`pl-7 bg-white ${className ?? ""}`}
+      className={`pl-12 bg-white ${className ?? ""}`}
     />
   </div>
 );
@@ -344,7 +342,7 @@ export default function CateringVendorOrderPortal() {
       setIsAuthenticated(true);
       setPasswordError("");
     } else {
-      setPasswordError("Incorrect password. Please contact DineBD for access.");
+      setPasswordError("Incorrect password. Please contact Dinebd for access.");
     }
   };
 
@@ -356,16 +354,15 @@ export default function CateringVendorOrderPortal() {
     }
   };
 
+  const platformFee = useMemo(
+    () => computePlatformFee(formData.finance.totalFoodValue),
+    [formData.finance.totalFoodValue]
+  );
+
   const vendorPayout = useMemo(() => {
     const total = parseFloat(formData.finance.totalFoodValue) || 0;
-    const fee = parseFloat(formData.finance.platformFee) || 0;
-    return total - fee;
-  }, [formData.finance.totalFoodValue, formData.finance.platformFee]);
-
-  const vatAmount = useMemo(() => {
-    const total = parseFloat(formData.finance.totalFoodValue) || 0;
-    return total * VAT_RATE;
-  }, [formData.finance.totalFoodValue]);
+    return total - platformFee;
+  }, [formData.finance.totalFoodValue, platformFee]);
 
   const totalCateringDays = useMemo(() => {
     return new Set(
@@ -540,7 +537,7 @@ export default function CateringVendorOrderPortal() {
             </form>
 
             <p className="text-xs text-gray-400 text-center mt-6">
-              This form is restricted to authorized DineBD staff and catering
+              This form is restricted to authorized Dinebd staff and catering
               partners only.
             </p>
           </div>
@@ -570,7 +567,7 @@ export default function CateringVendorOrderPortal() {
         <form onSubmit={handleSubmit} className="flex-1 min-w-0">
           <div className="mb-8 pb-6 border-b border-gray-200">
             <h1 className="text-lg sm:text-3xl font-extrabold text-primary tracking-tight">
-              DINEBD CATERING | VENDOR ORDER CONFIRMATION
+              Dinebd Catering | Vendor Order Confirmation
             </h1>
             <p className="text-sm text-gray-600 mt-3 max-w-3xl">
               Thank you for partnering with Dinebd Catering. This document
@@ -759,7 +756,7 @@ export default function CateringVendorOrderPortal() {
                       />
                       <p className="text-xs text-gray-400 mt-1">
                         Automatically calculated from the catering dates
-                        added below.
+                        added above.
                       </p>
                     </div>
                     <div>
@@ -1018,7 +1015,7 @@ export default function CateringVendorOrderPortal() {
                           </td>
                           <td className="px-4 py-2 w-48">
                             <Input
-                              value={formData.finance.totalFoodValue}
+                              value={`BDT ${formData.finance.totalFoodValue}`}
                               disabled
                               className="text-right bg-gray-50 text-gray-600"
                             />
@@ -1026,28 +1023,10 @@ export default function CateringVendorOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            VAT: 5%
+                            Dinebd Platform Fee (20%)
                           </td>
                           <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-medium">
-                            {vatAmount.toFixed(2)}
-                          </td>
-                        </tr>
-                        <tr className="border-b border-gray-100 bg-orange-50/40">
-                          <td className="px-4 py-3 text-sm text-gray-700">
-                            Dinebd Platform Fee
-                          </td>
-                          <td className="px-4 py-2 w-48">
-                            <Input
-                              value={formData.finance.platformFee}
-                              onChange={(e) =>
-                                setFormData((prev) => ({
-                                  ...prev,
-                                  finance: { ...prev.finance, platformFee: e.target.value },
-                                }))
-                              }
-                              placeholder="0.00"
-                              className="text-right bg-white"
-                            />
+                            BDT {platformFee.toFixed(2)}
                           </td>
                         </tr>
                         <tr className="bg-primary/10">
@@ -1055,7 +1034,7 @@ export default function CateringVendorOrderPortal() {
                             TOTAL VENDOR PAYOUT
                           </td>
                           <td className="px-4 py-3 text-right text-base font-bold text-primary">
-                            {vendorPayout.toFixed(2)}
+                            BDT {vendorPayout.toFixed(2)}
                           </td>
                         </tr>
                       </tbody>
@@ -1065,11 +1044,8 @@ export default function CateringVendorOrderPortal() {
                   <div className="rounded-xl bg-primary/5 border border-primary/15 p-5 space-y-2">
                     <p className="text-xs text-gray-500">
                       Total Vendor Payout = Total Food / Catering Order Value
-                      − Dinebd Platform Fee.
-                    </p>
-                    <p className="text-xs text-gray-500">
-                      VAT (5%) is shown for reference only and does not
-                      affect the Total Vendor Payout calculation.
+                      − Dinebd Platform Fee (20% of Total Food / Catering
+                      Order Value).
                     </p>
                     <p className="text-xs text-gray-500">
                       The rider / delivery fee is paid by the customer and
