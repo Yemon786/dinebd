@@ -11,7 +11,11 @@ import FormSection from "@/components/forms/FormSection";
 import CheckboxAgreement from "@/components/forms/CheckboxAgreement";
 import { RadioOptionGroup } from "@/components/onboarding/radio-group";
 import CateringOrderSidebar from "@/components/catering-order-sidebar";
-import CateringOrderPDF, { type DateMealEntry } from "@/components/catering-order-pdf";
+import CateringOrderPDF, {
+  type DateMealEntry,
+  computeTotal,
+  computeVat,
+} from "@/components/catering-order-pdf";
 import { pdf } from "@react-pdf/renderer";
 
 const SECTIONS = [
@@ -26,8 +30,6 @@ const SECTIONS = [
     title: "Customer Order Confirmation & Acceptance",
   },
 ];
-
-const VAT_RATE = 0.05;
 
 const genId = () => Math.random().toString(36).slice(2, 10);
 
@@ -71,6 +73,7 @@ interface CateringOrderData {
     numberOfDays: string;
     lunchesPerDay: string;
     subtotal: string;
+    vatPercent: string;
     deliveryFee: string;
     otherCosts: string;
     paymentPreference: "advance" | "daily" | "";
@@ -110,6 +113,7 @@ const initialData: CateringOrderData = {
     numberOfDays: "",
     lunchesPerDay: "",
     subtotal: "",
+    vatPercent: "5",
     deliveryFee: "",
     otherCosts: "",
     paymentPreference: "",
@@ -146,6 +150,48 @@ const CurrencyInput = ({
       placeholder={placeholder ?? "0.00"}
       className={`pl-7 ${className ?? ""}`}
     />
+  </div>
+);
+
+// Up to 3 integer digits and 2 decimals, capped at 100.
+const PERCENT_PATTERN = /^\d{0,3}(\.\d{0,2})?$/;
+
+const isValidPercentDraft = (v: string) =>
+  PERCENT_PATTERN.test(v) && (v === "" || v === "." || parseFloat(v) <= 100);
+
+const isValidPercent = (v: string) => {
+  const trimmed = v.trim();
+  if (!/^(\d+\.?\d*|\.\d+)$/.test(trimmed)) return false;
+  const value = parseFloat(trimmed);
+  return value >= 0 && value <= 100;
+};
+
+const PercentInput = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+}) => (
+  <div className="relative">
+    <Input
+      inputMode="decimal"
+      value={value}
+      onChange={(e) => {
+        const next = e.target.value.trim();
+        if (isValidPercentDraft(next)) onChange(next);
+      }}
+      placeholder={placeholder ?? "0"}
+      aria-label="VAT percentage"
+      className={`pr-7 ${className ?? ""}`}
+    />
+    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+      %
+    </span>
   </div>
 );
 
@@ -418,22 +464,17 @@ export default function CateringOrderPortal() {
     );
   }, [totalPeopleQuantity]);
 
-  const vatAmount = useMemo(() => {
-    const subtotal = parseFloat(formData.finance.subtotal) || 0;
-    return subtotal * VAT_RATE;
-  }, [formData.finance.subtotal]);
+  const vatAmount = useMemo(
+    () => computeVat(formData.finance),
+    [formData.finance],
+  );
 
-  const total = useMemo(() => {
-    const subtotal = parseFloat(formData.finance.subtotal) || 0;
-    const delivery = parseFloat(formData.finance.deliveryFee) || 0;
-    const other = parseFloat(formData.finance.otherCosts) || 0;
-    return subtotal + vatAmount + delivery + other;
-  }, [
-    formData.finance.subtotal,
-    vatAmount,
-    formData.finance.deliveryFee,
-    formData.finance.otherCosts,
-  ]);
+  const total = useMemo(
+    () => computeTotal(formData.finance),
+    [formData.finance],
+  );
+
+  const vatPercentValid = isValidPercent(formData.finance.vatPercent);
 
   const outstandingBalance = useMemo(() => {
     const amountPaid = parseFloat(formData.finance.amountPaid) || 0;
@@ -479,6 +520,11 @@ export default function CateringOrderPortal() {
       alert(
         "Please accept the Catering Terms & Conditions before submitting.",
       );
+      return;
+    }
+
+    if (!vatPercentValid) {
+      alert("Please enter a valid VAT percentage between 0 and 100.");
       return;
     }
 
@@ -1008,10 +1054,34 @@ export default function CateringOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            VAT: 5%
+                            VAT (%)
+                            <span className="block text-xs text-gray-400 font-normal">
+                              Percentage of subtotal (e.g. 10 = 10%)
+                            </span>
                           </td>
-                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-bold">
-                            ৳{vatAmount.toFixed(2)}
+                          <td className="px-4 py-2 w-48">
+                            <PercentInput
+                              value={formData.finance.vatPercent}
+                              onChange={(v) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  finance: { ...prev.finance, vatPercent: v },
+                                }))
+                              }
+                              placeholder="e.g. 5"
+                              className={`text-right font-bold ${
+                                vatPercentValid ? "" : "border-red-400"
+                              }`}
+                            />
+                            {vatPercentValid ? (
+                              <p className="mt-1 text-right text-xs text-gray-500">
+                                = ৳{vatAmount.toFixed(2)}
+                              </p>
+                            ) : (
+                              <p className="mt-1 text-right text-xs text-red-500">
+                                Enter 0–100
+                              </p>
+                            )}
                           </td>
                         </tr>
                         <tr className="border-b border-gray-100 bg-orange-50/40">
@@ -1137,8 +1207,8 @@ export default function CateringOrderPortal() {
                       </span>
                     </div>
                     <p className="text-xs text-gray-500">
-                      Subtotal + VAT (5%) + Delivery Fee + Other Costs =
-                      TOTAL
+                      Subtotal + VAT ({formData.finance.vatPercent || "0"}%) +
+                      Delivery Fee + Other Costs = TOTAL
                     </p>
                     <div className="flex items-center justify-between pt-2 border-t border-primary/10">
                       <span className="text-sm font-semibold text-gray-700">

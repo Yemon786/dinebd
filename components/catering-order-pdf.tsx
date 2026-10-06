@@ -271,6 +271,7 @@ export interface CateringOrderPDFData {
     numberOfDays: string;
     lunchesPerDay: string;
     subtotal: string;
+    vatPercent: string;
     deliveryFee: string;
     otherCosts: string;
     paymentPreference: "advance" | "daily" | "";
@@ -293,15 +294,27 @@ const formatDate = (dateStr: string): string => {
   return `${day}/${month}/${year}`;
 };
 
-const VAT_RATE = 0.05;
+type VatInput = Pick<CateringOrderPDFData["finance"], "subtotal" | "vatPercent">;
+type TotalInput = Pick<
+  CateringOrderPDFData["finance"],
+  "subtotal" | "vatPercent" | "deliveryFee" | "otherCosts"
+>;
 
-const computeVat = (subtotal: string): number => {
-  return (parseFloat(subtotal) || 0) * VAT_RATE;
+// VAT is entered as a percentage of the subtotal (e.g. "10" = 10%).
+export const parseVatPercent = (vatPercent: string): number => {
+  const value = parseFloat(vatPercent);
+  if (!Number.isFinite(value) || value < 0) return 0;
+  return Math.min(value, 100);
 };
 
-const computeTotal = (finance: CateringOrderPDFData["finance"]): number => {
+export const computeVat = (finance: VatInput): number => {
   const subtotal = parseFloat(finance.subtotal) || 0;
-  const vat = computeVat(finance.subtotal);
+  return (subtotal * parseVatPercent(finance.vatPercent)) / 100;
+};
+
+export const computeTotal = (finance: TotalInput): number => {
+  const subtotal = parseFloat(finance.subtotal) || 0;
+  const vat = computeVat(finance);
   const delivery = parseFloat(finance.deliveryFee) || 0;
   const other = parseFloat(finance.otherCosts) || 0;
   return subtotal + vat + delivery + other;
@@ -697,9 +710,11 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
               </Text>
             </View>
             <View style={styles.financeRow}>
-              <Text style={styles.financeLabel}>VAT: 5%</Text>
+              <Text style={styles.financeLabel}>
+                VAT ({parseVatPercent(finance.vatPercent)}%)
+              </Text>
               <Text style={[styles.financeValue, styles.bold]}>
-                {taka(computeVat(finance.subtotal), true)}
+                {taka(computeVat(finance), true)}
               </Text>
             </View>
             <View style={styles.financeRow}>
@@ -753,7 +768,8 @@ const CateringOrderPDF: React.FC<{ data: CateringOrderPDFData }> = ({
             </Text>
           </View>
           <Text style={[styles.paragraph, { fontSize: 8, color: "#777" }]}>
-            Subtotal + VAT (5%) + Delivery Fee + Other Costs = TOTAL
+            Subtotal + VAT ({parseVatPercent(finance.vatPercent)}%) + Delivery
+            Fee + Other Costs = TOTAL
           </Text>
           <View style={styles.row}>
             <Text style={styles.label}>Amount Paid:</Text>
