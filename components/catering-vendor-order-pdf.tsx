@@ -276,6 +276,7 @@ export interface CateringVendorOrderPDFData {
   };
   finance: {
     totalFoodValue: string;
+    platformFeePercent: string;
     paymentPreference: "advance" | "daily" | "";
     paymentStatus: string[];
   };
@@ -314,15 +315,25 @@ const noHyphenation = (word: string) => [word];
 
 const money = (n: number): string => `BDT ${(isNaN(n) ? 0 : n).toFixed(2)}`;
 
-export const PLATFORM_FEE_RATE = 0.2;
-
-export const computePlatformFee = (totalFoodValue: string): number => {
-  return (parseFloat(totalFoodValue) || 0) * PLATFORM_FEE_RATE;
+const formatPercent = (value: string): string => {
+  const n = parseFloat(value);
+  return `${isNaN(n) ? 0 : n}%`;
 };
 
-const computeVendorPayout = (finance: CateringVendorOrderPDFData["finance"]): number => {
+type FeeInputs = Pick<
+  CateringVendorOrderPDFData["finance"],
+  "totalFoodValue" | "platformFeePercent"
+>;
+
+export const computePlatformFee = (finance: FeeInputs): number => {
   const total = parseFloat(finance.totalFoodValue) || 0;
-  return total - computePlatformFee(finance.totalFoodValue);
+  const percent = parseFloat(finance.platformFeePercent) || 0;
+  return (total * percent) / 100;
+};
+
+export const computeVendorPayout = (finance: FeeInputs): number => {
+  const total = parseFloat(finance.totalFoodValue) || 0;
+  return total - computePlatformFee(finance);
 };
 
 const CheckboxRowGroup: React.FC<{
@@ -777,10 +788,11 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
                 <Text
                   style={styles.financeLabel}
                 >
-                  Dinebd Platform Fee (20%)
+                  Dinebd Platform Fee
                 </Text>
                 <Text style={styles.financeValue}>
-                  {money(computePlatformFee(finance.totalFoodValue))}
+                  {formatPercent(finance.platformFeePercent)} (
+                  {money(computePlatformFee(finance))})
                 </Text>
               </View>
               <View style={styles.totalRow}>
@@ -794,7 +806,8 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
             hyphenationCallback={noHyphenation}
           >
             Total Vendor Payout = Total Food / Catering Order Value - Dinebd
-            Platform Fee (20% of Total Food / Catering Order Value).
+            Platform Fee ({formatPercent(finance.platformFeePercent)} of Total
+            Food / Catering Order Value).
           </Text>
           <Text hyphenationCallback={noHyphenation} style={styles.paragraph}>
             The rider / delivery fee is paid by the customer and managed

@@ -14,6 +14,7 @@ import CateringVendorOrderPDF, {
   type CateringVendorOrderPDFData,
   type DateMealEntry,
   computePlatformFee,
+  computeVendorPayout,
 } from "@/components/catering-vendor-order-pdf";
 import { pdf } from "@react-pdf/renderer";
 
@@ -92,6 +93,7 @@ const initialData: CateringVendorOrderData = {
   },
   finance: {
     totalFoodValue: "",
+    platformFeePercent: "",
     paymentPreference: "",
     paymentStatus: [],
   },
@@ -126,6 +128,31 @@ const CurrencyInput = ({
       placeholder={placeholder ?? "0.00"}
       className={`pl-12 bg-white ${className ?? ""}`}
     />
+  </div>
+);
+
+const PercentInput = ({
+  value,
+  onChange,
+  placeholder,
+  className,
+}: {
+  value: string;
+  onChange: (v: string) => void;
+  placeholder?: string;
+  className?: string;
+}) => (
+  <div className="relative">
+    <Input
+      inputMode="decimal"
+      value={value}
+      onChange={(e) => onChange(e.target.value)}
+      placeholder={placeholder ?? "0"}
+      className={`pr-8 bg-white ${className ?? ""}`}
+    />
+    <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+      %
+    </span>
   </div>
 );
 
@@ -354,15 +381,15 @@ export default function CateringVendorOrderPortal() {
     }
   };
 
-  const platformFee = useMemo(
-    () => computePlatformFee(formData.finance.totalFoodValue),
-    [formData.finance.totalFoodValue]
+  const platformFeeAmount = useMemo(
+    () => computePlatformFee(formData.finance),
+    [formData.finance]
   );
 
-  const vendorPayout = useMemo(() => {
-    const total = parseFloat(formData.finance.totalFoodValue) || 0;
-    return total - platformFee;
-  }, [formData.finance.totalFoodValue, platformFee]);
+  const vendorPayout = useMemo(
+    () => computeVendorPayout(formData.finance),
+    [formData.finance]
+  );
 
   const totalCateringDays = useMemo(() => {
     return new Set(
@@ -1023,10 +1050,23 @@ export default function CateringVendorOrderPortal() {
                         </tr>
                         <tr className="border-b border-gray-100 bg-white">
                           <td className="px-4 py-3 text-sm text-gray-700">
-                            Dinebd Platform Fee (20%)
+                            Dinebd Platform Fee
                           </td>
-                          <td className="px-4 py-2 w-48 text-right text-sm text-gray-700 font-medium">
-                            BDT {platformFee.toFixed(2)}
+                          <td className="px-4 py-2 w-48">
+                            <PercentInput
+                              value={formData.finance.platformFeePercent}
+                              onChange={(v) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  finance: { ...prev.finance, platformFeePercent: v },
+                                }))
+                              }
+                              placeholder="e.g. 10"
+                              className="text-right"
+                            />
+                            <p className="mt-1 text-right text-xs text-gray-500">
+                              = BDT {platformFeeAmount.toFixed(2)}
+                            </p>
                           </td>
                         </tr>
                         <tr className="bg-primary/10">
@@ -1044,8 +1084,9 @@ export default function CateringVendorOrderPortal() {
                   <div className="rounded-xl bg-primary/5 border border-primary/15 p-5 space-y-2">
                     <p className="text-xs text-gray-500">
                       Total Vendor Payout = Total Food / Catering Order Value
-                      − Dinebd Platform Fee (20% of Total Food / Catering
-                      Order Value).
+                      − Dinebd Platform Fee (
+                      {formData.finance.platformFeePercent || "0"}% of Total
+                      Food / Catering Order Value).
                     </p>
                     <p className="text-xs text-gray-500">
                       The rider / delivery fee is paid by the customer and
