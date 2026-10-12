@@ -2709,6 +2709,25 @@ export default function VendorOnboarding() {
                           changes in its business details, including but not
                           limited to contact information, menu, and business
                           hours.
+                          <br />
+                          <br />
+                          3.4 Dinebd Catering Packaging Policy: All catering
+                          vendors must use packaging supplied or approved by
+                          Dinebd. Packaging must display the Dinebd BD logo or
+                          be plain and unbranded. Vendors must not use their own
+                          branding or promote any other brand through
+                          packaging.
+                          <span className="block mt-1">
+                            Dinebd reserves the right to charge for packaging,
+                            with applicable costs added to the relevant bill as
+                            communicated in advance.
+                          </span>
+                          <span className="block mt-1">
+                            By accepting Dinebd catering partnership terms,
+                            vendors agree to comply with this policy. Failure to
+                            comply may result in warnings, suspension of
+                            catering orders, or termination of the partnership.
+                          </span>
                         </p>
                         <h4 className="font-bold text-gray-800 mb-2">
                           4. Unsuccessful Food Deliveries{" "}

@@ -1314,6 +1314,21 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             business details, including but not limited to contact information,
             menu, and business hours.
           </Text>
+          <Text style={[styles.paragraph, { marginBottom: 2 }]}>
+            3.4 Dinebd Catering Packaging Policy: All catering vendors must use
+            packaging supplied or approved by Dinebd. Packaging must display the
+            Dinebd BD logo or be plain and unbranded. Vendors must not use their
+            own branding or promote any other brand through packaging.
+          </Text>
+          <Text style={[styles.paragraph, { marginBottom: 2 }]}>
+            Dinebd reserves the right to charge for packaging, with applicable
+            costs added to the relevant bill as communicated in advance.
+          </Text>
+          <Text style={styles.paragraph}>
+            By accepting Dinebd catering partnership terms, vendors agree to
+            comply with this policy. Failure to comply may result in warnings,
+            suspension of catering orders, or termination of the partnership.
+          </Text>
 
           <Text style={styles.subsectionTitle}>
             4. Unsuccessful Food Deliveries
