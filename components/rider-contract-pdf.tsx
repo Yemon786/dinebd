@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PDF_FONT, PDF_FONT_BOLD } from "./pdf-fonts";
 import {
   Document,
   Page,
@@ -25,10 +26,10 @@ import type {
 // produced broken glyphs when the content was rendered as native PDF text.
 
 const styles = StyleSheet.create({
-  page: { padding: 44, fontSize: 9, fontFamily: "Helvetica", lineHeight: 1.2, color: "#222" },
+  page: { padding: 44, fontSize: 9, fontFamily: PDF_FONT, lineHeight: 1.2, color: "#222" },
   docHeader: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 4,
     color: "#ED7319",
   },
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
   },
   header: {
     fontSize: 13,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 8,
     color: "#ED7319",
     paddingBottom: 4,
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
   section: { marginBottom: 12 },
   sectionTitle: {
     fontSize: 10.5,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 6,
     marginTop: 0,
     color: "#1a1a1a",
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
   },
   subsectionTitle: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 3,
     marginTop: 7,
     color: "#333",
@@ -72,7 +73,7 @@ const styles = StyleSheet.create({
   },
   subsectionTitleUnderline: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 3,
     marginTop: 6,
     color: "#444",
@@ -88,23 +89,23 @@ const styles = StyleSheet.create({
     marginVertical: 2,
   },
   row: { flexDirection: "row", paddingVertical: 2.5, borderBottomWidth: 0.5, borderBottomColor: "#f0f0f0" },
-  label: { width: 178, fontFamily: "Helvetica-Bold", color: "#555" },
+  label: { width: 178, fontFamily: PDF_FONT_BOLD, color: "#555" },
   value: { flex: 1, color: "#181818" },
   mutedValue: { color: "#aaa", fontStyle: "italic" },
   // fontSize must be set here (not just inherited from the page) or react-pdf
   // resolves the unitless lineHeight against its default font size, producing
   // large gaps between wrapped lines.
   paragraph: { marginBottom: 4, textAlign: "justify", color: "#333", fontSize: 9, lineHeight: 1.2 },
-  bold: { fontFamily: "Helvetica-Bold" },
+  bold: { fontFamily: PDF_FONT_BOLD },
   list: { marginBottom: 3 },
   listRow: { flexDirection: "row", marginBottom: 2, paddingLeft: 4 },
-  listMarker: { width: 14, color: "#ED7319", fontFamily: "Helvetica-Bold" },
+  listMarker: { width: 14, color: "#ED7319", fontFamily: PDF_FONT_BOLD },
   listText: { flex: 1, color: "#333", textAlign: "justify" },
   table: { marginTop: 4, marginBottom: 8, borderWidth: 1, borderColor: "#ddd", borderRadius: 4, overflow: "hidden" },
   tableHeaderRow: { flexDirection: "row", backgroundColor: "#ED7319" },
   tableHeaderCell: {
     color: "white",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 7.5,
     lineHeight: 1.2,
     padding: 4,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     padding: 7,
   },
-  signatureLabel: { fontFamily: "Helvetica-Bold", marginBottom: 4, color: "#333" },
+  signatureLabel: { fontFamily: PDF_FONT_BOLD, marginBottom: 4, color: "#333" },
   signatureImage: {
     width: 120,
     height: 40,
@@ -143,7 +144,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   signatureLine: { borderBottomWidth: 1, borderBottomColor: "#333", marginBottom: 2, paddingBottom: 1 },
-  signatureName: { fontFamily: "Helvetica-Bold", color: "#333" },
+  signatureName: { fontFamily: PDF_FONT_BOLD, color: "#333" },
   signatureDate: { color: "#555", fontSize: 8, lineHeight: 1.2 },
   agreementBox: {
     backgroundColor: "#FFF6ED",
@@ -157,7 +158,7 @@ const styles = StyleSheet.create({
   statusAccepted: {
     fontSize: 8,
     lineHeight: 1.2,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#ED7319",
     marginBottom: 2,
     textTransform: "uppercase",
@@ -165,7 +166,7 @@ const styles = StyleSheet.create({
   statusNotAccepted: {
     fontSize: 8,
     lineHeight: 1.2,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#999",
     marginBottom: 2,
     textTransform: "uppercase",
@@ -676,7 +677,7 @@ function BenefitTable() {
       {BENEFIT_SCHEDULE.map((row, i) => (
         <View key={row.coverage} style={sx(styles.tableDataRow, i % 2 === 1 && styles.tableDataRowAlt)} wrap={false}>
           <Text style={[styles.tableDataCell, { flex: 2 }]}>{row.coverage}</Text>
-          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.amount}</Text>
+          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: PDF_FONT_BOLD }]}>{row.amount}</Text>
         </View>
       ))}
     </View>
@@ -693,9 +694,9 @@ function SubLimitsTable() {
       </View>
       {SUB_LIMITS.map((row, i) => (
         <View key={row.type} style={sx(styles.tableDataRow, i % 2 === 1 && styles.tableDataRowAlt)} wrap={false}>
-          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.type}</Text>
+          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: PDF_FONT_BOLD }]}>{row.type}</Text>
           <Text style={[styles.tableDataCell, { flex: 3 }]}>{row.description}</Text>
-          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: "Helvetica-Bold" }]}>{row.amount}</Text>
+          <Text style={[styles.tableDataCell, { flex: 1, fontFamily: PDF_FONT_BOLD }]}>{row.amount}</Text>
         </View>
       ))}
     </View>
@@ -987,10 +988,10 @@ const RiderContractPDF: React.FC<RiderContractPDFProps> = ({ data }) => {
       <Page size="A4" style={styles.page} wrap>
         <PageFooter />
         <Text style={styles.header}>5. Rider Insurance Registration Form</Text>
-        <Text style={{ fontSize: 11, fontFamily: "Helvetica-Bold", marginBottom: 6 }}>
+        <Text style={{ fontSize: 11, fontFamily: PDF_FONT_BOLD, marginBottom: 6 }}>
           Dinebd × bimafy
         </Text>
-        <Text style={{ fontSize: 10, fontFamily: "Helvetica-Bold", marginBottom: 4, color: "#111" }}>
+        <Text style={{ fontSize: 10, fontFamily: PDF_FONT_BOLD, marginBottom: 4, color: "#111" }}>
           Rider Insurance Policy – Employee Registration Form
         </Text>
         <Text style={styles.subheader}>

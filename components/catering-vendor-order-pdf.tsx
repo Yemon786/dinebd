@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PDF_FONT, PDF_FONT_BOLD, PDF_FONT_ITALIC } from "./pdf-fonts";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { PdfCheckbox } from "./pdf-checkbox";
 
@@ -10,12 +11,12 @@ const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 9,
-    fontFamily: "Helvetica",
+    fontFamily: PDF_FONT,
     lineHeight: 1.35,
   },
   header: {
     fontSize: 15,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     textAlign: "left",
     marginBottom: 4,
     color: ORANGE,
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 6,
     marginTop: 4,
     color: "#333",
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   },
   subsectionTitle: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 4,
     marginTop: 8,
     color: "#444",
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 160,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#555",
   },
   value: {
@@ -64,10 +65,10 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   bold: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
   },
   italic: {
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: PDF_FONT_ITALIC,
   },
   listItem: {
     marginBottom: 3,
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
   },
   tableHeaderText: {
     color: "white",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 7.5,
   },
   scheduleTable: {
@@ -123,7 +124,7 @@ const styles = StyleSheet.create({
     borderLeftColor: ORANGE,
   },
   scheduleDateHeaderText: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 9,
     color: "#333",
   },
@@ -139,7 +140,7 @@ const styles = StyleSheet.create({
   },
   scheduleMealType: {
     width: 55,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
     color: ORANGE,
   },
@@ -158,7 +159,7 @@ const styles = StyleSheet.create({
   },
   scheduleMealSubLabel: {
     width: 90,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
     color: "#666",
   },
@@ -171,7 +172,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 10,
     fontSize: 8,
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: PDF_FONT_ITALIC,
     color: "#999",
   },
   financeRow: {
@@ -201,13 +202,13 @@ const styles = StyleSheet.create({
   totalLabel: {
     flex: 2,
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#222",
   },
   totalValue: {
     flex: 1,
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     textAlign: "right",
     color: ORANGE,
   },
@@ -277,6 +278,7 @@ export interface CateringVendorOrderPDFData {
   finance: {
     totalFoodValue: string;
     platformFeePercent: string;
+    otherCosts: string;
     paymentPreference: "advance" | "daily" | "";
     paymentStatus: string[];
   };
@@ -322,7 +324,7 @@ const formatPercent = (value: string): string => {
 
 type FeeInputs = Pick<
   CateringVendorOrderPDFData["finance"],
-  "totalFoodValue" | "platformFeePercent"
+  "totalFoodValue" | "platformFeePercent" | "otherCosts"
 >;
 
 export const computePlatformFee = (finance: FeeInputs): number => {
@@ -333,7 +335,8 @@ export const computePlatformFee = (finance: FeeInputs): number => {
 
 export const computeVendorPayout = (finance: FeeInputs): number => {
   const total = parseFloat(finance.totalFoodValue) || 0;
-  return total - computePlatformFee(finance);
+  const otherCosts = parseFloat(finance.otherCosts) || 0;
+  return total - computePlatformFee(finance) - otherCosts;
 };
 
 const CheckboxRowGroup: React.FC<{
@@ -795,6 +798,12 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
                   {money(computePlatformFee(finance))})
                 </Text>
               </View>
+              <View style={styles.financeRow}>
+                <Text style={styles.financeLabel}>Other Costs</Text>
+                <Text style={styles.financeValue}>
+                  {money(parseFloat(finance.otherCosts) || 0)}
+                </Text>
+              </View>
               <View style={styles.totalRow}>
                 <Text style={styles.totalLabel}>TOTAL VENDOR PAYOUT</Text>
                 <Text style={styles.totalValue}>{money(vendorPayout)}</Text>
@@ -807,7 +816,7 @@ const CateringVendorOrderPDF: React.FC<{ data: CateringVendorOrderPDFData }> = (
           >
             Total Vendor Payout = Total Food / Catering Order Value - Dinebd
             Platform Fee ({formatPercent(finance.platformFeePercent)} of Total
-            Food / Catering Order Value).
+            Food / Catering Order Value) - Other Costs.
           </Text>
           <Text hyphenationCallback={noHyphenation} style={styles.paragraph}>
             The rider / delivery fee is paid by the customer and managed

@@ -13,6 +13,7 @@ import EquipmentSection from "@/components/onboarding/equipment-section";
 import InsuranceSection from "@/components/onboarding/insurance-section";
 import PaymentSection from "@/components/onboarding/payment-section";
 import { pdf } from "@react-pdf/renderer";
+import { preparePdfFonts } from "@/components/pdf-fonts";
 import {
   initialRiderOnboardingData,
   type RiderOnboardingData,
@@ -139,6 +140,7 @@ export default function RiderContractPortal() {
         },
       };
 
+      await preparePdfFonts();
       const blob = await pdf(<RiderContractPDF data={pdfFormData} />).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");

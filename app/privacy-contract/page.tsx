@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import VendorOnboardingSidebar from "@/components/vendor-onboarding-sidebar";
 import VendorContractPDF from "@/components/vendor-contract-pdf";
 import { pdf } from "@react-pdf/renderer";
+import { preparePdfFonts } from "@/components/pdf-fonts";
 
 // Service type → platform fee percentage mapping
 const SERVICE_TYPE_PLATFORM_FEE: Record<string, string> = {
@@ -376,6 +377,7 @@ export default function VendorOnboarding() {
       };
 
       // Generate and download PDF
+      await preparePdfFonts();
       const blob = await pdf(
         <VendorContractPDF data={pdfFormData as any} />,
       ).toBlob();

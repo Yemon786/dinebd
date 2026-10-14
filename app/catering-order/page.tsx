@@ -17,6 +17,7 @@ import CateringOrderPDF, {
   computeVat,
 } from "@/components/catering-order-pdf";
 import { pdf } from "@react-pdf/renderer";
+import { preparePdfFonts } from "@/components/pdf-fonts";
 
 const SECTIONS = [
   { id: "order-vendor-details", letter: "A", title: "Order & Vendor Details" },
@@ -529,6 +530,7 @@ export default function CateringOrderPortal() {
     }
 
     try {
+      await preparePdfFonts();
       const blob = await pdf(
         <CateringOrderPDF
           data={{

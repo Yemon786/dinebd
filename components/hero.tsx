@@ -1,4 +1,4 @@
-import { ArrowRight, Clock, Star, ShieldCheck, Zap, MapPin, UtensilsCrossed } from "lucide-react";
+import { ArrowRight, Clock, ShieldCheck, Zap, MapPin, UtensilsCrossed } from "lucide-react";
 
 const highlights = [
   {
@@ -72,10 +72,6 @@ export default function Hero() {
               <div className="flex items-center gap-2 text-gray-300 text-sm">
                 <Clock size={16} className="text-primary" />
                 <span>Delivery in 30 min</span>
-              </div>
-              <div className="flex items-center gap-2 text-gray-300 text-sm">
-                <Star size={16} className="text-primary" />
-                <span>50,000+ happy customers</span>
               </div>
               <div className="flex items-center gap-2 text-gray-300 text-sm">
                 <ShieldCheck size={16} className="text-primary" />

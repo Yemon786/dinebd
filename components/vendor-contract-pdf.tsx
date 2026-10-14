@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PDF_FONT, PDF_FONT_BOLD } from "./pdf-fonts";
 import {
   Document,
   Page,
@@ -14,12 +15,12 @@ const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 9,
-    fontFamily: "Helvetica",
+    fontFamily: PDF_FONT,
     lineHeight: 1.3,
   },
   header: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     textAlign: "left",
     marginBottom: 15,
     color: "#ED7319",
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 6,
     marginTop: 10,
     color: "#333",
@@ -39,14 +40,14 @@ const styles = StyleSheet.create({
   },
   subsectionTitle: {
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 4,
     marginTop: 8,
     color: "#444",
   },
   subsubTitle: {
     fontSize: 9,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 2,
     marginTop: 6,
     color: "#444",
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 130,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#555",
   },
   value: {
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   },
   tableHeaderText: {
     color: "white",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
   },
   tableRow: {
@@ -111,7 +112,7 @@ const styles = StyleSheet.create({
     width: "45%",
   },
   signatureLabel: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 6,
     color: "#333",
   },
@@ -130,7 +131,7 @@ const styles = StyleSheet.create({
     paddingBottom: 2,
   },
   signatureName: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#333",
   },
   signatureDate: {
@@ -154,7 +155,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   bold: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
   },
   italic: {
     fontStyle: "italic",
@@ -284,7 +285,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           <View
             style={{ backgroundColor: "#f9f9f9", padding: 8, marginBottom: 8 }}
           >
-            <Text style={{ fontFamily: "Helvetica-Bold", marginBottom: 3 }}>
+            <Text style={{ fontFamily: PDF_FONT_BOLD, marginBottom: 3 }}>
               Dinebd Limited
             </Text>
             <Text style={styles.paragraph}>
@@ -295,7 +296,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
               "Dinebd",
             </Text>
             <Text style={{ marginTop: 3 }}>AND</Text>
-            <Text style={{ fontFamily: "Helvetica-Bold", marginTop: 3 }}>
+            <Text style={{ fontFamily: PDF_FONT_BOLD, marginTop: 3 }}>
               Vendor Information: This section provides vendor's information.
               This information will be used for official records, communication,
               and processing in accordance with this contract. It is important
@@ -385,7 +386,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
           <View style={styles.operatingHoursTable}>
             <View style={styles.operatingHoursRow}>
               <Text
-                style={[styles.dayColumn, { fontFamily: "Helvetica-Bold" }]}
+                style={[styles.dayColumn, { fontFamily: PDF_FONT_BOLD }]}
               >
                 Day
               </Text>
@@ -779,7 +780,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -793,7 +794,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -808,7 +809,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -830,7 +831,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -845,7 +846,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1369,7 +1370,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1384,7 +1385,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1400,7 +1401,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1424,7 +1425,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1441,7 +1442,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1457,7 +1458,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1474,7 +1475,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >
@@ -1490,7 +1491,7 @@ const VendorContractPDF: React.FC<VendorContractPDFProps> = ({ data }) => {
             <Text
               style={{
                 color: "#ED7319",
-                fontFamily: "Helvetica-Bold",
+                fontFamily: PDF_FONT_BOLD,
                 marginRight: 5,
               }}
             >

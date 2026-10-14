@@ -1,0 +1,107 @@
+diff --git a/node_modules/@react-pdf/textkit/lib/textkit.js b/node_modules/@react-pdf/textkit/lib/textkit.js
+index 0b8b6fa..9faed2d 100644
+--- a/node_modules/@react-pdf/textkit/lib/textkit.js
++++ b/node_modules/@react-pdf/textkit/lib/textkit.js
+@@ -124,6 +124,7 @@ const removeSoftHyphens = (word) => {
+  * @param engines layout engines
+  * @param options layout options
+  */
++const BENGALI_REGEX = /[\u0980-\u09FF]/;
+ const wrapWords = (engines = {}, options = {}) => {
+     /**
+      * @param attributedString - Attributed string
+@@ -145,7 +146,21 @@ const wrapWords = (engines = {}, options = {}) => {
+             for (let j = 0; j < words.length; j += 1) {
+                 const word = words[j];
+                 const parts = hyphenate(word, builtinHyphenate).map(removeSoftHyphens);
+-                syllables.push(...parts);
++                // A font-run boundary inside a Bengali word (e.g. Bengali text
++                // followed by a comma from the fallback font) is not a
++                // hyphenation point: keep both pieces in one syllable.
++                const previous = syllables[syllables.length - 1];
++                if (j === 0 &&
++                    previous &&
++                    previous.trim() !== '' &&
++                    word.trim() !== '' &&
++                    BENGALI_REGEX.test(previous + parts[0])) {
++                    syllables[syllables.length - 1] = previous + parts[0];
++                    syllables.push(...parts.slice(1));
++                }
++                else {
++                    syllables.push(...parts);
++                }
+                 string += parts.join('');
+             }
+             // Modify run start and end based on removed soft hyphens.
+@@ -318,6 +333,29 @@ const glyphIndexAt = (index, run) => {
+     return result;
+ };
+ 
++/**
++ * Return first glyph index that maps to the given string index.
++ * Used where a string index is a boundary (slice start, width between
++ * indices): when several glyphs share one cluster (e.g. a shaped Bengali
++ * syllable), glyphIndexAt would skip all but the last of them.
++ *
++ * @param index - String index
++ * @param run - Run
++ * @returns Glyph index
++ */
++const firstGlyphIndexAt = (index, run) => {
++    let result = glyphIndexAt(index, run);
++    const glyphIndices = run?.glyphIndices;
++    if (!glyphIndices)
++        return result;
++    while (result > 0 &&
++        result < glyphIndices.length &&
++        glyphIndices[result - 1] === glyphIndices[result]) {
++        result -= 1;
++    }
++    return result;
++};
++
+ /**
+  * Returns new array starting with zero, keeping the same relation between consecutive values.
+  *
+@@ -343,7 +381,7 @@ const slice$1 = (start, end, run) => {
+     const runScale = scale(run);
+     const font = getFont(run);
+     // Get glyph start and end indices
+-    const startIndex = glyphIndexAt(start, run);
++    const startIndex = firstGlyphIndexAt(start, run);
+     const endIndex = glyphIndexAt(end - 1, run);
+     // Get start and end glyph
+     const startGlyph = run.glyphs?.[startIndex];
+@@ -1196,7 +1234,8 @@ const resolveRunYOffset = (run) => {
+         return run;
+     const unitsPerEm = run.attributes?.font?.[0]?.unitsPerEm || 0;
+     const yOffset = (run.attributes?.yOffset || 0) * unitsPerEm;
+-    const positions = run.positions.map((p) => Object.assign({}, p, { yOffset }));
++    // Keep per-glyph yOffset from shaping (mark positioning); only add the run offset.
++    const positions = run.positions.map((p) => Object.assign({}, p, { yOffset: (p.yOffset || 0) + yOffset }));
+     return Object.assign({}, run, { positions });
+ };
+ /**
+@@ -2549,8 +2588,8 @@ const insertGlyph = (index, glyph, attributedString) => {
+  */
+ const advanceWidthBetween$1 = (start, end, run) => {
+     const runStart = run.start || 0;
+-    const glyphStartIndex = Math.max(0, glyphIndexAt(start - runStart, run));
+-    const glyphEndIndex = Math.max(0, glyphIndexAt(end - runStart, run));
++    const glyphStartIndex = Math.max(0, firstGlyphIndexAt(start - runStart, run));
++    const glyphEndIndex = Math.max(0, firstGlyphIndexAt(end - runStart, run));
+     const positions = (run.positions || []).slice(glyphStartIndex, glyphEndIndex);
+     return advanceWidth$2(positions);
+ };
+@@ -3013,6 +3052,11 @@ const cache = {};
+  * @returns Word parts
+  */
+ const getParts = (word) => {
++    // The bundled patterns are English. Applied to Bengali they produce
++    // arbitrary break points (even inside a shaped syllable), so Bengali
++    // words are kept whole and wrap at spaces only.
++    if (BENGALI_REGEX.test(word))
++        return [word];
+     const base = word.includes(SOFT_HYPHEN) ? word : hyphenator(word);
+     return splitHyphen(base);
+ };

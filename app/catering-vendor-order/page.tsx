@@ -17,6 +17,7 @@ import CateringVendorOrderPDF, {
   computeVendorPayout,
 } from "@/components/catering-vendor-order-pdf";
 import { pdf } from "@react-pdf/renderer";
+import { preparePdfFonts } from "@/components/pdf-fonts";
 
 const SECTIONS = [
   { id: "order-vendor-details", letter: "A", title: "Dinebd & Vendor Order Details" },
@@ -94,6 +95,7 @@ const initialData: CateringVendorOrderData = {
   finance: {
     totalFoodValue: "",
     platformFeePercent: "",
+    otherCosts: "",
     paymentPreference: "",
     paymentStatus: [],
   },
@@ -480,6 +482,7 @@ export default function CateringVendorOrderPortal() {
     e.preventDefault();
 
     try {
+      await preparePdfFonts();
       const blob = await pdf(<CateringVendorOrderPDF data={formData} />).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -1069,6 +1072,23 @@ export default function CateringVendorOrderPortal() {
                             </p>
                           </td>
                         </tr>
+                        <tr className="border-b border-gray-100 bg-orange-50/40">
+                          <td className="px-4 py-3 text-sm text-gray-700">
+                            Other Costs
+                          </td>
+                          <td className="px-4 py-2 w-48">
+                            <CurrencyInput
+                              value={formData.finance.otherCosts ?? ""}
+                              onChange={(v) =>
+                                setFormData((prev) => ({
+                                  ...prev,
+                                  finance: { ...prev.finance, otherCosts: v },
+                                }))
+                              }
+                              className="text-right"
+                            />
+                          </td>
+                        </tr>
                         <tr className="bg-primary/10">
                           <td className="px-4 py-3 text-sm font-bold text-gray-900">
                             TOTAL VENDOR PAYOUT
@@ -1086,7 +1106,7 @@ export default function CateringVendorOrderPortal() {
                       Total Vendor Payout = Total Food / Catering Order Value
                       − Dinebd Platform Fee (
                       {formData.finance.platformFeePercent || "0"}% of Total
-                      Food / Catering Order Value).
+                      Food / Catering Order Value) − Other Costs.
                     </p>
                     <p className="text-xs text-gray-500">
                       The rider / delivery fee is paid by the customer and

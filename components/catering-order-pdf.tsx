@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { PDF_FONT, PDF_FONT_BOLD, PDF_FONT_ITALIC } from "./pdf-fonts";
 import { Document, Page, Text, View, StyleSheet } from "@react-pdf/renderer";
 import { bdt, taka } from "./pdf-taka";
 import { PdfCheckbox } from "./pdf-checkbox";
@@ -11,12 +12,12 @@ const styles = StyleSheet.create({
   page: {
     padding: 40,
     fontSize: 9,
-    fontFamily: "Helvetica",
+    fontFamily: PDF_FONT,
     lineHeight: 1.35,
   },
   header: {
     fontSize: 16,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     textAlign: "left",
     marginBottom: 4,
     color: ORANGE,
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 11,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 6,
     marginTop: 4,
     color: "#333",
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
   },
   subsectionTitle: {
     fontSize: 9.5,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 4,
     marginTop: 8,
     color: "#444",
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
   },
   label: {
     width: 150,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#555",
   },
   value: {
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   bold: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
   },
   listItem: {
     marginBottom: 3,
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
   },
   tableHeaderText: {
     color: "white",
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
   },
   scheduleGroup: {
@@ -103,7 +104,7 @@ const styles = StyleSheet.create({
     borderLeftColor: ORANGE,
   },
   scheduleDateHeaderText: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 9,
     color: "#333",
   },
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
   },
   scheduleMealType: {
     width: 55,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
     color: ORANGE,
   },
@@ -138,7 +139,7 @@ const styles = StyleSheet.create({
   },
   scheduleMealSubLabel: {
     width: 90,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     fontSize: 8,
     color: "#666",
   },
@@ -151,7 +152,7 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 10,
     fontSize: 8,
-    fontFamily: "Helvetica-Oblique",
+    fontFamily: PDF_FONT_ITALIC,
     color: "#999",
   },
   financeRow: {
@@ -181,13 +182,13 @@ const styles = StyleSheet.create({
   totalLabel: {
     flex: 2,
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#222",
   },
   totalValue: {
     flex: 1,
     fontSize: 10,
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     textAlign: "right",
     color: ORANGE,
   },
@@ -208,12 +209,12 @@ const styles = StyleSheet.create({
     width: "45%",
   },
   signatureLabel: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     marginBottom: 4,
     color: "#333",
   },
   signatureName: {
-    fontFamily: "Helvetica-Bold",
+    fontFamily: PDF_FONT_BOLD,
     color: "#333",
   },
   signatureDate: {

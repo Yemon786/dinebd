@@ -1,0 +1,17 @@
+diff --git a/node_modules/@react-pdf/render/lib/index.js b/node_modules/@react-pdf/render/lib/index.js
+index 028cf37..8324820 100644
+--- a/node_modules/@react-pdf/render/lib/index.js
++++ b/node_modules/@react-pdf/render/lib/index.js
+@@ -192,8 +192,10 @@ const renderGlyphs = (ctx, glyphs, positions, x, y) => {
+     const encodedPositions = positions.map((pos, i) => ({
+         xAdvance: pos.xAdvance * scale,
+         yAdvance: pos.yAdvance * scale,
+-        xOffset: pos.xOffset,
+-        yOffset: pos.yOffset,
++        // Offsets are already scaled to points by textkit; convert to 1/1000 em
++        // like xAdvance, otherwise _renderGlyphs scales them a second time.
++        xOffset: pos.xOffset * scale,
++        yOffset: pos.yOffset * scale,
+         advanceWidth: glyphs[i].advanceWidth * advanceWidthScale,
+     }));
+     return _renderGlyphs(ctx, encodedGlyphs, encodedPositions, x, y);
